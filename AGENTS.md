@@ -69,3 +69,7 @@ When any text-entry control loses focus, dismiss the simulated keyboard. If the 
 - Fixed phone chrome should not animate with pushed screens. Screen content can animate; the status bar, camera cutout, and preview chrome should stay put.
 - Keep the keyboard below the home indicator/safe area layer in z-index, and above ordinary app UI while visible.
 - Keep the home indicator as the topmost safe-area layer in the z-index above everything else in the prototype.
+
+## Duel interaction preferences · 2026-10-09
+
+The user asks for battle usability improvements grounded in established card games. In the existing standalone `game.html` scope, keep the 3D arena and authentic card faces; card actions should use a non-blocking side inspector, visible server-legal choices, direct board target selection, public-stat damage previews, and a prominent chain response tray. Preserve authoritative rules and hidden-information boundaries. This is a scoped iteration on the existing game, not a replacement of the protected mobile runtime.

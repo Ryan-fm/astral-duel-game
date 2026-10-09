@@ -19,7 +19,7 @@ export function createGame({id=randomUUID(),mode='practice',names=['决斗者','
   return g;
 }
 function log(g,text){g.log.push({at:Date.now(),text});g.log=g.log.slice(-40);}
-function event(g,type,detail={}){g.events.push({id:randomUUID(),type,...detail});g.events=g.events.slice(-12);}
+function event(g,type,detail={}){const eventId=randomUUID();g.events.push({id:eventId,type,...detail,eventId});g.events=g.events.slice(-12);}
 export function finish(g,winner,reason){if(g.result)return;g.result={winner,reason,at:Date.now()};g.window=null;g.pending=null;log(g,reason);event(g,'result',{winner});}
 function loseCheck(g){if(g.result)return;for(let i=0;i<2;i++)if(g.players[i].lp<=0){finish(g,1-i,'生命值归零');return;}}
 function locate(g,uid){for(let p=0;p<2;p++)for(const area of ['field','spells','hand','grave']){const zone=g.players[p][area].findIndex(c=>c?.uid===uid);if(zone>=0)return {p,area,zone,card:g.players[p][area][zone]};}return null;}
