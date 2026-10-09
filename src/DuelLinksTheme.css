@@ -1,0 +1,85 @@
+/* Adapt the supplied Duel Links reference to the existing landscape 3D game. */
+.in-game{--cyan:#91eeff;--gold:#ffe3a0;--muted:#bed0e2}
+.in-game .world-background{filter:brightness(1.22) saturate(.85)}
+.in-game .battle-header{top:3%;left:2%;right:2%;align-items:flex-start;z-index:14}
+.duel-identity{position:relative;width:31%;height:clamp(60px,7.5vw,102px);max-width:410px;pointer-events:none;isolation:isolate}
+.duel-hud-art{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;z-index:-2}
+.duelist-portrait{position:absolute;left:-9px;bottom:0;height:130%;width:36%;object-fit:contain;object-position:left bottom;z-index:-1;filter:drop-shadow(2px 3px 0 #05162c)}
+.duel-identity-copy{padding:3% 7% 0 35%;position:relative}
+.duel-identity-copy>span{display:block;font-size:clamp(10px,1vw,14px);font-weight:650;color:#fff;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;text-shadow:0 1px 2px #000}
+.duel-lp{display:flex;align-items:baseline;gap:7px;margin-top:0;color:white;line-height:1}
+.duel-lp small{font-family:Roboto,Arial,sans-serif;font-size:clamp(12px,1.3vw,18px);font-weight:900;font-style:italic;color:#d5f7ff}
+.duel-lp strong{font-family:Roboto,Arial,sans-serif;font-size:clamp(30px,4.1vw,60px);font-weight:900;font-style:italic;letter-spacing:-.025em;color:#fff;-webkit-text-stroke:1px #0a1d36;paint-order:stroke fill;text-shadow:2px 3px 0 #07152e,0 0 14px #43bcef66}
+.duel-resource{display:none;align-items:center;gap:5px;font-size:9px;font-weight:600;color:#acdcef;white-space:nowrap;margin-top:3px}
+.duel-resource>span{margin-left:8px;color:#b0c9dd}
+.duel-life-track{position:absolute;left:31%;right:8%;height:3px;bottom:14%;background:#102640}
+.duel-life-track i{height:100%;display:block;background:#8bedff;transition:width .35s;box-shadow:0 0 8px #57d9ff}
+.duel-identity.rival .duel-hud-art{filter:hue-rotate(135deg) saturate(1.1);transform:scaleX(-1)}
+.duel-identity.rival .duelist-portrait{left:auto;right:-9px;object-position:right bottom}
+.duel-identity.rival .duel-identity-copy{padding:3% 35% 0 7%;text-align:right}
+.duel-identity.rival .duel-lp,.duel-identity.rival .duel-resource{justify-content:flex-end}
+.duel-identity.rival .duel-life-track{left:8%;right:31%}
+.duel-identity.rival .duel-life-track i{background:#ff889b;box-shadow:0 0 8px #ff547e}
+.duel-identity.rival .duel-lp strong{text-shadow:2px 3px 0 #240e2e,0 0 14px #ff677866}
+.in-game .battle-center{padding:7px 14px;background:#071b32ed;border:1px solid #b1dbf080;border-radius:3px;min-width:21%;max-width:30%;box-shadow:0 3px 14px #020c2b77}
+.in-game .battle-center>span{font-size:10px;letter-spacing:.1em;color:#bacdde}
+.in-game .battle-center b{font-size:18px;font-weight:800;letter-spacing:.045em;color:#fff;margin:5px 0}
+.in-game .battle-center small{color:#b3d3e7;font-size:11px}
+.in-game .battle-center .turn-phase{display:block;color:#9cefff;font-size:10px;margin-top:5px;font-weight:600;letter-spacing:.09em}
+.in-game .opponent-hand{top:18%;left:31%;right:36%;opacity:.94}
+.in-game .phase-strip{top:max(115px,18%)}
+.in-game:has(.battle-inspector) .phase-strip{visibility:hidden}
+.in-game .scenario-hint{left:20%;top:22%;max-width:51%;background:#102c45f0;border-color:#a7d2eb7a;box-shadow:0 2px 10px #0004;font-size:11px}
+.in-game .battle-tools{top:23%;left:14px}
+.in-game .battle-tools .icon-btn{background:#0e2941e8;border-color:#78b9d277;border-radius:3px}
+.in-game .hand-strip{left:16%;right:calc(var(--control-width) + 35px);gap:11px;padding-bottom:29px}
+.in-game .mini-card{height:clamp(102px,19vh,159px);filter:brightness(.96);border-radius:2px}
+.in-game .mini-card.legal{filter:brightness(1.06);outline:1px solid #c8faff;box-shadow:0 0 16px #60eaff88}
+.in-game .mini-card .hand-ready{background:#174e6d;color:#d9fbff;border-color:#8be5ff;font-weight:700;letter-spacing:.1em}
+.in-game .mini-card span{font-size:11px;background:#0b223beb;border:1px solid #8ab2c333;border-radius:2px}
+.in-game .field-card-control{background:#071f37f0;border-radius:3px;border-color:#a3c4d399;box-shadow:0 3px 8px #03091470}
+.in-game .field-card-control b{color:#effaff;font-size:11px}
+.in-game .field-card-control small{color:#b9e8fd}
+.in-game .field-card-control .card-state{font-size:9px;color:#c7ddec}
+.in-game .field-card-control.is-tribute{background:#4c351ded;border-color:#ffe4a4}
+.in-game .battle-inspector{background:#0e243af7;border-radius:4px;backdrop-filter:none;border-color:#a0cde5a0}
+.in-game .inspector-card h2{font-weight:750;color:#fff}
+.in-game .primary-btn{background:#164d82;border-color:#93daff;border-radius:3px;box-shadow:inset 0 1px 0 #c3e8ff55}
+.in-game .soft-btn{background:#102d4a;border-radius:3px}
+.in-game .response-tray{border-radius:4px;background:#122d45f8;border-color:#afcce1}
+.in-game .response-tray.your-response{border-color:#ffdfa4}
+.in-game .response-options button{background:#765322;border-color:#ffdea0;border-radius:3px;color:#fff3d3;font-weight:650}
+.in-game .response-options .pass-response{background:#14334f;border-color:#a0c0d5;color:#e0eaf1}
+.in-game .card-drag-guide{border-radius:4px;background:#102e48ef;border-color:#7bc8e4}
+.in-game .drag-position-toggle button{border-radius:3px;background:#173959}
+.in-game .drag-position-toggle .selected{background:#1a5982;color:#fff;border-color:#c3eeff}
+.in-game .summon-cue{left:43%;top:22%;background:#0c2440f0;border-color:#c4eeff90;border-radius:2px;padding:8px 24px}
+.in-game .summon-cue b{font-size:22px}
+.battle-card-spotlight{position:absolute;left:43%;top:49%;transform:translate(-50%,-50%);width:clamp(160px,27vh,245px);z-index:11;pointer-events:none;animation:card-spotlight 1.25s ease-out both;filter:drop-shadow(0 10px 22px #020716)}
+.battle-card-spotlight>img{display:block;width:100%;border:2px solid #e4c391;box-shadow:0 0 32px #6bddff88;border-radius:3px}
+.spotlight-copy{display:flex;align-items:center;gap:5px;flex-wrap:wrap;position:absolute;left:-45%;right:-45%;top:-45px;color:#effaff;text-align:center;justify-content:center;font-size:10px;text-shadow:0 2px 5px #001;line-height:1.4}
+.spotlight-copy b{flex-basis:100%;font-size:18px;color:#ffefb2}
+.battle-card-spotlight.activate>img{border-color:#bdebdc;box-shadow:0 0 35px #7eead6aa}
+.in-game:has(.battle-card-spotlight) .summon-cue{visibility:hidden}
+@keyframes card-spotlight{0%{opacity:0;transform:translate(-50%,-45%) scale(.7) rotate(-8deg)}15%{opacity:1;transform:translate(-50%,-50%) scale(1.05) rotate(0deg)}78%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-55%) scale(.7)}}
+@media(max-height:560px){
+ .in-game .battle-header{top:3%;left:2%;right:2%}
+ .duel-identity{width:29.5%}.duelist-portrait{height:126%}
+ .duel-identity-copy>span{font-size:10px}.duel-lp strong{font-size:34px}.duel-lp small{font-size:12px}.duel-lp{gap:4px}.duel-resource{display:none}
+ .in-game .battle-center{padding:4px 9px;min-width:23%;max-width:34%}.in-game .battle-center>span{font-size:8px}.in-game .battle-center b{font-size:12px;margin:2px 0}.in-game .battle-center small{font-size:9px}.in-game .battle-center .turn-phase{font-size:8px;margin-top:3px}
+ .in-game .phase-strip{top:84px}.in-game .battle-inspector{top:81px;bottom:108px}
+ .in-game .opponent-hand{top:22%;left:30%;right:38%;height:25px}.in-game .opponent-hand span{font-size:8px;top:28px}
+ .in-game .scenario-hint{top:27%;left:19%;max-width:48%;font-size:9px;line-height:1.4;padding:5px 8px}
+ .in-game .battle-tools{top:24%;left:8px;display:grid;grid-template-columns:repeat(2,44px);gap:5px}
+ .in-game .battle-tools .icon-btn{width:44px;height:44px;min-width:44px;min-height:44px}
+ .in-game .inspector-heading .icon-btn{width:44px;height:44px}
+ .in-game .choice-buttons button,.in-game .response-options button{min-height:44px}
+ .in-game .execute-card{min-height:44px!important}
+ .in-game .hand-strip{left:12%;right:calc(var(--control-width) + 26px);gap:8px;padding-bottom:22px;height:30%}
+ .in-game .mini-card{height:94px}.in-game .mini-card span{font-size:9px}
+ .in-game .field-card-control b{font-size:9px}.in-game .field-card-control small{font-size:9px}
+ .in-game .summon-cue{top:23%;left:40%;padding:5px 15px}.in-game .summon-cue b{font-size:17px}
+ .battle-card-spotlight{left:40%;top:49%;width:115px}.spotlight-copy{top:-37px;font-size:9px}.spotlight-copy b{font-size:14px}
+ .in-game .card-drag-guide{top:32%;padding:11px}
+}
+@media(prefers-reduced-motion:reduce){.battle-card-spotlight{animation:none}.duel-life-track i{transition:none}}

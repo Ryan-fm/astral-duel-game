@@ -53,5 +53,5 @@ export function battleGuidance(game:any){
  if(game.active!==game.you)return '对手正在行动，你仍可查看公开卡牌';
  if(game.phase==='discard')return `手牌超过上限：还需弃置 ${Math.max(0,you.hand.length-6)} 张`;
  if(game.phase==='battle'){const count=new Set(legal.filter((a:any)=>a.kind==='attack').map((a:any)=>a.cardUid)).size;return count?`${count} 只怪兽可攻击 · 选我方怪兽，再点目标`:'没有可攻击怪兽，可进入主要阶段 2';}
- return you.normalUsed?'通常召唤已用 · 可盖放、发动效果或切换阶段':'主要阶段 · 选发光手牌召唤、盖放或发动效果';
+ return you.normalUsed?'通常召唤已用 · 可盖放、发动效果或切换阶段':'主要阶段 · 拖动发光手牌召唤、盖放或发动效果';
 }
