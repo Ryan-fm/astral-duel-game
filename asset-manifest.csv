@@ -1,0 +1,60 @@
+path,width,height,mode,source
+public/game-assets/arena.png,1672,941,RGB,Generated game artwork
+public/game-assets/blue-eyes.png,1536,1024,RGBA,Generated game artwork
+public/game-assets/card-back.png,1039,1514,RGB,Generated game artwork
+public/game-assets/cards/alexandrite_dragon.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/battle_ox.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/blue_eyes.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/celtic_guardian.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/dark_magician.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/dragon_zombie.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/fissure.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/alexandrite_dragon.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/battle_ox.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/blue_eyes.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/celtic_guardian.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/dark_magician.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/dragon_zombie.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/fissure.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/gemini_elf.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/giant_soldier.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/harpie_lady.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/hyozanryu.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/kuriboh.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/luster_dragon.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/magic_cylinder.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/mirror_force.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/monster_reborn.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/mst.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/mystical_elf.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/negate_attack.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/red_eyes.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/rush_recklessly.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/saggi.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/seiyaryu.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/silver_fang.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/summoned_skull.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/full/trap_hole.jpg,813,1185,RGB,YGOPRODeck cached card image
+public/game-assets/cards/gemini_elf.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/giant_soldier.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/harpie_lady.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/hyozanryu.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/kuriboh.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/luster_dragon.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/magic_cylinder.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/mirror_force.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/monster_reborn.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/mst.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/mystical_elf.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/negate_attack.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/red_eyes.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/rush_recklessly.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/saggi.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/seiyaryu.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/silver_fang.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/summoned_skull.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/cards/trap_hole.jpg,624,624,RGB,YGOPRODeck cached card image
+public/game-assets/dark-magician.png,1024,1536,RGBA,Generated game artwork
+public/game-assets/metal-floor.png,1254,1254,RGB,Generated game artwork
+public/game-assets/summon-circle.png,1024,1024,RGBA,Generated game artwork
+public/game-assets/summon-sanctum.png,1672,941,RGB,Generated game artwork

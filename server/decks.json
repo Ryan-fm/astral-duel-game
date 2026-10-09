@@ -1,0 +1,160 @@
+[
+  {
+    "id": "blue_eyes_starter",
+    "name": "青眼",
+    "ace_card": "blue_eyes",
+    "cards": [
+      {
+        "card_id": "blue_eyes",
+        "count": 3
+      },
+      {
+        "card_id": "dark_magician",
+        "count": 2
+      },
+      {
+        "card_id": "red_eyes",
+        "count": 1
+      },
+      {
+        "card_id": "summoned_skull",
+        "count": 2
+      },
+      {
+        "card_id": "luster_dragon",
+        "count": 3
+      },
+      {
+        "card_id": "battle_ox",
+        "count": 3
+      },
+      {
+        "card_id": "celtic_guardian",
+        "count": 3
+      },
+      {
+        "card_id": "mystical_elf",
+        "count": 3
+      },
+      {
+        "card_id": "giant_soldier",
+        "count": 3
+      },
+      {
+        "card_id": "kuriboh",
+        "count": 3
+      },
+      {
+        "card_id": "monster_reborn",
+        "count": 1
+      },
+      {
+        "card_id": "fissure",
+        "count": 3
+      },
+      {
+        "card_id": "mst",
+        "count": 2
+      },
+      {
+        "card_id": "rush_recklessly",
+        "count": 2
+      },
+      {
+        "card_id": "mirror_force",
+        "count": 1
+      },
+      {
+        "card_id": "trap_hole",
+        "count": 2
+      },
+      {
+        "card_id": "negate_attack",
+        "count": 2
+      },
+      {
+        "card_id": "magic_cylinder",
+        "count": 1
+      }
+    ]
+  },
+  {
+    "id": "dark_magician_starter",
+    "name": "黑魔导",
+    "ace_card": "dark_magician",
+    "cards": [
+      {
+        "card_id": "blue_eyes",
+        "count": 2
+      },
+      {
+        "card_id": "dark_magician",
+        "count": 3
+      },
+      {
+        "card_id": "red_eyes",
+        "count": 2
+      },
+      {
+        "card_id": "summoned_skull",
+        "count": 3
+      },
+      {
+        "card_id": "luster_dragon",
+        "count": 2
+      },
+      {
+        "card_id": "battle_ox",
+        "count": 2
+      },
+      {
+        "card_id": "celtic_guardian",
+        "count": 3
+      },
+      {
+        "card_id": "mystical_elf",
+        "count": 3
+      },
+      {
+        "card_id": "giant_soldier",
+        "count": 3
+      },
+      {
+        "card_id": "kuriboh",
+        "count": 3
+      },
+      {
+        "card_id": "monster_reborn",
+        "count": 1
+      },
+      {
+        "card_id": "fissure",
+        "count": 3
+      },
+      {
+        "card_id": "mst",
+        "count": 2
+      },
+      {
+        "card_id": "rush_recklessly",
+        "count": 2
+      },
+      {
+        "card_id": "mirror_force",
+        "count": 1
+      },
+      {
+        "card_id": "trap_hole",
+        "count": 2
+      },
+      {
+        "card_id": "negate_attack",
+        "count": 2
+      },
+      {
+        "card_id": "magic_cylinder",
+        "count": 1
+      }
+    ]
+  }
+]
