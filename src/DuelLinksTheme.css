@@ -83,3 +83,7 @@
  .in-game .card-drag-guide{top:32%;padding:11px}
 }
 @media(prefers-reduced-motion:reduce){.battle-card-spotlight{animation:none}.duel-life-track i{transition:none}}
+
+/* Ancient ruin arena: a warm anime matte painting surrounds a physical stone stage. */
+.duel-app .world-background{background:linear-gradient(0deg,#171c24a3,transparent 66%),url('/game-assets/roman-arena.jpg') center/cover}.duel-app .world-background:after{background:linear-gradient(90deg,#15223220,transparent 50%,#18243175)}.in-game .world-background{filter:none}
+@media(max-height:560px){.in-game .scenario-hint{left:auto;right:12px;top:auto;bottom:68px;width:220px;max-width:220px;height:auto;box-sizing:border-box;font-size:10px;line-height:1.45}}
