@@ -22,3 +22,9 @@
 ## 证据
 
 见 `evidence/summon-idle.png`、`summon-idle-mobile.png`、`summon-results.png`、`summon-results-mobile.png`、`deck-editor-mobile.png`、`card-detail.png`。早期 `summon-reveal-mobile.png` 为画面偏移修复前记录，供 QA 迭代追溯，不代表最终布局。
+
+## Toy 发布适配验证
+
+新增 4 项适配测试，共 34 项通过：无服务器初始化、十连／幂等请求、本地刷新恢复、新卡组与动作版本校验、明确拒绝静态版联网请求、教学奖励只领取一次、存储失败回滚券数。`npm run build:toy` 与 `npm run build:game` 均成功；Toy doctor 子路径资源预检无 ERROR/WARN。实际浏览器在 `/toy/index.html` 子路径进行召唤与人机流程验证。
+
+Chrome 实际 Toy 在线预览已验证：大厅和召唤入口正常，十连扣券、结果收藏与 SR 保底可用。刷新到最终预览仍保留本机收藏与券数。实机截图见 evidence/toy-online-preview.png 与 toy-online-results.png。静态模式的抽卡、组卡文案明确标注人机与完整版 PK 的区别。

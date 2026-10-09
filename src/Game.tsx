@@ -1,5 +1,5 @@
 import {useEffect,useRef,useState} from 'react';
-import {io,Socket} from 'socket.io-client';
+import {connectGame,IS_TOY,type GameConnection} from './gameConnection';
 import {Robot,Sword,Users,ArrowRight,ArrowLeft,Gear,Stack,Clock,Check,Copy,Pause,Play,Flag,X,Lightning,BookOpen,Trophy,Eye,WifiHigh,ArrowClockwise,SpeakerHigh,SpeakerSlash,FastForward,Sparkle} from '@phosphor-icons/react';
 import Arena from './Arena';
 import Summon from './Summon';
@@ -15,7 +15,7 @@ const rewardNames:Record<string,string>={night:'星域竞技场',ice:'冰蓝竞�
 function seconds(deadline:number|null,now:number){return deadline?Math.max(0,Math.ceil((deadline-now)/1000)):null;}
 function MiniCard({card,active=false,onClick,small=false,disabled=false}:{card:any,active?:boolean,onClick?:()=>void,small?:boolean,disabled?:boolean}){const d=C[card?.id];return <button className={`mini-card ${small?'small':''} ${active?'legal':''} ${d?.kind||''}`} onClick={onClick} disabled={disabled} aria-label={d?.name||'未知盖牌'}><img src={d?d.face:A+'card-back.png'} alt=""/><span>{d?.name||'盖牌'}</span>{card.bonus>0&&<em>ATK +{card.bonus}</em>}</button>;}
 export default function Game(){
- const socket=useRef<Socket|null>(null),stateRef=useRef<any>(null),audio=useRef<AudioContext|null>(null),played=useRef(''),requestPending=useRef(false);
+ const socket=useRef<GameConnection|null>(null),stateRef=useRef<any>(null),audio=useRef<AudioContext|null>(null),played=useRef(''),requestPending=useRef(false);
  const [state,setState]=useState<any>(null),[connected,setConnected]=useState(false),[notice,setNotice]=useState(''),[busy,setBusy]=useState(false),[now,setNow]=useState(Date.now());
  const [deck,setDeck]=useState(()=>sessionStorage.getItem('duel-deck')||decks[0].id),[panel,setPanel]=useState(''),[tab,setTab]=useState('practice'),[difficulty,setDifficulty]=useState('normal'),[opDeck,setOpDeck]=useState(decks[1].id),[roomCode,setRoomCode]=useState(''),[name,setName]=useState('');
  const [selected,setSelected]=useState<string|null>(null),[chosenKind,setChosenKind]=useState(''),[choices,setChoices]=useState<Record<string,string>>({}),[confirm,setConfirm]=useState(false),[fxSkip,setFxSkip]=useState(0),[lastPractice,setLastPractice]=useState<any>(null);
@@ -35,10 +35,12 @@ export default function Game(){
   try{const result:any=await socket.current.timeout(7000).emitWithAck('command',{type,...args,requestId:crypto.randomUUID()});if(!result.ok){tell(result.error);return false;}return result;}catch{tell('请求未确认，请等待连接恢复后检查局面');return false;}finally{requestPending.current=false;setBusy(false);}
  };
  useEffect(()=>{
-  const s=io({auth:{token:sessionStorage.getItem('duel-token')},reconnection:true,reconnectionDelay:500});socket.current=s;
+  let cancelled=false;let activeConnection:GameConnection|null=null;
+  void connectGame().then(s=>{if(cancelled){s.disconnect();return;}activeConnection=s;socket.current=s;
   s.on('connect',()=>setConnected(true));s.on('disconnect',()=>setConnected(false));s.on('session',({token})=>{sessionStorage.setItem('duel-token',token);s.auth={token};});
   s.on('state',(v)=>{registerCards(v.profile?.cardCatalog);registerCards(v.game?.cardCatalog);v.receivedAt=Date.now();stateRef.current=v;setState(v);});s.on('notice',tell);s.on('connect_error',()=>tell('暂时无法连接决斗服务，正在重试'));
-  const id=setInterval(()=>setNow(Date.now()),250);return()=>{s.disconnect();clearInterval(id);};
+  }).catch(()=>tell('游戏初始化失败，请刷新重试'));
+  const id=setInterval(()=>setNow(Date.now()),250);return()=>{cancelled=true;activeConnection?.disconnect();clearInterval(id);};
  },[]);
  useEffect(()=>{if(!notice)return;const id=setTimeout(()=>setNotice(''),5000);return()=>clearTimeout(id);},[notice]);
  useEffect(()=>{sessionStorage.setItem('duel-deck',deck);},[deck]);
@@ -64,7 +66,7 @@ export default function Game(){
   {!g&&<>
    <header className="lobby-header"><div className="brand"><span className="eyebrow">ASTRAL DUEL</span><b>星域决斗</b><span className="edition">3D 卡牌竞技</span></div><div className="header-controls"><button className="summon-entry" onClick={()=>setPanel('summon')} disabled={!connected||!!queue||!!room}><Sparkle size={20}/><span>秘藏召唤</span><b>{profile?.tickets??30}</b></button><button className="icon-btn" title="我的收藏" disabled={!profile} onClick={()=>setPanel('collection')}><Stack/></button><button className="profile" onClick={()=>{setName(profile?.name||'');setPanel('profile');}}><div className="avatar"><Sword size={22}/></div><span>{profile?.name||'连接中'}<small>{profile?.wins||0} 胜 · {profile?.losses||0} 负</small></span></button><button className="icon-btn" title="卡牌图鉴" onClick={()=>setPanel('library')}><Stack/></button><button className="icon-btn" title="设置" onClick={()=>setPanel('settings')}><Gear/></button></div></header>
    <section className="hero-copy"><span className="eyebrow">YOUR ACE · 王牌登场</span><h1>{hero.name}</h1><p>{deck==='custom'?'从收藏组建你的专属卡组。':deck===decks[0].id?'以苍穹之翼，开启你的决斗。':'以秘法之力，掌控每一次连锁。'}</p><div className="hero-stats"><span>ATK <b>{hero.atk}</b></span><span>DEF <b>{hero.def}</b></span><span>★ {hero.level}</span></div></section>
-   <section className="mode-menu"><div className="section-heading"><span>选择你的战场</span><small>01 / DUEL MODES</small></div><button className="mode-card primary" onClick={()=>{setTab('practice');setPanel('ai');}} disabled={!connected||!!queue||!!room}><Robot size={32}/><span><b>人机决斗</b><small>新手教学 · 自由练习 · 经典挑战</small></span><ArrowRight/></button><button className="mode-card" onClick={()=>cmd('queue',{deck})} disabled={!connected||busy||!!queue||!!room}><Sword size={32}/><span><b>在线匹配</b><small>实时 1 对 1 · 自由组卡</small></span><ArrowRight/></button><button className="mode-card" onClick={()=>setPanel('friend')} disabled={!connected||!!queue||!!room}><Users size={32}/><span><b>好友切磋</b><small>创建房间 · 邀请对手</small></span><ArrowRight/></button><p className="mode-note"><WifiHigh size={14}/>{connected?'决斗服务已连接':'正在连接决斗服务'}<span>无段位 · 卡牌收集</span></p></section>
+   <section className="mode-menu"><div className="section-heading"><span>选择你的战场</span><small>01 / DUEL MODES</small></div><button className="mode-card primary" onClick={()=>{setTab('practice');setPanel('ai');}} disabled={!connected||!!queue||!!room}><Robot size={32}/><span><b>人机决斗</b><small>新手教学 · 自由练习 · 经典挑战</small></span><ArrowRight/></button><button className="mode-card" onClick={()=>IS_TOY?tell('Toy 静态试玩版暂不支持实时 PK；可先体验人机决斗和秘藏召唤'):cmd('queue',{deck})} disabled={!connected||busy||!!queue||!!room}><Sword size={32}/><span><b>在线匹配</b><small>{IS_TOY?'完整源码版支持 · 需联网服务':'实时 1 对 1 · 自由组卡'}</small></span><ArrowRight/></button><button className="mode-card" onClick={()=>IS_TOY?tell('Toy 静态试玩版暂不支持好友联网，请在完整源码版连接服务器后使用'):setPanel('friend')} disabled={!connected||!!queue||!!room}><Users size={32}/><span><b>好友切磋</b><small>{IS_TOY?'完整源码版支持 · 需联网服务':'创建房间 · 邀请对手'}</small></span><ArrowRight/></button><p className="mode-note"><WifiHigh size={14}/>{IS_TOY?'Toy 试玩 · 进度保存在本机':connected?'决斗服务已连接':'正在连接决斗服务'}<span>无段位 · 卡牌收集</span></p></section>
    <footer className="deck-bar"><div className="deck-heading"><Stack size={22}/><span>出战卡组<small>基础预组 · 自由组卡</small></span></div>{decks.filter(d=>d.id!=='custom').map(d=><button key={d.id} className={`deck-option ${d.id===deck?'selected':''}`} onClick={()=>{setDeck(d.id);if(room)cmd('room-deck',{deck:d.id});}} disabled={!!queue}><img src={A+d.image} alt=""/><span><b>{d.name}</b><small>{d.subtitle} · 40 张</small></span>{d.id===deck&&<Check size={20}/>}</button>)}<div className="deck-extra-controls"><button className="text-btn" disabled={!profile||busy} onClick={()=>setPanel('deckEditor')}>编辑卡组 <ArrowRight/></button>{profile?.customDeck&&<button className={"custom-deck-button "+(deck==='custom'?'selected':'')} onClick={()=>setDeck('custom')} disabled={!!queue}>自定义卡组{deck==='custom'&&<Check size={13}/>}</button>}</div></footer>
   </>}
   {g&&<>

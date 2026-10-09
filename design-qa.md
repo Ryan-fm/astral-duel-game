@@ -32,3 +32,7 @@ final result: passed
 ## 交互和错误检查
 
 已在浏览器操作单抽、十连、跳过演出、结果恢复、收藏、组卡和保存，测试记录见 verification.md。当前生产包未出现新增控制台 error / warn；历史开发记录已按来源区分。
+
+## Toy 适配 QA · 2026-10-09
+
+PASS：1280×720 真实 Chrome 预览中，大厅保留清晰人机／PK／好友入口，静态版联网入口明确提示需服务器；召唤结果十张完整卡面、稀有度与持有数量可读，陷阱教学展示双方 LP、阶段与响应。未发现新增阻塞布局问题。证据：evidence/toy-online-preview.png、toy-online-results.png、toy-battle.png。
