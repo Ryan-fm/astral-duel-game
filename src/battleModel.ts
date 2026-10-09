@@ -1,5 +1,9 @@
 // UI guidance consumes only the server's projected state and legal action list.
 // It never creates moves or looks up an opponent's hidden card definition.
+export function monsterPresentation(card:any){
+ const palette:Record<string,number>={LIGHT:0x8aeaff,DARK:0xc598ff,EARTH:0xffce88,WIND:0x9ef3be,FIRE:0xff9b79,WATER:0x83bfff};
+ return {featured:card?.kind==='monster'&&card.level>=5,color:palette[card?.attribute]||0x8aeaff};
+}
 export function findVisibleCard(game:any,uid:string|null){
  if(!game||!uid)return null;
  for(let player=0;player<2;player++)for(const area of ['hand','field','spells','grave']){

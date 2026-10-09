@@ -1,9 +1,10 @@
 import {useEffect,useRef,useState} from 'react';
 import * as THREE from 'three';
 import {summonEffect,attackEffect,disposeEffect,type ArenaEffect} from './arenaEffects';
+import {monsterPresentation} from './battleModel';
 import {cards} from './cardRegistry';
 const CARD:Record<string,any>=cards;
-export default function Arena({game,deck,onPick,effects=true,reduced=false,skip=0,heroId='blue_eyes',active=true,selectedUid=null,targetUids=[],targetUid=null,placement=null,onZone,tributeUids=[]}:{game:any,deck:string,onPick:(uid:string)=>void,effects?:boolean,reduced?:boolean,skip?:number,heroId?:string,active?:boolean,selectedUid?:string|null,targetUids?:string[],targetUid?:string|null,placement?:{area:string,zones:number[],zone:number}|null,onZone?:(zone:number)=>void,tributeUids?:string[]}){
+export default function Arena({game,deck,onPick,effects=true,reduced=false,skip=0,heroId='celtic_guardian',active=true,selectedUid=null,targetUids=[],targetUid=null,placement=null,onZone,tributeUids=[]}:{game:any,deck:string,onPick:(uid:string)=>void,effects?:boolean,reduced?:boolean,skip?:number,heroId?:string,active?:boolean,selectedUid?:string|null,targetUids?:string[],targetUid?:string|null,placement?:{area:string,zones:number[],zone:number}|null,onZone?:(zone:number)=>void,tributeUids?:string[]}){
  const host=useRef<HTMLDivElement>(null),latest=useRef({game,deck,onPick,effects,reduced,skip,heroId,active,selectedUid,targetUids,targetUid,placement,onZone,tributeUids});latest.current={game,deck,onPick,effects,reduced,skip,heroId,active,selectedUid,targetUids,targetUid,placement,onZone,tributeUids};
  const [error,setError]=useState(false);
  useEffect(()=>{
@@ -22,12 +23,12 @@ export default function Arena({game,deck,onPick,effects=true,reduced=false,skip=
   function disposeGroup(group:THREE.Group){for(const obj of [...group.children]){group.remove(obj);obj.traverse((o:any)=>{o.geometry?.dispose();if(o.material){for(const m of Array.isArray(o.material)?o.material:[o.material])m.dispose();}});}}
   function cardMesh(c:any,x:number,z:number,own:boolean){const url=c.id&& (own||c.faceUp)?CARD[c.id].face:'/game-assets/card-back.png';const mat=new THREE.MeshStandardMaterial({map:tex(url),roughness:.45,metalness:.12,side:THREE.DoubleSide,color:!c.id||(!own&&!c.faceUp)?(latest.current.game?.players[1-latest.current.game.you]?.appearance?.back==='blue_back'?0x72eaff:latest.current.game?.players[1-latest.current.game.you]?.appearance?.back==='intro_back'?0xffe1a8:0xffffff):0xffffff});const mesh=new THREE.Mesh(new THREE.PlaneGeometry(1.5,2.18),mat);mesh.rotation.x=-Math.PI/2;mesh.position.set(x,.07,z);if(c.position==='defense')mesh.rotation.z=Math.PI/2;mesh.userData.uid=c.uid;pickables.push(mesh);entities.add(mesh);slots.set(c.uid,mesh.position.clone());return mesh;}
   function creature(id:string,x:number,z:number,hall=false,uid?:string){
-   const ace=['blue_eyes','dark_magician'].includes(id),url=id==='blue_eyes'?'/game-assets/blue-eyes.png':id==='dark_magician'?'/game-assets/dark-magician.png':CARD[id].art;
+   const ace=monsterPresentation(CARD[id]).featured,cutout=!hall&&['blue_eyes','dark_magician'].includes(id),url=cutout?(id==='blue_eyes'?'/game-assets/blue-eyes.png':'/game-assets/dark-magician.png'):CARD[id].face;
    const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:tex(url),transparent:true,depthWrite:false,color:ace?0xffffff:0xbbeeff}));
-   const ownCount=latest.current.game?.players.flatMap((p:any)=>p.field).filter((c:any)=>c?.faceUp&&['blue_eyes','dark_magician'].includes(c.id)).length||0;
-   const h=hall?8:ace?(ownCount<=2?4.9:3.6):1.6,w=id==='dark_magician'?h*2/3:ace?h*1.5:h;
+   const ownCount=latest.current.game?.players.flatMap((p:any)=>p.field).filter((c:any)=>c?.faceUp&&monsterPresentation(CARD[c.id]).featured).length||0;
+   const h=hall?7:ace?(ownCount<=2?3.9:3):2,w=cutout&&id==='blue_eyes'?h*1.5:h*2/3;
    sprite.scale.set(w,h,1);sprite.position.set(x,h*.48+.3,z);if(uid){sprite.userData.uid=uid;sprite.userData.baseScale=sprite.scale.clone();pickables.push(sprite);}entities.add(sprite);
-   const ring=new THREE.Mesh(new THREE.PlaneGeometry(hall?7:2.6,hall?7:2.6),new THREE.MeshBasicMaterial({map:tex('/game-assets/summon-circle.png'),color:latest.current.game?.players[latest.current.game.you]?.appearance?.summon==='violet'?0xc88aff:0xffffff,transparent:true,opacity:.7,depthWrite:false}));ring.rotation.x=-Math.PI/2;ring.position.set(x,.09,z);entities.add(ring);
+   const ring=new THREE.Mesh(new THREE.PlaneGeometry(hall?7:2.6,hall?7:2.6),new THREE.MeshBasicMaterial({map:tex('/game-assets/summon-circle.png'),color:latest.current.game?.players[latest.current.game.you]?.appearance?.summon==='violet'?0xc88aff:monsterPresentation(CARD[id]).color,transparent:true,opacity:.7,depthWrite:false}));ring.rotation.x=-Math.PI/2;ring.position.set(x,.09,z);entities.add(ring);
   }
   function labelControl(c:any,x:number,z:number,own:boolean,area:string){
    const button=document.createElement('button'),l=latest.current,d=c.id?CARD[c.id]:null;
@@ -55,7 +56,7 @@ export default function Arena({game,deck,onPick,effects=true,reduced=false,skip=
    if(!latest.current.effects||latest.current.reduced)return;const position=slots.get(e.uid)||previousSlots.get(e.uid);if(!position)return;
    let effect:ArenaEffect|null=null;
    if(e.type==='summon'){
-    const ace=['blue_eyes','dark_magician'].includes(e.id),color=e.id==='dark_magician'?0xc598ff:0x8aeaff;
+    const {featured:ace,color}=monsterPresentation(CARD[e.id]);
     births.set(e.uid,now);if(ace)cinema={start:now,pos:position.clone()};
     effect=summonEffect(position,color,tex('/game-assets/summon-circle.png'),ace);
    }else if(e.type==='attack'){

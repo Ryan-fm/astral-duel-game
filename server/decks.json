@@ -1,24 +1,14 @@
 [
   {
-    "id": "blue_eyes_starter",
-    "name": "青眼",
-    "ace_card": "blue_eyes",
+    "id": "tempo_starter",
+    "name": "突击 · 节奏压制",
+    "ace_card": "summoned_skull",
+    "subtitle": "低星展开 · 速攻强化",
+    "description": "用低星怪兽建立场面，突进改变战斗收益；上级召唤只在能换来优势时使用。",
     "cards": [
       {
-        "card_id": "blue_eyes",
-        "count": 3
-      },
-      {
-        "card_id": "dark_magician",
-        "count": 2
-      },
-      {
-        "card_id": "red_eyes",
-        "count": 1
-      },
-      {
         "card_id": "summoned_skull",
-        "count": 2
+        "count": 3
       },
       {
         "card_id": "luster_dragon",
@@ -34,11 +24,11 @@
       },
       {
         "card_id": "mystical_elf",
-        "count": 3
+        "count": 2
       },
       {
         "card_id": "giant_soldier",
-        "count": 3
+        "count": 2
       },
       {
         "card_id": "kuriboh",
@@ -54,41 +44,177 @@
       },
       {
         "card_id": "mst",
-        "count": 2
+        "count": 3
       },
       {
         "card_id": "rush_recklessly",
-        "count": 2
+        "count": 3
       },
       {
         "card_id": "mirror_force",
-        "count": 1
+        "count": 2
       },
       {
         "card_id": "trap_hole",
-        "count": 2
+        "count": 3
       },
       {
         "card_id": "negate_attack",
-        "count": 2
+        "count": 3
       },
       {
         "card_id": "magic_cylinder",
-        "count": 1
+        "count": 3
       }
     ]
   },
   {
     "id": "dark_magician_starter",
-    "name": "黑魔导",
+    "name": "秘法 · 魔法控场",
     "ace_card": "dark_magician",
+    "subtitle": "清除阻碍 · 连锁博弈",
+    "description": "地割清除怪兽、旋风处理后场，保留连锁回应，再用怪兽完成进攻。",
     "cards": [
       {
-        "card_id": "blue_eyes",
+        "card_id": "dark_magician",
+        "count": 3
+      },
+      {
+        "card_id": "summoned_skull",
         "count": 2
       },
       {
-        "card_id": "dark_magician",
+        "card_id": "mystical_elf",
+        "count": 3
+      },
+      {
+        "card_id": "giant_soldier",
+        "count": 3
+      },
+      {
+        "card_id": "celtic_guardian",
+        "count": 2
+      },
+      {
+        "card_id": "luster_dragon",
+        "count": 3
+      },
+      {
+        "card_id": "kuriboh",
+        "count": 2
+      },
+      {
+        "card_id": "monster_reborn",
+        "count": 1
+      },
+      {
+        "card_id": "fissure",
+        "count": 3
+      },
+      {
+        "card_id": "mst",
+        "count": 3
+      },
+      {
+        "card_id": "rush_recklessly",
+        "count": 3
+      },
+      {
+        "card_id": "mirror_force",
+        "count": 3
+      },
+      {
+        "card_id": "trap_hole",
+        "count": 3
+      },
+      {
+        "card_id": "negate_attack",
+        "count": 3
+      },
+      {
+        "card_id": "magic_cylinder",
+        "count": 3
+      }
+    ]
+  },
+  {
+    "id": "defense_starter",
+    "name": "磐石 · 守备反击",
+    "ace_card": "giant_soldier",
+    "subtitle": "防线稳固 · 陷阱反击",
+    "description": "守备怪兽保护生命值，栗子球和陷阱应对攻击；等对手消耗资源后反击。",
+    "cards": [
+      {
+        "card_id": "giant_soldier",
+        "count": 3
+      },
+      {
+        "card_id": "mystical_elf",
+        "count": 3
+      },
+      {
+        "card_id": "kuriboh",
+        "count": 3
+      },
+      {
+        "card_id": "battle_ox",
+        "count": 3
+      },
+      {
+        "card_id": "celtic_guardian",
+        "count": 3
+      },
+      {
+        "card_id": "luster_dragon",
+        "count": 3
+      },
+      {
+        "card_id": "summoned_skull",
+        "count": 2
+      },
+      {
+        "card_id": "monster_reborn",
+        "count": 1
+      },
+      {
+        "card_id": "fissure",
+        "count": 3
+      },
+      {
+        "card_id": "mst",
+        "count": 1
+      },
+      {
+        "card_id": "rush_recklessly",
+        "count": 3
+      },
+      {
+        "card_id": "mirror_force",
+        "count": 3
+      },
+      {
+        "card_id": "trap_hole",
+        "count": 3
+      },
+      {
+        "card_id": "negate_attack",
+        "count": 3
+      },
+      {
+        "card_id": "magic_cylinder",
+        "count": 3
+      }
+    ]
+  },
+  {
+    "id": "blue_eyes_starter",
+    "name": "巨龙 · 上级压制",
+    "ace_card": "blue_eyes",
+    "subtitle": "祭品管理 · 高攻突破",
+    "description": "保护低星怪兽积累祭品，比较上级召唤的收益；白龙与真红眼都是可选终结手段。",
+    "cards": [
+      {
+        "card_id": "blue_eyes",
         "count": 3
       },
       {
@@ -97,15 +223,15 @@
       },
       {
         "card_id": "summoned_skull",
-        "count": 3
+        "count": 2
       },
       {
         "card_id": "luster_dragon",
-        "count": 2
+        "count": 3
       },
       {
         "card_id": "battle_ox",
-        "count": 2
+        "count": 3
       },
       {
         "card_id": "celtic_guardian",
@@ -121,7 +247,7 @@
       },
       {
         "card_id": "kuriboh",
-        "count": 3
+        "count": 2
       },
       {
         "card_id": "monster_reborn",
@@ -141,7 +267,7 @@
       },
       {
         "card_id": "mirror_force",
-        "count": 1
+        "count": 2
       },
       {
         "card_id": "trap_hole",
@@ -153,7 +279,7 @@
       },
       {
         "card_id": "magic_cylinder",
-        "count": 1
+        "count": 2
       }
     ]
   }

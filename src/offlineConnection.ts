@@ -1,4 +1,4 @@
-import {createGame,applyAction,autoPass,projectGame,chooseAi,DECKS} from '../server/engine.mjs';
+import {createGame,applyAction,autoPass,projectGame,chooseAi,DECKS,SCENARIOS} from '../server/engine.mjs';
 import {initCollection,collectionView,validateCustom,pull,claimDaily} from '../server/gacha.mjs';
 import type {GameConnection} from './gameConnection';
 const KEY='astral-duel-toy-save-v1';
@@ -15,7 +15,7 @@ export function createOfflineConnection(storage:Pick<Storage,'getItem'|'setItem'
   const before=JSON.stringify(profile);
   try{
    let draw:any;
-   if(m.type==='practice'){const lists=[deck(m.deck),deck(m.opponentDeck||'dark_magician_starter')];const scenario=['T01','T02','T03','C01','C02','C03'].includes(m.scenario)?m.scenario:null;difficulty=['easy','normal','hard'].includes(m.difficulty)?m.difficulty:'normal';game=createGame({mode:scenario?'scenario':'practice',names:[profile.name,'AI · '+({easy:'简单',normal:'普通',hard:'困难'} as any)[difficulty]],decks:[m.deck,m.opponentDeck||'dark_magician_starter'],deckLists:lists,scenario});game.players[0].appearance={...profile.appearance};paused=false;settled=false;nextAI=Date.now()+700;}
+   if(m.type==='practice'){const lists=[deck(m.deck),deck(m.opponentDeck||'dark_magician_starter')];const scenario=SCENARIOS.some((s:string[])=>s[0]===m.scenario)?m.scenario:null;difficulty=['easy','normal','hard'].includes(m.difficulty)?m.difficulty:'normal';game=createGame({mode:scenario?'scenario':'practice',names:[profile.name,'AI · '+({easy:'简单',normal:'普通',hard:'困难'} as any)[difficulty]],decks:[m.deck,m.opponentDeck||'dark_magician_starter'],deckLists:lists,scenario});game.players[0].appearance={...profile.appearance};paused=false;settled=false;nextAI=Date.now()+700;}
    else if(m.type==='action'){if(!game)throw new Error('对局不存在');if(paused)throw new Error('请先继续练习');if(m.version!==game.version)throw new Error('局面已更新，请重新选择操作');applyAction(game,0,m.action);autoPass(game);}
    else if(m.type==='pause'){if(!game||game.result)throw new Error('仅进行中的人机局支持暂停');paused=!paused;}
    else if(m.type==='leave'){game=null;paused=false;}

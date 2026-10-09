@@ -3,7 +3,8 @@ import { randomUUID, randomInt } from 'node:crypto';
 
 export const CARDS = {...JSON.parse(readFileSync(new URL('../src/cards.json', import.meta.url))),...JSON.parse(readFileSync(new URL('./hidden-cards.json', import.meta.url)))};
 export const DECKS = JSON.parse(readFileSync(new URL('./decks.json', import.meta.url)));
-export const RULES_VERSION = 'classic-18-v1';
+export const SCENARIOS = JSON.parse(readFileSync(new URL('./scenarios.json', import.meta.url)));
+export const RULES_VERSION = 'classic-strategies-v2';
 const cnPhase = { main1:'主要阶段 1', battle:'战斗阶段', main2:'主要阶段 2' };
 export const attackValue = c => CARDS[c.id].atk + (c.bonus || 0);
 const monster = c => c && CARDS[c.id]?.kind === 'monster';
@@ -11,7 +12,7 @@ export function instance(id) { return { uid:randomUUID(), id, faceUp:true, posit
 const shuffle = array => { for(let i=array.length-1;i>0;i--){const j=randomInt(i+1);[array[i],array[j]]=[array[j],array[i]];} return array; };
 const deckFor = id => { const deck=DECKS.find(d=>d.id===id); if(!deck)throw new Error('无效卡组'); return shuffle(deck.cards.flatMap(e=>Array.from({length:e.count},()=>instance(e.card_id)))); };
 const blankPlayer = (name,deckId,list) => ({name,deckId,lp:8000,hand:[],deck:list?shuffle(list.map(instance)):deckFor(deckId),grave:[],field:Array(5).fill(null),spells:Array(5).fill(null),normalUsed:false});
-export function createGame({id=randomUUID(),mode='practice',names=['决斗者','AI · 黑魔导'],decks=['blue_eyes_starter','dark_magician_starter'],deckLists=[],scenario=null,now=Date.now(),timed=false}={}){
+export function createGame({id=randomUUID(),mode='practice',names=['决斗者','AI'],decks=['tempo_starter','dark_magician_starter'],deckLists=[],scenario=null,now=Date.now(),timed=false}={}){
   const g={id,mode,scenario,rulesVersion:RULES_VERSION,version:0,turn:1,active:0,phase:'main1',players:names.map((n,i)=>blankPlayer(n,decks[i],deckLists[i])),window:null,pending:null,log:[],events:[],result:null,deadline:timed?now+120000:null,timed,ownTurns:1};
   for(let i=0;i<g.players.length;i++){const p=g.players[i];for(const c of p.deck)c.owner=i;p.hand=p.deck.splice(0,5);}
   if(scenario)setupScenario(g,scenario,now);
@@ -99,7 +100,8 @@ function newPriority(g,p,now,speed=2){g.window={responder:p,passes:0,deadline:g.
 function objective(g){
  if(g.result||!g.scenario)return;
  if(g.scenario==='T01'&&g.players[0].field.some(Boolean))finish(g,0,'教学完成：召唤与站位');
- if(g.scenario==='C01'&&g.players[0].field.some(c=>c?.id==='blue_eyes'&&c.faceUp))finish(g,0,'挑战完成：白龙降临');
+ if(g.scenario==='C01'&&g.players[0].field.some(c=>c?.uid===g.goalUid&&c.faceUp))finish(g,0,'挑战完成：上级召唤');
+ if(g.scenario==='C04'&&g.players[0].field.some(c=>c?.uid===g.goalUid&&c.faceUp))finish(g,0,'挑战完成：资源再生');
  if(g.scenario==='C02'&&g.ownTurns>2)finish(g,1,'挑战失败：超过两个我方回合');
 }
 export function applyAction(g,p,input,now=Date.now()){
@@ -206,11 +208,14 @@ function setupScenario(g,id,now){
  g.turn=3;g.active=0;g.phase='main1';
  const put=(p,area,zone,id,props={})=>{const c=Object.assign(instance(id),{owner:p,summonedTurn:1,placedTurn:1},props);if(['field','spells'].includes(area))g.players[p][area][zone]=c;else g.players[p][area].push(c);return c;};
  if(id==='T01'){put(0,'hand',0,'celtic_guardian');}
- if(id==='C01'){put(0,'field',0,'celtic_guardian');put(0,'field',1,'mystical_elf');put(0,'hand',0,'blue_eyes');}
- if(id==='T02'){g.phase='battle';put(0,'field',0,'blue_eyes');put(1,'field',0,'battle_ox');}
- if(id==='C02'){g.phase='battle';put(0,'field',0,'blue_eyes');put(1,'field',0,'mystical_elf',{position:'defense'});g.players[1].lp=3000;}
+ if(id==='C01'){const preset=DECKS.find(d=>d.id===g.players[0].deckId),ace=preset?.ace_card;
+   const boss=CARDS[ace]?.level>=5?ace:g.players[0].deck.filter(c=>CARDS[c.id]?.level>=5).sort((a,b)=>attackValue(b)-attackValue(a))[0]?.id||'summoned_skull';
+   put(0,'field',0,'celtic_guardian');put(0,'field',1,'mystical_elf');g.goalUid=put(0,'hand',0,boss).uid;}
+ if(id==='T02'){g.phase='battle';put(0,'field',0,'battle_ox');put(1,'field',0,'celtic_guardian');}
+ if(id==='C02'){g.phase='battle';put(0,'field',0,'celtic_guardian');put(0,'hand',0,'rush_recklessly');put(1,'field',0,'giant_soldier',{position:'defense'});g.players[1].lp=1400;}
+ if(id==='C04'){g.players[0].normalUsed=true;g.goalUid=put(0,'grave',0,'summoned_skull').uid;put(0,'hand',0,'monster_reborn');}
  if(['T03','C03'].includes(id)){
-   g.active=1;g.phase='battle';const enemy=put(1,'field',0,'blue_eyes'),ally=put(0,'field',0,'dark_magician');put(0,'spells',0,'mirror_force',{faceUp:false});
+   g.active=1;g.phase='battle';const enemy=put(1,'field',0,'summoned_skull'),ally=put(0,'field',0,'luster_dragon');put(0,'spells',0,'mirror_force',{faceUp:false});
    if(id==='C03')g.players[0].lp=500;
    enemy.attacked=true;g.pending={kind:'attack',player:1,uid:enemy.uid,targetUid:ally.uid,chain:[],cancelled:false};openWindow(g,0,now);
  }
@@ -233,11 +238,13 @@ export function chooseAi(g,p,difficulty='normal'){
      if(c.id==='rush_recklessly')return me.field.some(x=>x?.uid===a.targetUid)?(g.pending?.kind==='attack'||g.phase==='battle'?55:0):-80;
    }
    if(a.kind==='summon'){
-     if(difficulty!=='hard')return def.atk/45-(a.tributes?.length||0)*12+(a.position==='attack'?7:0);
-     const resource=(a.tributes||[]).reduce((sum,uid)=>sum+(CARDS[find(uid)?.id]?.atk||0),0);
+     if(difficulty==='easy')return def.atk/45-(a.tributes?.length||0)*12+(a.position==='attack'?7:0);
+     const resource=(a.tributes||[]).reduce((sum,uid)=>{const d=CARDS[find(uid)?.id];return sum+Math.max(d?.atk||0,(d?.def||0)*.7);},0);
      const strongest=Math.max(0,...op.field.filter(c=>c?.faceUp).map(c=>CARDS[c.id].atk+(c.bonus||0)));
-     const defense=a.position==='defense';
-     return def.atk/45-resource/160+(defense?(strongest>def.atk&&def.def>=def.atk?18:-8):7);
+     const defense=a.position==='defense',protect=def.def>def.atk&&(strongest>def.atk||me.deckId==='defense_starter'||g.turn===1);
+     const preferred=defense===protect,cost=difficulty==='hard'?resource/100:(a.tributes?.length||0)*12;
+     const breaksThreat=!defense&&def.atk>strongest&&strongest>Math.max(0,...me.field.filter(c=>c?.faceUp).map(c=>attackValue(c)))?20:0;
+     return (defense?def.def:def.atk)/45-cost+(preferred?18:-12)+breaksThreat;
    }
    if(a.kind==='set')return def.kind==='trap'?30:8;
    if(a.kind==='position')return c.position==='defense'&&def.atk>=1700?15:-40;

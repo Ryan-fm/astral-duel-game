@@ -73,3 +73,5 @@ When any text-entry control loses focus, dismiss the simulated keyboard. If the 
 ## Duel interaction preferences · 2026-10-09
 
 The user asks for battle usability improvements grounded in established card games. In the existing standalone `game.html` scope, keep the 3D arena and authentic card faces; card actions should use a non-blocking side inspector, visible server-legal choices, direct board target selection, public-stat damage previews, and a prominent chain response tray. Preserve authoritative rules and hidden-information boundaries. This is a scoped iteration on the existing game, not a replacement of the protected mobile runtime.
+
+The battle system must support multiple strategies rather than revolve around Blue-Eyes White Dragon. Keep distinct free 40-card presets for tempo, spell control, defense/counterplay, and tribute pressure, backed by different card distributions. Teach general mechanics using varied monsters. Decide featured summon presentation from card level and attribute, including collected monsters; do not privilege only Blue-Eyes or Dark Magician. Keep existing player collections and deck ids compatible.

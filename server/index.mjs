@@ -5,7 +5,7 @@ import { randomBytes, randomInt, randomUUID } from 'node:crypto';
 import { readFileSync, writeFileSync, mkdirSync, renameSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { createGame, applyAction, autoPass, projectGame, chooseAi, tickGame, finish, DECKS } from './engine.mjs';
+import {SCENARIOS, RULES_VERSION, createGame, applyAction, autoPass, projectGame, chooseAi, tickGame, finish, DECKS } from './engine.mjs';
 import {connectionOutcome} from './connection.mjs';
 import {initCollection,collectionView,validateCustom,pull,claimDaily} from './gacha.mjs';
 
@@ -18,7 +18,7 @@ const games=new Map(),rooms=new Map(),queues=new Map();
 function persist(){const data={};for(const [key,p]of profiles)data[key]={name:p.name,wins:p.wins,losses:p.losses,recent:p.recent,cosmetics:p.cosmetics,completed:p.completed,appearance:p.appearance,collection:p.collection,tickets:p.tickets,dust:p.dust,pity:p.pity,drawHistory:p.drawHistory,claimedDate:p.claimedDate,customDeck:p.customDeck};writeFileSync(dbFile+'.tmp',JSON.stringify(data));renameSync(dbFile+'.tmp',dbFile);}
 function profileView(p){return {name:p.name,wins:p.wins,losses:p.losses,cosmetics:p.cosmetics,completed:p.completed,appearance:p.appearance||{back:'default',summon:'default',arena:'night'},...collectionView(p)};}
 const app=express();const server=createServer(app);const io=new Server(server,{maxHttpBufferSize:16000,pingInterval:5000,pingTimeout:5000});
-app.get('/api/health',(_,res)=>res.json({ok:true,rules:'classic-18-v1',rooms:rooms.size,games:games.size}));
+app.get('/api/health',(_,res)=>res.json({ok:true,rules:RULES_VERSION,rooms:rooms.size,games:games.size}));
 app.get('/api/cards',(_,res)=>res.json(Object.fromEntries(Object.entries(JSON.parse(readFileSync(path.join(root,'src/cards.json')))).filter(([,c])=>!c.hiddenPool))));
 app.use('/game-assets',express.static(path.join(root,'public/game-assets')));
 function viewRoom(p){const room=rooms.get(p.roomCode);return room?{code:room.code,mode:room.mode,arena:room.arena,host:p.token===room.members[0],players:room.members.map(t=>{const m=profiles.get(t);return {name:m.name,deckId:room.decks[t],ready:room.ready[t]||false,isYou:t===p.token};}),created:room.created}:null;}
@@ -74,7 +74,7 @@ io.on('connection',socket=>{
    else if(m.type==='daily'){claimDaily(p);persist();}
    else if(m.type==='deck-save'){if(p.gameId||p.queue||p.roomCode)throw new Error('请先返回大厅再编辑卡组');p.customDeck=validateCustom(p,m.cards);persist();}
    else if(m.type==='cosmetic'){const allowed={back:['default','blue_back','intro_back'],summon:['default','violet'],arena:['night','ice']};if(!allowed[m.slot]?.includes(m.value)||(m.value!=='default'&&!p.cosmetics.includes(m.value)))throw new Error('外观尚未解锁');p.appearance={...profileView(p).appearance,[m.slot]:m.value};persist();}
-   else if(m.type==='practice'){detach(p);const scenario=['T01','T02','T03','C01','C02','C03'].includes(m.scenario)?m.scenario:null;const difficulty=['easy','normal','hard'].includes(m.difficulty)?m.difficulty:'normal';const g=createGame({mode:scenario?'scenario':'practice',names:[p.name,'AI · '+{easy:'简单',normal:'普通',hard:'困难'}[difficulty]],decks:[validateDeck(m.deck,p),validateDeck(m.opponentDeck||'dark_magician_starter',p)],deckLists:[deckCards(p,m.deck),deckCards(p,m.opponentDeck||'dark_magician_starter')],scenario});g.players[0].appearance=profileView(p).appearance;const item={g,arena:profileView(p).appearance.arena,members:[p.token,'AI'],difficulty,settled:false,paused:false,disconnects:{},nextAI:Date.now()+700};games.set(g.id,item);p.gameId=g.id;}
+   else if(m.type==='practice'){detach(p);const scenario=SCENARIOS.some(s=>s[0]===m.scenario)?m.scenario:null;const difficulty=['easy','normal','hard'].includes(m.difficulty)?m.difficulty:'normal';const g=createGame({mode:scenario?'scenario':'practice',names:[p.name,'AI · '+{easy:'简单',normal:'普通',hard:'困难'}[difficulty]],decks:[validateDeck(m.deck,p),validateDeck(m.opponentDeck||'dark_magician_starter',p)],deckLists:[deckCards(p,m.deck),deckCards(p,m.opponentDeck||'dark_magician_starter')],scenario});g.players[0].appearance=profileView(p).appearance;const item={g,arena:profileView(p).appearance.arena,members:[p.token,'AI'],difficulty,settled:false,paused:false,disconnects:{},nextAI:Date.now()+700};games.set(g.id,item);p.gameId=g.id;}
    else if(m.type==='queue'){detach(p);p.queue={since:Date.now(),expanded:false,deck:validateDeck(m.deck,p)};queues.set(p.token,{...p.queue,token:p.token});findMatch();}
    else if(m.type==='expand'){if(!p.queue)throw new Error('当前不在匹配队列');if(Date.now()-p.queue.since<60000)throw new Error('等待满 60 秒后可扩大范围');p.queue.expanded=true;queues.get(p.token).expanded=true;findMatch();}
    else if(m.type==='cancel'){if(p.queue)clearQueue(p);else if(p.roomCode&&!p.gameId)leaveRoom(p);else if(p.gameId)throw new Error('已进入对局，请使用投降退出');}
