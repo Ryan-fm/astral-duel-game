@@ -1,9 +1,9 @@
 import {useEffect,useRef,useState} from 'react';
-import {ArrowRight,ArrowLeft,X,Sword,Lightning,Eye,Clock,Check,Shield,Warning} from '@phosphor-icons/react';
+import {ArrowRight,ArrowLeft,X,Sword,Lightning,Eye,Clock,Check,Shield,Warning,Cube} from '@phosphor-icons/react';
 import {attackPreview,battleGuidance,unavailableReason,findVisibleCard} from './battleModel';
 import './BattleControls.css';
 
-const keyNames:Record<string,string>={position:'表示形式',zone:'放置区域',tributes:'选择祭品',targetUid:'选择目标'};
+const keyNames:Record<string,string>={position:'表示',zone:'区域',tributes:'祭品',targetUid:'目标'};
 export function BattleInspector({game,card,catalog,effectText,kinds,kind,names,selections,action,onKind,onChoice,onExecute,onClose,onZoom,onModel,busy,dragToPlay=false,dropConfirmed=false}:{game:any,card:any,catalog:Record<string,any>,effectText?:string,kinds:string[],kind:string,names:Record<string,string>,selections:any[],action:any,onKind:(kind:string)=>void,onChoice:(index:number,value:string)=>void,onExecute:(a:any)=>void,onClose:()=>void,onZoom:()=>void,onModel:()=>void,busy:boolean,dragToPlay?:boolean,dropConfirmed?:boolean}){
  const d=catalog[card?.id],preview=attackPreview(game,action,catalog);
  const label=(key:string,raw:string)=>{
@@ -17,15 +17,15 @@ export function BattleInspector({game,card,catalog,effectText,kinds,kind,names,s
  const visibleSelections=selections.filter(s=>!(dragToPlay&&s.key==='zone')&&(!dragToPlay||dropConfirmed||!['tributes','targetUid'].includes(s.key))&&(s.key!=='tributes'||JSON.parse(s.value).length));
  return <aside className="battle-inspector" aria-label="卡牌操作面板">
   <div className="inspector-heading"><span>已选卡牌</span><button className="icon-btn" aria-label="收起卡牌操作" onClick={onClose}><X/></button></div>
-  <div className="inspector-card"><button onClick={onZoom} aria-label="放大完整卡面"><img src={d?.face||'/game-assets/card-back.png'} alt={d?.name||'未知盖牌'}/><Eye size={16}/></button><div><small>{d?.kind==='monster'?'怪兽':d?.kind==='spell'?'魔法':d?.kind==='trap'?'陷阱':'隐藏卡牌'}</small><h2>{d?.name||'未知盖牌'}</h2>{d?.kind==='monster'&&<strong>ATK {d.atk+(card?.bonus||0)}<br/>DEF {d.def} · 等级 {d.level}</strong>}</div></div>
-  {d?.kind==='monster'&&card.faceUp&&<button className="monster-preview-button" onClick={onModel}>查看立体怪兽 <Eye size={16}/></button>}
-  <div className="inspector-scroll">{dropConfirmed&&<div className="drop-locked-note"><Check size={15}/>{action?.zone!==undefined?`已拖入 ${action.zone+1} 号区域 · 完成下方选择`:'已拖出卡牌 · 选择效果目标'}</div>}<p className={'effect-copy '+(!effectText&&d?.kind==='monster'?'standard-monster':'')}>{effectText|| (d?.kind==='monster'?'通常怪兽。按等级进行通常召唤或上级召唤。':'对手盖牌的身份会在翻开后公开。')}</p>
+  <div className="inspector-card"><button onClick={onZoom} aria-label="放大完整卡面"><img src={d?.face||'/game-assets/card-back.png'} alt={d?.name||'未知盖牌'}/><Eye size={16}/></button><div><small>{d?.kind==='monster'?'怪兽':d?.kind==='spell'?'魔法':d?.kind==='trap'?'陷阱':'隐藏卡牌'}</small><h2>{d?.name||'未知盖牌'}</h2>{d?.kind==='monster'&&<strong>ATK {d.atk+(card?.bonus||0)}<br/>DEF {d.def}<span className="inspector-level"> · 等级 {d.level}</span></strong>}</div></div>
+  {d?.kind==='monster'&&card.faceUp&&<button className="monster-preview-button" aria-label="查看立体怪兽" title="查看立体怪兽" onClick={onModel}><Cube size={20}/></button>}
+  <div className="inspector-scroll">{dropConfirmed&&<div className="drop-locked-note"><Check size={15}/>{action?.zone!==undefined?`已拖入 ${action.zone+1} 号区域 · 完成下方选择`:'已拖出卡牌 · 选择效果目标'}</div>}{effectText&&<details className="card-effect"><summary>卡牌效果</summary><p className="effect-copy">{effectText}</p></details>}{!d&&<p className="effect-copy">盖牌身份尚未公开</p>}
    {kinds.length>0?<>{kinds.length>1&&<div className="inspector-actions">{kinds.map(k=><button key={k} className={kind===k?'selected':''} onClick={()=>onKind(k)}>{names[k]}</button>)}</div>}
    {visibleSelections.map((s:any)=>{const index=selections.indexOf(s);return <div className={'choice-group choice-'+s.key} key={s.key}><div><span>{keyNames[s.key]}</span>{s.key==='targetUid'&&s.options.length>1&&<small>也可直接点场上目标</small>}{s.key==='zone'&&<small>已选 {JSON.parse(s.value)+1} 号</small>}</div><div className="choice-buttons">{s.options.length===1&&s.key!=='zone'?<p className="fixed-choice">{label(s.key,s.value)}</p>:s.options.map((v:string)=><button key={v} className={s.value===v?'selected':''} aria-pressed={s.value===v} onClick={()=>onChoice(index,v)}>{label(s.key,v)}</button>)}</div></div>;})}
-   {preview&&<div className={'damage-preview '+preview.tone}><Sword size={16}/><div><b>{preview.text}</b><small>{preview.note}</small></div></div>}
+   {preview&&<div className={'damage-preview '+preview.tone} title={preview.note}><Sword size={16}/><div><b>{preview.text}</b><small>{preview.note}</small></div></div>}
    </>:<div className="unavailable-reason"><Warning size={17}/>{unavailableReason(game,card,catalog)}</div>}
   </div>
-  {kinds.length>0&&dragToPlay&&!dropConfirmed&&<div className="drag-placement-note">从下方手牌拖入战场出牌。前排召唤或复活，后排盖放；魔法也可拖向目标直接发动。</div>}
+  {kinds.length>0&&dragToPlay&&!dropConfirmed&&<div className="drag-placement-note">拖出手牌即可出牌</div>}
   {kinds.length>0&&(!dragToPlay||dropConfirmed)&&<button className="primary-btn execute-card" aria-label={kind==='summon'?'确认召唤':undefined} disabled={!action||busy||game.paused||!!game.result} onClick={()=>onExecute(action)}>{kind==='attack'?'确认攻击':kind==='summon'?JSON.parse(selections.find(s=>s.key==='position')?.value||'"attack"')==='defense'?'确认盖放':action?.tributes?.length?`解放 ${action.tributes.length} 只 · 召唤`:'确认召唤':names[kind]} <Lightning/></button>}
  </aside>;
 }
@@ -45,8 +45,9 @@ export function BattlePhaseDock({game,phase,busy,onExecute}:{game:any,phase:any,
  useEffect(()=>setConfirm(false),[game.id,game.version,game.paused]);
  const attackers=new Set(game.legal.filter((a:any)=>a.kind==='attack').map((a:any)=>a.cardUid)).size;
  const unusedNormal=game.legal.some((a:any)=>a.kind==='summon'),warning=game.phase==='battle'&&attackers?`还有 ${attackers} 只怪兽可以攻击`:phase?.phase==='end'&&unusedNormal?'本回合还有通常召唤机会':'';
- const label=phase?.phase==='end'?'结束回合':phase?.phase==='battle'?'进入战斗阶段':'进入主要阶段 2';
- return <div className="action-dock battle-phase-dock"><small>{battleGuidance(game)}</small>{!game.window&&(confirm?<div className="phase-confirm"><b>{warning}</b><button className="soft-btn" onClick={()=>setConfirm(false)}><ArrowLeft/>继续操作</button><button className="primary-btn" disabled={busy||game.paused||!phase} onClick={()=>{setConfirm(false);onExecute(phase);}}>{label}<Check/></button></div>:<button className="primary-btn" disabled={!phase||busy||game.paused||!!game.result} onClick={()=>warning?setConfirm(true):onExecute(phase)}>{label}<ArrowRight/></button>)}</div>;
+ const label=phase?.phase==='end'?'结束回合':phase?.phase==='battle'?'进入战斗':'主要阶段 2';
+ if(game.window||game.result)return null;
+ return <div className="action-dock battle-phase-dock" title={battleGuidance(game)}>{game.active!==game.you?<span className="phase-wait"><Clock size={15}/>对手行动中</span>:game.phase==='discard'?<small>{battleGuidance(game)}</small>:null}{game.active===game.you&&!game.window&&(confirm?<div className="phase-confirm"><b>{warning}</b><button className="soft-btn" onClick={()=>setConfirm(false)}><ArrowLeft/>继续操作</button><button className="primary-btn" disabled={busy||game.paused||!phase} onClick={()=>{setConfirm(false);onExecute(phase);}}>{label}<Check/></button></div>:<button className="primary-btn" disabled={!phase||busy||game.paused||!!game.result} onClick={()=>warning?setConfirm(true):onExecute(phase)}>{label}<ArrowRight/></button>)}</div>;
 }
 export function BattleFeedback({game,reduced=false}:{game:any,reduced?:boolean}){
  const previous=useRef<{id:string,lp:number[]}|null>(null),[changes,setChanges]=useState<number[]>([0,0]);

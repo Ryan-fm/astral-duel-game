@@ -1,4 +1,4 @@
-import {Hand,ArrowUp,Lightning,Sword,Shield} from '@phosphor-icons/react';
+import {Hand,Lightning,Sword,Shield} from '@phosphor-icons/react';
 import {actionsAtDrop,type CardDrag} from './cardDrop';
 import './CardDrag.css';
 
@@ -16,10 +16,9 @@ export function CardDragGuide({drag,game,catalog,position,onPosition,hidden}:{dr
  const card=game.players[game.you].hand.find((c:any)=>c.uid===drag?.uid),d=catalog[card?.id],acts=legal.filter((a:any)=>a.cardUid===drag?.uid);
  const activate=!!drag&&!drag.returning&&acts.some((a:any)=>a.kind==='activate'&&a.zone===undefined);
  return <aside className={'card-drag-guide '+(drag?'dragging':'')} aria-label="拖拽出牌指引">
-  <div className="drag-guide-heading"><Hand size={20}/><b>{drag?d?.name||'拖拽出牌':'将手牌拖入战场'}</b></div>
-  <p>{drag?drag.keyboard?'方向键切换落点 · 回车放下 · Esc 取消':drag.valid?'落点已锁定，松手即可出牌':acts.length?d?.kind==='monster'?'前排召唤 · 松手完成放置':'后排盖放 · 拖向目标发动':'当前时机不能打出此卡':'轻点查看详情，向上拖动直接出牌'}</p>
-  {!drag&&legal.some((a:any)=>a.kind==='summon')&&<div className="drag-position-toggle" aria-label="拖拽召唤表示"><button aria-pressed={position==='attack'} className={position==='attack'?'selected':''} onClick={()=>onPosition('attack')}><Sword size={16}/>攻击召唤</button><button aria-pressed={position==='defense'} className={position==='defense'?'selected':''} onClick={()=>onPosition('defense')}><Shield size={16}/>守备盖放</button></div>}
+  <div className="drag-guide-heading"><Hand size={18}/><b>{drag?d?.name||'拖拽出牌':'拖出手牌'}</b></div>
+  {drag&&<p>{drag?drag.keyboard?'方向键切换落点 · 回车放下 · Esc 取消':drag.valid?'落点已锁定，松手即可出牌':acts.length?d?.kind==='monster'?'前排召唤 · 松手完成放置':'后排盖放 · 拖向目标发动':'当前时机不能打出此卡':'轻点查看详情，向上拖动直接出牌'}</p>}
+  {!drag&&legal.some((a:any)=>a.kind==='summon')&&<div className="drag-position-toggle" aria-label="拖拽召唤表示"><button aria-pressed={position==='attack'} className={position==='attack'?'selected':''} onClick={()=>onPosition('attack')}><Sword size={16}/>攻击</button><button aria-pressed={position==='defense'} className={position==='defense'?'selected':''} onClick={()=>onPosition('defense')}><Shield size={16}/>守备</button></div>}
   {activate&&<div className={'spell-activation-pad '+(drag.valid&&drag.site?.type==='activate'?'is-hovered':'')} data-drop-activate="true"><Lightning size={25}/><b>释放发动</b><small>需要目标时会继续选择</small></div>}
-  {!drag&&<small className="drag-keyboard-hint"><ArrowUp size={12}/>拖出手牌 · 放错位置自动回手</small>}
  </aside>;
 }

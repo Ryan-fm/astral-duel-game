@@ -1,6 +1,6 @@
 import {useEffect,useRef,useState} from 'react';
 import {connectGame,IS_TOY,type GameConnection} from './gameConnection';
-import {Robot,Sword,Users,ArrowRight,ArrowLeft,Gear,Stack,Clock,Check,Copy,Pause,Play,Flag,X,Lightning,BookOpen,Trophy,Eye,WifiHigh,ArrowClockwise,SpeakerHigh,SpeakerSlash,FastForward,Sparkle} from '@phosphor-icons/react';
+import {Robot,Sword,Users,ArrowRight,ArrowLeft,Gear,Stack,Clock,Check,Copy,Pause,Play,Flag,X,Lightning,BookOpen,Trophy,Eye,WifiHigh,ArrowClockwise,SpeakerHigh,SpeakerSlash,FastForward,Sparkle,Cards} from '@phosphor-icons/react';
 import Arena from './Arena';
 import MonsterViewer from './MonsterViewer';
 import {BattleInspector,BattleResponse,BattlePhaseDock,BattleFeedback,BattleSummonCue} from './BattleControls';
@@ -27,6 +27,7 @@ export default function Game(){
  const socket=useRef<GameConnection|null>(null),stateRef=useRef<any>(null),audio=useRef<AudioContext|null>(null),played=useRef(''),requestPending=useRef(false);
  const [state,setState]=useState<any>(null),[connected,setConnected]=useState(false),[notice,setNotice]=useState(''),[busy,setBusy]=useState(false),[now,setNow]=useState(Date.now());
  const [deck,setDeck]=useState(()=>decks.some(d=>d.id===sessionStorage.getItem('duel-deck'))?sessionStorage.getItem('duel-deck')!:decks[0].id),[panel,setPanel]=useState(''),[tab,setTab]=useState('practice'),[difficulty,setDifficulty]=useState('normal'),[opDeck,setOpDeck]=useState(decks[1].id),[roomCode,setRoomCode]=useState(''),[name,setName]=useState('');
+ const [objectiveOpen,setObjectiveOpen]=useState(false);
  const [selected,setSelected]=useState<string|null>(null),[chosenKind,setChosenKind]=useState(''),[choices,setChoices]=useState<Record<string,string>>({}),[confirm,setConfirm]=useState(false),[fxSkip,setFxSkip]=useState(0),[lastPractice,setLastPractice]=useState<any>(null),[resultReady,setResultReady]=useState(false);
  const arenaDrop=useRef<ArenaDropApi|null>(null),[dropPosition,setDropPosition]=useState('attack'),[pendingDrop,setPendingDrop]=useState<{uid:string,actions:any[],version:number,id:string}|null>(null);
  const [settings,setSettings]=useState(()=>{try{return JSON.parse(localStorage.getItem('duel-settings')||'{}');}catch{return {};}});
@@ -84,6 +85,7 @@ export default function Game(){
  }
  const modalTitle:Record<string,string>={ai:'人机决斗',friend:'好友切磋',settings:'决斗设置',library:'卡牌图鉴',log:'决斗记录',card:'卡牌操作',profile:'决斗者档案',zoom:'原始完整卡面',field:'场上卡牌',collection:'我的收藏',deckEditor:'组建我的卡组'};
  const scenario=scenarios.find(s=>s[0]===g?.scenario);
+ useEffect(()=>setObjectiveOpen(false),[g?.id]);
  const heroId=deck==='custom'?(profile?.customDeck?.filter((id:string)=>C[id]?.kind==='monster').sort((a:string,b:string)=>C[b].atk-C[a].atk)[0]||'celtic_guardian'):(decks.find(d=>d.id===deck)?.ace||decks[0].ace);
  const hero=C[heroId],activeDeck=decks.find(d=>d.id===deck)||decks[0];
  const timeLeft=seconds(g?.deadline,serverNow),response=seconds(g?.window?.deadline,serverNow);
@@ -96,13 +98,11 @@ export default function Game(){
    <footer className="deck-bar"><div className="deck-heading"><Stack size={22}/><span>出战卡组<small>四种战术 · 自由组卡</small></span></div><div className="deck-strategies" aria-label="选择战术预组">{decks.filter(d=>d.id!=='custom').map(d=><button key={d.id} className={`deck-option ${d.id===deck?'selected':''}`} onClick={()=>{setDeck(d.id);if(room)cmd('room-deck',{deck:d.id});}} disabled={!!queue}><img src={A+d.image} alt=""/><span><b>{d.name}</b><small>{d.subtitle} · 40 张</small></span>{d.id===deck&&<Check size={20}/>}</button>)}</div><div className="deck-extra-controls"><button className="text-btn" disabled={!profile||busy} onClick={()=>setPanel('deckEditor')}>编辑卡组 <ArrowRight/></button>{profile?.customDeck&&<button className={"custom-deck-button "+(deck==='custom'?'selected':'')} onClick={()=>setDeck('custom')} disabled={!!queue}>自定义卡组{deck==='custom'&&<Check size={13}/>}</button>}</div></footer>
   </>}
   {g&&<>
-   <header className="battle-header"><DuelIdentity player={me}/><div className="battle-center"><span>{g.mode==='match'?'在线匹配':g.mode==='friend'?'好友切磋':scenario?scenario[1]:'自由练习'}</span><b>TURN {g.turn} · {g.active===g.you?'你的回合':'对手回合'}</b><small><Clock size={13}/>{timeLeft===null?'练习不限时':`${timeLeft}s`}<span>{decks.find(d=>d.id===me.deckId)?.name||'自定义卡组'}</span></small><span className="turn-phase">{({main1:'主要阶段 1',battle:'战斗阶段',main2:'主要阶段 2',discard:'弃牌阶段'} as Record<string,string>)[g.phase]||'回合结束'}</span></div><DuelIdentity player={op} opponent/></header>
-   <div className="opponent-hand" aria-label={`对手手牌 ${op.handCount} 张`}>{Array.from({length:Math.min(op.handCount,8)},(_,i)=><img key={i} className={'back-'+op.appearance.back} src={A+'card-back.png'} alt="对手隐藏手牌"/>)}<span>{op.handCount} 张手牌 · 牌组 {op.deckCount}</span></div>
+   <header className="battle-header"><DuelIdentity player={me}/><div className="battle-center"><span>{g.mode==='match'?'匹配':g.mode==='friend'?'好友':scenario?scenario[0].startsWith('T')?'教学':'挑战':'练习'}</span><b>第 {g.turn} 回合 <em>{g.active===g.you?'我方':'对方'}</em></b><small><span className="current-phase">{({main1:'主要 1',battle:'战斗',main2:'主要 2',discard:'弃牌'} as Record<string,string>)[g.phase]||'结束'}</span><span className="turn-clock" title={timeLeft===null?'练习不限时':'剩余回合时间'}><Clock size={12}/>{timeLeft===null?'∞':`${timeLeft}s`}</span></small></div><DuelIdentity player={op} opponent/></header>
+   <div className="opponent-hand" aria-label={`对手手牌 ${op.handCount} 张`}>{Array.from({length:Math.min(op.handCount,8)},(_,i)=><img key={i} className={'back-'+op.appearance.back} src={A+'card-back.png'} alt="对手隐藏手牌"/>)}<span title={`对手手牌 ${op.handCount} 张 · 牌组 ${op.deckCount} 张`}>{op.handCount} <Cards size={11}/> {op.deckCount}</span></div>
    <aside className="battle-tools"><button className="icon-btn" title="场上卡牌" onClick={()=>setPanel('field')}><Eye/></button><button className="icon-btn" title="决斗记录" onClick={()=>setPanel('log')}><BookOpen/></button><button className="icon-btn" title="设置" onClick={()=>setPanel('settings')}><Gear/></button>{!['match','friend'].includes(g.mode)&&<button className="icon-btn" title={g.paused?'继续':'暂停'} onClick={()=>cmd('pause')}>{g.paused?<Play/>:<Pause/>}</button>}<button className="icon-btn" title="跳过演出" onClick={()=>setFxSkip(v=>v+1)}><FastForward/></button><button className="icon-btn" title="投降" onClick={()=>setConfirm(true)}><Flag/></button></aside>
-   <div className="phase-strip">{['main1','battle','main2'].map((p,i)=><span key={p} className={g.phase===p?'current':''}>{['主要 1','战斗','主要 2'][i]}</span>)}</div>
-   {scenario&&<div className="scenario-hint"><Lightning size={18}/><span>{scenario[2]}</span></div>}
-   <div className="battle-log-peek">{g.log.at(-1)?.text}</div>
-   <div className="grave-button"><button className="soft-btn" onClick={()=>setPanel('library')}><Stack size={16}/>墓地 {me.grave.length} · 牌组 {me.deckCount}</button></div>
+   {scenario&&<aside className={'battle-objective '+(objectiveOpen?'expanded':'')}><button aria-expanded={objectiveOpen} onClick={()=>setObjectiveOpen(v=>!v)}><Lightning size={15}/><span>{({T01:'召唤精灵剑士',T02:'击败对方怪兽',T03:'发动陷阱反击',C01:'完成上级召唤',C02:'突破守备',C03:'逆转攻击',C04:'墓地复活取胜'} as Record<string,string>)[scenario[0]]||'挑战目标'}</span><small>{objectiveOpen?'−':'＋'}</small></button>{objectiveOpen&&<p>{scenario[2]}</p>}</aside>}
+   <div className="grave-button"><button className="soft-btn" aria-label={`墓地 ${me.grave.length} 张，牌组 ${me.deckCount} 张，查看墓地与图鉴`} title={`墓地 ${me.grave.length} · 牌组 ${me.deckCount}`} onClick={()=>setPanel('library')}><Stack size={16}/>{me.grave.length}<Cards size={16}/>{me.deckCount}</button></div>
    <div className="hand-strip" aria-label="手牌：向上拖动出牌，轻点查看详情，空格键提起">{me.hand.map((c:any)=><MiniCard key={c.uid} card={c} active={legal.some((a:any)=>a.cardUid===c.uid)} selected={selected===c.uid&&panel==='card'} battle dragBindings={dragControl.bindings(c.uid)} dragging={dragControl.drag?.uid===c.uid} onClick={()=>select(c.uid)}/>)}{!me.hand.length&&<span className="empty-hand">手牌已用尽</span>}</div>
    <CardDragGhost drag={dragControl.drag} game={g} catalog={C} position={dropPosition}/><CardDragGuide drag={dragControl.drag} game={g} catalog={C} position={dropPosition} onPosition={setDropPosition} hidden={panel!==''||confirm||busy}/>
    <BattlePhaseDock game={g} phase={phase} busy={busy} onExecute={execute}/>

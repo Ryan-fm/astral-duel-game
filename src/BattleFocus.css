@@ -1,0 +1,88 @@
+/* A broad board at rest, a content-sized inspector only when a card is selected. */
+.in-game{--control-width:260px;--battle-safe-bottom:150px}
+.in-game .arena-canvas{right:6%;left:0;top:8%;bottom:14%}
+.in-game:has(.battle-inspector) .arena-canvas{right:calc(var(--control-width) + 20px)}
+.in-game .battle-center{min-width:170px;max-width:26%;padding:6px 12px}
+.in-game .battle-center>span{font-size:9px;letter-spacing:.08em}
+.in-game .battle-center b{font-size:15px;margin:3px 0;font-weight:650}
+.in-game .battle-center em{font-size:11px;font-style:normal;color:#94edff;margin-left:6px}
+.in-game .battle-center small{display:flex;justify-content:center;gap:16px;font-size:11px}
+.in-game .battle-center small span{margin:0;display:inline-flex;align-items:center;gap:4px}
+.in-game .battle-center .current-phase{color:#9cefff}
+.in-game .opponent-hand{left:34%;right:34%;top:17%;height:30px}
+.in-game .opponent-hand img{height:30px}
+.in-game .opponent-hand>span{display:flex;align-items:center;justify-content:center;gap:5px;top:33px;font-size:9px}
+.in-game .hand-strip{left:20%;right:19%;height:27%;padding-bottom:12px;gap:10px}
+.in-game:has(.battle-inspector) .hand-strip{right:calc(var(--control-width) + 30px)}
+.in-game .mini-card span,.in-game .mini-card .hand-stats,.in-game .mini-card .hand-ready{display:none}
+.in-game .mini-card.is-selected span,.in-game .mini-card:focus-visible span,.in-game .mini-card:hover span{display:block;bottom:3px;padding:4px;font-size:10px}
+.in-game .field-card-control{min-width:64px;max-width:110px;min-height:44px;padding:4px 8px;border-color:#adcbe655;background:#0a2134d9;box-shadow:0 2px 7px #0005;gap:2px}
+.in-game .field-card-control b,.in-game .field-card-control .card-state{display:none}
+.in-game .field-card-control small{font-size:11px;color:#e2f6ff;font-weight:600}
+.in-game .field-card-control.is-selected b,.in-game .field-card-control:focus-visible b,.in-game .field-card-control:hover b,.in-game .field-card-control.is-tribute b{display:block;font-size:10px}
+.in-game .field-card-control.is-target .card-state,.in-game .field-card-control.is-tribute .card-state{display:block}
+.in-game .battle-inspector{top:118px;bottom:auto;height:auto;max-height:calc(100% - 218px);width:var(--control-width)}
+.in-game .inspector-scroll{flex:0 1 auto;padding-bottom:8px}
+.in-game .inspector-card{padding:10px 12px;gap:12px}
+.in-game .inspector-card>button{flex-basis:70px}.in-game .inspector-card img{width:70px}
+.in-game .inspector-card h2{font-size:18px;margin:4px 0}
+.in-game .inspector-card strong{font-size:11px}
+.in-game .inspector-heading{padding:0 8px 0 12px}
+.in-game .card-effect{margin:5px 0 10px;font-size:11px;color:#b9dbea}
+.in-game .card-effect summary{cursor:pointer;min-height:28px;display:list-item;padding:5px 0}
+.in-game .card-effect .effect-copy{margin:5px 0;font-size:11px}
+.in-game .monster-preview-button{margin:0 12px 6px;flex-shrink:0}
+.in-game .damage-preview small{display:none}
+.in-game .drag-placement-note{font-size:11px;padding:8px 12px;flex-shrink:0}
+.in-game .battle-phase-dock{width:185px!important;right:20px!important;bottom:18px!important;gap:5px!important}
+.in-game .battle-phase-dock>.primary-btn{min-height:48px;font-size:13px}
+.in-game .phase-wait{display:flex;align-items:center;justify-content:center;gap:7px;font-size:11px;color:#bcd9e9;padding:10px;background:#102940cc;border-radius:4px}
+.in-game .card-drag-guide:not(.dragging){top:auto;left:auto;right:20px;bottom:80px;width:185px;transform:none;padding:9px;border-radius:4px}
+.in-game .card-drag-guide:not(.dragging) .drag-guide-heading{font-size:11px;gap:6px;margin-bottom:7px}
+.in-game .drag-position-toggle{display:flex;gap:5px}.in-game .drag-position-toggle button{flex:1;min-height:44px;padding:7px 5px;font-size:11px}
+.in-game .card-drag-guide.dragging{right:20px;left:auto;top:26%;width:220px;transform:none;padding:10px}
+.in-game .card-drag-guide.dragging p{font-size:11px;margin:6px 0}
+.in-game .battle-objective{position:absolute;right:20px;top:22%;z-index:10;width:185px;background:#102a40e8;border:1px solid #a0c2d555;border-radius:4px}
+.in-game .battle-objective>button{display:flex;align-items:center;gap:7px;width:100%;min-height:44px;padding:8px 10px;border:0;background:transparent;font-size:11px;text-align:left}
+.in-game .battle-objective>button small{margin-left:auto;color:#cae6f7}
+.in-game .battle-objective p{padding:0 10px 10px;margin:0;font-size:11px;color:#d1e6f1;line-height:1.6}
+.in-game:has(.battle-inspector) .battle-objective,.in-game:has(.response-tray) .battle-objective{display:none}
+.in-game .response-tray{right:20px;left:auto;width:var(--control-width);bottom:24%;max-height:60%;overflow:auto}
+.in-game:not(:has(.battle-inspector)) .response-tray{right:20px;bottom:24%}
+.in-game:has(.battle-inspector) .response-tray{right:calc(var(--control-width) + 34px);width:220px}
+.in-game .grave-button{bottom:18px;left:18px;max-width:17%}
+.in-game .grave-button button{min-height:44px;gap:7px;font-size:11px;padding:8px 11px}
+@media(max-height:560px){
+ .in-game{--control-width:230px;--battle-safe-bottom:100px}
+ .in-game .arena-canvas{right:5%;top:9%;bottom:16%}
+ .in-game .battle-center{min-width:155px;padding:4px 8px}
+ .in-game .battle-center b{font-size:12px}.in-game .battle-center em{font-size:10px}
+ .in-game .battle-center small{font-size:10px;gap:12px}
+ .in-game .opponent-hand{top:21%;height:21px}.in-game .opponent-hand img{height:21px}.in-game .opponent-hand>span{top:23px;font-size:8px}
+ .in-game .hand-strip{left:18%;right:25%;height:28%;gap:7px;padding-bottom:8px}
+ .in-game .mini-card{height:85px}
+ .in-game .battle-inspector{top:79px;max-height:calc(100% - 157px);bottom:auto}
+ .in-game .inspector-heading{height:0;padding:0}.in-game .inspector-heading .icon-btn{right:0;top:0}
+ .in-game .inspector-card{padding:7px 43px 7px 9px;gap:9px}.in-game .inspector-card>button{flex-basis:42px}.in-game .inspector-card img{width:42px}
+ .in-game .inspector-card h2{font-size:15px}.in-game .inspector-card strong{font-size:10px}
+ .in-game .card-effect summary{min-height:44px;padding:12px 0}.in-game .monster-preview-button{min-height:44px}
+ .in-game .battle-phase-dock{right:12px!important;bottom:10px!important;width:166px!important}
+ .in-game .battle-phase-dock>.primary-btn{min-height:44px;font-size:12px}
+ .in-game .card-drag-guide:not(.dragging){right:12px;bottom:64px;width:166px;padding:6px 8px}
+ .in-game .card-drag-guide:not(.dragging) .drag-guide-heading{font-size:10px;margin-bottom:4px}
+ .in-game .card-drag-guide:not(.dragging) .drag-guide-heading svg{width:15px;height:15px}
+ .in-game .battle-objective{right:12px;top:24%;width:166px}
+ .in-game .battle-objective p{font-size:10px}
+ .in-game .card-drag-guide.dragging{right:12px;top:28%;width:190px}
+ .in-game .field-card-control{min-width:54px;max-width:85px;padding:3px 6px;min-height:44px}.in-game .field-card-control small{font-size:10px}
+ .in-game .response-tray,.in-game:not(:has(.battle-inspector)) .response-tray{right:12px;bottom:25%;max-height:53%;width:230px}
+ .in-game:has(.battle-inspector) .response-tray{right:calc(var(--control-width) + 24px);width:185px}
+ .in-game .grave-button{left:9px;bottom:10px;max-width:17%}.in-game .grave-button svg{display:block}
+}
+.in-game:has(.battle-inspector) .battle-phase-dock{display:none}
+
+.in-game .monster-preview-button{position:absolute;top:0;right:44px;width:44px;height:44px;min-height:44px;margin:0;display:grid;place-items:center;border:0;background:transparent;color:#c9edff;padding:0}
+.in-game .choice-group small{display:none}
+.in-game .choice-targetUid:has(.fixed-choice){display:flex;align-items:baseline;gap:10px}
+.in-game .choice-targetUid:has(.fixed-choice)>div:first-child{margin:0;flex-shrink:0}
+@media(max-height:560px){.in-game .inspector-card{padding-right:87px}.in-game .inspector-level{display:none}.in-game .choice-group{margin:6px 0}.in-game .damage-preview{margin-top:5px;padding:6px}.in-game .inspector-scroll{padding-bottom:4px}}
