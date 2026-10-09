@@ -1,0 +1,21 @@
+.entry-screen{position:relative;display:block;width:100%;height:100%;padding:0;border:0;border-radius:0;overflow:hidden;isolation:isolate;background:#040b17;color:#e9f6ff;text-align:left;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.entry-screen.entry-screen:hover{filter:none}
+.entry-screen:focus-visible{outline:none!important}.entry-screen:focus-visible .entry-action{outline:2px solid #bceeff;outline-offset:3px}
+.entry-ambient{position:absolute;inset:-20px;background:url('/game-assets/entry-blue-eyes.jpg') center/cover;filter:blur(16px) brightness(.32);z-index:-1}
+/* Preserve the complete supplied artwork at every aspect ratio. */
+.entry-stage{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(100vw,177.7778vh);height:min(100vh,56.25vw)}
+.entry-art{display:block;width:100%;height:100%;object-fit:contain;user-select:none;pointer-events:none}
+.entry-logo{position:absolute;top:5%;right:3.5%;display:flex;flex-direction:column;align-items:flex-end;gap:7px;padding:14px 18px;background:linear-gradient(110deg,transparent,#04112cbb);text-shadow:0 2px 8px #000,0 0 22px #7fc9ff55;pointer-events:none}
+.entry-logo>span{font-size:clamp(9px,1vw,14px);letter-spacing:.2em;color:#9cddff}
+.entry-logo strong{font-size:clamp(20px,2.6vw,40px);letter-spacing:.08em;font-weight:650;white-space:nowrap}
+.entry-action{position:absolute;right:2%;bottom:2.5%;display:flex;align-items:center;justify-content:center;gap:14px;min-width:230px;min-height:64px;padding:16px 24px;background:linear-gradient(110deg,#061327,#10355d);border:1px solid #a2ddff88;border-radius:3px;font-size:clamp(13px,1.25vw,18px);letter-spacing:.12em;box-shadow:0 0 24px #3196e22b,inset 0 0 14px #60bdff12;transition:border-color .2s,background .2s,box-shadow .2s}
+.entry-action-line{width:30px;height:1px;background:#a8e7ff;box-shadow:0 0 8px #66c8ff}
+.entry-screen:hover .entry-action,.entry-screen:focus-visible .entry-action{border-color:#c5f2ff;box-shadow:0 0 30px #3196e24d,inset 0 0 14px #60bdff20}
+.entry-screen:active .entry-action{background:#185071}
+.entry-rotate-note{display:none}
+.entry-game{width:100%;height:100%;animation:entry-arrive .45s ease-out both}
+@keyframes entry-arrive{from{opacity:0}to{opacity:1}}
+@media(max-height:560px){.entry-logo{gap:4px;padding:8px 12px}.entry-logo strong{font-size:clamp(18px,2.6vw,27px)}.entry-action{min-width:190px;min-height:48px;padding:10px 16px;gap:10px}.entry-action-line{width:20px}.entry-action svg{width:18px;height:18px}}
+@media(orientation:portrait){.entry-logo{padding:6px 9px;gap:4px}.entry-logo>span{font-size:8px}.entry-logo strong{font-size:17px}.entry-action{min-width:162px;min-height:44px;gap:8px;padding:8px 12px;font-size:12px}.entry-action-line{width:16px}.entry-action svg{width:16px}.entry-rotate-note{display:block;position:absolute;bottom:max(28px,env(safe-area-inset-bottom));left:0;right:0;text-align:center;font-size:12px;letter-spacing:.1em;color:#a8c5de}}
+.entry-reduced.entry-game{animation:none}
+@media(prefers-reduced-motion:reduce){.entry-game{animation:none}.entry-action{transition:none}}
