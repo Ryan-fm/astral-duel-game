@@ -6,8 +6,8 @@ export default function Prototype() {
   return (
     <MobileScroll className="app-screen">
       <main className="screen-content" style={{minHeight:'100%',background:'#091426',padding:'30px 24px',color:'#e5f5ff'}}>
-        <span style={{color:'#81dfff',letterSpacing:3,fontSize:12}}>ASTRAL DUEL</span>
-        <h1>星域决斗</h1>
+        <span style={{color:'#81dfff',letterSpacing:3,fontSize:12}}>YU-GI-OH! · RUINS DUEL</span>
+        <h1>游戏王：遗迹决斗</h1>
         <img src="/game-assets/blue-eyes.png" alt="青眼白龙" style={{width:'100%',margin:'25px 0'}}/>
         <h2>进入 3D 竞技场</h2>
         <p style={{color:'#9db6cd',lineHeight:1.8}}>横屏游玩 · 人机决斗 · 在线匹配 · 好友切磋</p>

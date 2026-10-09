@@ -83,3 +83,5 @@ The user's supplied Duel Links screenshot (2026-10-09) is the battle visual refe
 Field monsters must be genuinely volumetric 3D meshes with recognizable anatomy, materials, lighting and ground shadows, including small monsters such as Kuriboh. Upright card faces and billboard cutouts are not acceptable substitutes. Preserve the card underfoot, legal picking and drag placement. Face-down monsters must never reveal a model. Apply the presentation across all deck themes, with idle, materialization and attack motion.
 
 Battle arena preference · 2026-10-10: replace the futuristic night arena with a nostalgic ancient Roman ruin setting inspired by adventure anime: weathered stone slabs, broken classical columns, curved spectator terraces, warm sunset lighting and restrained old inscriptions. Keep readable legal card zones, the physical monster models and drag placement.
+
+Game naming preference · 2026-10-10: the visible game name must include 游戏王. Use 游戏王：遗迹决斗 consistently in game branding, page titles and publishing metadata; English display is Yu-Gi-Oh! Ruins Duel. Preserve existing URLs, repository names, Toy slug and save keys for compatibility.
