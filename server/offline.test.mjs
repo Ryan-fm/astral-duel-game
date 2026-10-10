@@ -6,3 +6,15 @@ test('Toy boot, draw, duplicate request and refresh persistence',async()=>{const
 test('Toy new card deck, honest multiplayer boundary and stale action rejection',async()=>{const c=await client(memory());try{const b=await c.cmd('draw',{count:1});const id=b.draw.results[0].cardId,list=DECKS[0].cards.flatMap(e=>Array(e.count).fill(e.card_id));list[0]=id;assert.equal((await c.cmd('deck-save',{cards:list})).ok,true);assert.equal((await c.cmd('queue',{deck:'custom'})).ok,false);assert.equal(c.state.queue,null);assert.equal((await c.cmd('practice',{deck:'custom'})).ok,true);assert.equal(c.state.game.players[0].deckId,'custom');assert.equal((await c.cmd('action',{version:-1,action:{kind:'phase',phase:'end'}})).ok,false);assert.equal((await c.cmd('draw',{count:1})).ok,false);}finally{c.s.disconnect();}});
 test('Toy tutorial rewards only once and pause resumes',async()=>{const c=await client(memory());try{for(let i=0;i<2;i++){await c.cmd('practice',{deck:'blue_eyes_starter',scenario:'T01'});await c.cmd('pause');assert.ok(c.state.game.paused);await c.cmd('pause');const g=c.state.game,a=g.legal.find(a=>a.kind==='summon'&&a.position==='attack');assert.ok(a);await c.cmd('action',{version:g.version,action:a});assert.equal(c.state.game.result.winner,0);assert.equal(c.state.profile.tickets,33);await c.cmd('leave');}}finally{c.s.disconnect();}});
 test('Toy failed storage write rolls back the draw balance',async()=>{const storage=memory(),c=await client(storage);try{storage.setItem=()=>{throw Error('quota');};const a=await c.cmd('draw',{count:1});assert.equal(a.ok,false);assert.equal(c.state.profile.tickets,30);assert.deepEqual(c.state.profile.collection,{});}finally{c.s.disconnect();}});
+
+test('free arena choices persist without changing an active duel or resetting existing collection',async()=>{
+ const storage=memory(),c=await client(storage);try{
+  await c.cmd('draw',{count:1});const tickets=c.state.profile.tickets,collection={...c.state.profile.collection};
+  assert.equal((await c.cmd('cosmetic',{slot:'arena',value:'city'})).ok,true);
+  await c.cmd('practice',{deck:'tempo_starter',scenario:'T02'});assert.equal(c.state.game.arena,'city');
+  assert.equal((await c.cmd('cosmetic',{slot:'arena',value:'night'})).ok,true);assert.equal(c.state.game.arena,'city','scene is captured at duel start');
+  assert.equal((await c.cmd('cosmetic',{slot:'arena',value:'ice'})).ok,false);assert.equal((await c.cmd('cosmetic',{slot:'arena',value:'unknown'})).ok,false);
+  await c.cmd('leave');await c.cmd('practice',{deck:'tempo_starter',scenario:'T02'});assert.equal(c.state.game.arena,'night');
+  const refreshed=await client(storage);try{assert.equal(refreshed.state.profile.appearance.arena,'night');assert.equal(refreshed.state.profile.tickets,tickets);assert.deepEqual(refreshed.state.profile.collection,collection);}finally{refreshed.s.disconnect();}
+ }finally{c.s.disconnect();}
+});

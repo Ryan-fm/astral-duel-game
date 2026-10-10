@@ -31,7 +31,6 @@
 .in-game .card-effect{margin:5px 0 10px;font-size:11px;color:#b9dbea}
 .in-game .card-effect summary{cursor:pointer;min-height:28px;display:list-item;padding:5px 0}
 .in-game .card-effect .effect-copy{margin:5px 0;font-size:11px}
-.in-game .monster-preview-button{margin:0 12px 6px;flex-shrink:0}
 .in-game .damage-preview small{display:none}
 .in-game .drag-placement-note{font-size:11px;padding:8px 12px;flex-shrink:0}
 .in-game .battle-phase-dock{width:185px!important;right:20px!important;bottom:18px!important;gap:5px!important}
@@ -65,7 +64,7 @@
  .in-game .inspector-heading{height:0;padding:0}.in-game .inspector-heading .icon-btn{right:0;top:0}
  .in-game .inspector-card{padding:7px 43px 7px 9px;gap:9px}.in-game .inspector-card>button{flex-basis:42px}.in-game .inspector-card img{width:42px}
  .in-game .inspector-card h2{font-size:15px}.in-game .inspector-card strong{font-size:10px}
- .in-game .card-effect summary{min-height:44px;padding:12px 0}.in-game .monster-preview-button{min-height:44px}
+ .in-game .card-effect summary{min-height:44px;padding:12px 0}
  .in-game .battle-phase-dock{right:12px!important;bottom:10px!important;width:166px!important}
  .in-game .battle-phase-dock>.primary-btn{min-height:44px;font-size:12px}
  .in-game .card-drag-guide:not(.dragging){right:12px;bottom:64px;width:166px;padding:6px 8px}
@@ -81,8 +80,16 @@
 }
 .in-game:has(.battle-inspector) .battle-phase-dock{display:none}
 
-.in-game .monster-preview-button{position:absolute;top:0;right:44px;width:44px;height:44px;min-height:44px;margin:0;display:grid;place-items:center;border:0;background:transparent;color:#c9edff;padding:0}
 .in-game .choice-group small{display:none}
 .in-game .choice-targetUid:has(.fixed-choice){display:flex;align-items:baseline;gap:10px}
 .in-game .choice-targetUid:has(.fixed-choice)>div:first-child{margin:0;flex-shrink:0}
-@media(max-height:560px){.in-game .inspector-card{padding-right:87px}.in-game .inspector-level{display:none}.in-game .choice-group{margin:6px 0}.in-game .damage-preview{margin-top:5px;padding:6px}.in-game .inspector-scroll{padding-bottom:4px}}
+@media(max-height:560px){.in-game .inspector-card{padding-right:43px}.in-game .inspector-level{display:none}.in-game .choice-group{margin:6px 0}.in-game .damage-preview{margin-top:5px;padding:6px}.in-game .inspector-scroll{padding-bottom:4px}}
+/* The ground in the illustration is the stage; avoid a second opaque scene over it. */
+.in-game .world-background{background-size:cover,140% auto;background-position:center,center bottom}
+.in-game .arena-canvas{top:27%;bottom:12%;right:6%}
+.in-game:has(.battle-inspector) .arena-canvas{right:calc(var(--control-width) + 20px)}
+.duel-app .arena-canvas canvas{mask-image:none}
+@media(max-height:560px){.in-game .arena-canvas{top:24%;bottom:12%;right:5%}.in-game .world-background{background-size:cover,130% auto}}
+.duel-app.city-scene .world-background{background:linear-gradient(0deg,#051a3225,transparent 60%),url('/game-assets/arena.png') center/cover}
+.in-game.city-scene .world-background{background-size:cover,140% auto;background-position:center,center bottom}
+@media(max-height:560px){.in-game.city-scene .world-background{background-size:cover,130% auto}}
