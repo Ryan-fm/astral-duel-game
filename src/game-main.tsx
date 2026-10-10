@@ -4,4 +4,8 @@ import GameEntry from './GameEntry';
 import './Game.css';
 import './DuelLinksTheme.css';
 import './BattleFocus.css';
+import './ExperiencePolish.css';
+import './CardClarity.css';
+import './FieldMarkers.css';
+import './BattleHand.css';
 createRoot(document.getElementById('root')!).render(<React.StrictMode><GameEntry/></React.StrictMode>);

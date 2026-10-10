@@ -1,0 +1,49 @@
+/* Public activations remain readable after a response; illustrations stay untouched. */
+.activation-feed{position:absolute;left:8.5%;top:20%;width:min(410px,37%);z-index:17;pointer-events:none}
+.activation-announcement{display:flex;gap:15px;position:relative;padding:14px;background:#0b2037f5;border:1px solid #80c8c2;border-left:4px solid #80dac5;border-radius:9px;box-shadow:0 12px 28px #0007;animation:activation-arrive .22s ease-out}
+.activation-announcement.trap{border-color:#ce9fdd;border-left-color:#d69de5}
+.activation-face{border:0;padding:0;background:none;flex:0 0 106px;pointer-events:auto}
+.activation-face img{width:106px;aspect-ratio:813/1185;object-fit:contain;display:block;border-radius:3px}
+.activation-copy{min-width:0;flex:1;padding-right:14px}
+.activation-owner{display:block;font-size:13px;color:#aee4dc;line-height:1.5}
+.activation-announcement.trap .activation-owner{color:#e7b5ee}
+.activation-copy strong{display:block;font-size:21px;color:#fff1c9;line-height:1.4;margin:4px 0 6px}
+.activation-copy p{font-size:15px;line-height:1.65;margin:0;color:#e1edf5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.activation-read{min-height:44px;display:flex;align-items:center;gap:6px;border:0;background:none;color:#b4e6ff;padding:5px 0;font-size:14px;pointer-events:auto}
+.activation-dismiss{position:absolute;right:0;top:0;width:44px;height:44px;display:grid;place-items:center;background:none;border:0;color:#bfd4e2;pointer-events:auto}
+.activation-history-toggle{pointer-events:auto;display:flex;align-items:center;gap:8px;min-height:44px;max-width:100%;padding:8px 12px;margin-top:6px;border:1px solid #94b6c75c;border-radius:6px;background:#102839f0;color:#d8eaf3;font-size:14px;text-align:left}
+.activation-history-toggle span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.activation-history-toggle svg{flex-shrink:0}.activation-history-toggle small{margin-left:auto;color:#ffdb94}
+.activation-history{pointer-events:auto;margin-top:5px;max-height:38vh;overflow:auto;background:#0c1f32f7;border:1px solid #829cae88;border-radius:6px;padding:6px}
+.activation-history>button{display:flex;align-items:center;gap:11px;border:0;border-bottom:1px solid #93bdd12a;background:none;color:#edf8ff;padding:8px;width:100%;min-height:56px;text-align:left}
+.activation-history img{width:35px;height:51px;object-fit:contain}.activation-history small{font-size:12px;color:#bbccd9;display:block;margin-bottom:4px}.activation-history b{font-size:16px}.activation-history>button>svg{margin-left:auto}
+.activation-feed.compact .activation-announcement{padding:8px 14px;gap:0}.activation-feed.compact .activation-face,.activation-feed.compact .activation-copy p{display:none}.activation-feed.compact .activation-copy{display:grid;grid-template-columns:1fr auto;align-items:center;padding-right:22px;gap:0 10px}.activation-feed.compact .activation-owner{grid-column:1}.activation-feed.compact .activation-copy strong{font-size:18px;margin:0;grid-column:1}.activation-feed.compact .activation-read{grid-column:2;grid-row:1 / span 2;font-size:13px}
+.activation-feed.reduced .activation-announcement{animation:none}
+.response-source{display:flex;align-items:center;gap:11px;text-align:left;width:100%;min-height:82px;margin-top:10px;padding:8px 10px;background:#18463573;border:1px solid #88c8bc80;border-radius:6px;color:#ecfff8}
+.response-source.trap{background:#512a5766;border-color:#cd9bd180;color:#ffedff}.response-source img{width:45px;height:65px;object-fit:contain;flex-shrink:0}.response-source span{min-width:0;flex:1}.response-source small{font-size:12px;display:block;color:#c4d7e0}.response-source b{font-size:17px;display:block;margin-top:5px;line-height:1.4}.response-source>svg{flex-shrink:0}
+.in-game .response-tray{display:flex;flex-direction:column;overflow:hidden}.response-context,.response-source{flex-shrink:0}.in-game .response-options{flex:1;min-height:0;flex-direction:column;flex-wrap:nowrap;overflow:hidden;flex-shrink:1;min-height:48px}.response-action-list{display:flex;flex-direction:column;gap:7px;overflow-y:auto;min-height:0;scrollbar-width:thin}.in-game .response-options .pass-response{flex-shrink:0;flex-grow:0;width:100%;justify-content:center}.in-game .response-options button{flex-shrink:0;flex-grow:0;justify-content:center;width:100%;font-size:13px}.chain-pills{max-height:94px;overflow:auto;flex-shrink:0}
+.chain-pills button{min-height:44px;border:1px solid #7b8fbd55;padding:6px 9px;color:#ddebf2;background:#36445be6;border-radius:4px;font-size:13px}
+.in-game:has(.battle-inspector){--control-width:300px}
+.in-game .inspector-card>button{flex-basis:80px}.in-game .inspector-card img{width:80px}.inspector-card>button>span{position:absolute;left:0;right:0;bottom:0;font-size:12px;background:#0b243aed;color:#e2faff;min-height:26px;display:grid;place-items:center;border-top:1px solid #98d2d45c}
+.in-game .card-effect{font-size:15px}.in-game .card-effect summary{font-size:15px;min-height:44px;padding:10px 0}.in-game .card-effect .effect-copy,.in-game .effect-copy{font-size:16px;line-height:1.75;color:#e0edf4}
+.in-game .inspector-card h2{font-size:20px}.in-game .inspector-card strong{font-size:13px}.card-detail p,.modal .card-detail p{font-size:17px;line-height:1.8;color:#e0edf4}
+.modal.reader-modal{width:min(1050px,94vw);padding:22px;max-height:94vh}
+.reader-modal .modal-heading{margin-bottom:14px}.reader-modal .response-label{font-size:15px}
+.card-reader{display:grid;grid-template-columns:minmax(130px,32%) minmax(0,1fr);gap:30px;align-items:start}
+.reader-art img{display:block;width:100%;height:min(65vh,510px);object-fit:contain}
+.reader-copy{display:flex;flex-direction:column;min-width:0;max-height:calc(94vh - 104px)}
+.reader-heading>span{font-size:14px;color:#a6ddd8}.modal .reader-heading h2{font-size:27px;line-height:1.3;margin:6px 0 12px}.reader-stats{font-size:16px;color:#f1daaa;line-height:1.6}
+.reader-text-controls{display:flex;gap:8px;margin:12px 0}.reader-text-controls button{min-height:44px;padding:8px 17px;color:#dcecf5;border:1px solid #7794a8;background:#122b40;border-radius:5px;font-size:15px}.reader-text-controls button[aria-pressed=true]{border-color:#a4e9dc;background:#235255;color:#f0fff8}
+.reader-effect{overflow:auto;min-height:0;padding:3px 6px 12px 0;scrollbar-width:thin;flex:1}.reader-effect h3{font-size:15px;color:#c4d9e6;margin:0 0 7px}.modal .reader-effect p{font-size:19px;line-height:1.8;letter-spacing:.02em;color:#f0f6fa;margin:0;white-space:pre-line;overflow-wrap:anywhere}.modal .large-text .reader-effect p{font-size:23px}
+.reader-back{align-self:flex-start;flex-shrink:0;min-height:44px!important;margin-top:10px;font-size:15px!important}
+@keyframes activation-arrive{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-height:560px){
+ .activation-feed{top:22%;left:13%;width:min(350px,42%)}
+ .activation-announcement{gap:10px;padding:9px}.activation-face{flex-basis:65px}.activation-face img{width:65px}.activation-copy{padding-right:22px}.activation-owner{font-size:12px}.activation-copy strong{font-size:18px;margin:2px 0 3px}.activation-copy p{font-size:14px;-webkit-line-clamp:1}.activation-read{font-size:13px;padding:3px 0}
+ .activation-history-toggle{font-size:13px;margin-top:4px;padding:7px 10px}.activation-history{max-height:40vh}.activation-history b{font-size:15px}
+ .activation-feed.compact .activation-copy strong{font-size:16px}.activation-feed.compact .activation-read{font-size:12px}
+ .in-game .response-tray,.in-game:not(:has(.battle-inspector)) .response-tray{top:22%;bottom:auto;max-height:calc(78% - 12px)}.response-action-list{gap:5px}.chain-pills{max-height:48px}
+ .response-source{min-height:74px;margin-top:7px;padding:7px;gap:9px}.response-source img{width:40px;height:58px}.response-source b{font-size:16px}.response-source small{font-size:12px}
+ .in-game:has(.battle-inspector){--control-width:260px}.in-game .battle-inspector{max-height:calc(100% - 142px)}.in-game .inspector-card>button{flex-basis:64px}.in-game .inspector-card img{width:64px}.in-game .inspector-card h2{font-size:18px}.in-game .inspector-card strong{font-size:12px}.in-game .card-effect .effect-copy,.in-game .effect-copy{font-size:15px;line-height:1.7}.in-game .card-effect summary{font-size:14px;padding:8px 0}
+ .modal.reader-modal{padding:14px 18px}.reader-modal .modal-heading{margin-bottom:8px}.reader-modal .modal-heading h2{font-size:19px}.card-reader{grid-template-columns:minmax(130px,27%) minmax(0,1fr);gap:22px}.reader-art img{height:calc(94vh - 90px)}.reader-copy{max-height:calc(94vh - 86px)}.modal .reader-heading h2{font-size:23px;margin:3px 0 7px}.reader-heading>span{font-size:13px}.reader-stats{font-size:14px}.reader-text-controls{margin:8px 0;gap:6px}.reader-text-controls button{font-size:14px}.modal .reader-effect p{font-size:17px;line-height:1.7}.modal .large-text .reader-effect p{font-size:21px}.reader-back{margin-top:6px}
+}
+@media(prefers-reduced-motion:reduce){.activation-announcement{animation:none}}

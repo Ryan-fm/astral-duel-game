@@ -28,7 +28,7 @@ export function createKingdomLandscape(maps:LandscapeMaps){
  const group=new T.Group();group.name='kingdom-island-landscape';
  const owned:T.Texture[]=[],materials:T.Material[]=[],time={value:0};
  function copy(t:T.Texture,repeat=1){const c=t.clone();c.wrapS=c.wrapT=T.RepeatWrapping;c.repeat.set(repeat,repeat);c.anisotropy=4;if(!t.image)c.version=0;owned.push(c);return c;}
- const arm=copy(maps.ground.arm),grass=new T.MeshStandardMaterial({map:copy(maps.ground.color),normalMap:copy(maps.ground.normal),roughnessMap:arm,aoMap:arm,normalScale:new T.Vector2(.55,.55),roughness:1,aoMapIntensity:.6,vertexColors:true,color:0xd6dacb});materials.push(grass);
+ const arm=copy(maps.ground.arm),grass=new T.MeshStandardMaterial({map:copy(maps.ground.color),normalMap:copy(maps.ground.normal),roughnessMap:arm,aoMap:arm,normalScale:new T.Vector2(.55,.55),roughness:1,aoMapIntensity:.6,vertexColors:true,color:0xa8b4a9});materials.push(grass);
  grass.onBeforeCompile=shader=>{
   shader.vertexShader='varying vec3 vTerrain;\n'+shader.vertexShader;
   shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nvTerrain=(modelMatrix*vec4(transformed,1.)).xyz;');
@@ -81,7 +81,7 @@ export function createKingdomLandscape(maps:LandscapeMaps){
   const mesh=new T.Mesh(g,distantMat);mesh.name='distant-headland';group.add(mesh);
  }
  const bark=new T.MeshStandardMaterial({map:copy(maps.bark,2),color:0xb3b1a0,roughness:1});materials.push(bark);
- const foliage=new T.MeshStandardMaterial({map:copy(maps.twig),alphaMap:copy(maps.alpha),alphaTest:.45,side:T.DoubleSide,color:0xb4c3a2,roughness:1});materials.push(foliage);
+ const foliage=new T.MeshStandardMaterial({map:copy(maps.twig),alphaMap:copy(maps.alpha),alphaTest:.38,side:T.DoubleSide,color:0xc8d0b7,roughness:.9,emissive:0x30412b,emissiveIntensity:.18});materials.push(foliage);
  foliage.onBeforeCompile=shader=>{
   shader.uniforms.forestTime=time;shader.vertexShader='uniform float forestTime;\n'+shader.vertexShader;
   shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>',`#include <begin_vertex>
@@ -90,12 +90,12 @@ export function createKingdomLandscape(maps:LandscapeMaps){
  };foliage.customProgramCacheKey=()=> 'pine-needle-wind-v1';
  const twig=new T.PlaneGeometry(1,1),tu=twig.getAttribute('uv');
  // Use the horizontal needle cluster from the publisher's original atlas, without editing it.
- for(let i=0;i<tu.count;i++)tu.setXY(i,.64+tu.getX(i)*.35,.375+tu.getY(i)*.30);
+ for(let i=0;i<tu.count;i++)tu.setXY(i,.64+tu.getX(i)*.345,.49+tu.getY(i)*.195);
  const trunks:T.BufferGeometry[]=[],poses:T.Matrix4[]=[],dummy=new T.Object3D();let count=0;
  function tree(x:number,z:number,height:number,seed:number){
   const root=islandHeight(x,z);const trunk=new T.CylinderGeometry(.05,height*.021,height,8,3);trunk.translate(x,root+height/2,z);trunks.push(trunk);
-  for(let level=0;level<9;level++)for(let branch=0;branch<5;branch++){
-   const t=level/9,y=root+height*(.3+.68*t),radius=height*(.22*(1-t)+.025),angle=branch*Math.PI*.4+seed+level*.6;
+  for(let level=0;level<11;level++)for(let branch=0;branch<6;branch++){
+   const t=level/11,y=root+height*(.2+.78*t),radius=height*(.26*(1-t)+.023),angle=branch*Math.PI/3+seed+level*.6;
    for(let cluster=0;cluster<2;cluster++){
     const r=radius*(.48+cluster*.38);dummy.position.set(x+Math.cos(angle)*r,y+.1*Math.sin(seed+branch),z+Math.sin(angle)*r);
     dummy.rotation.set(-.45+(branch%3)*.32,angle+Math.PI/2,.12*Math.sin(seed+level));dummy.scale.set(radius*(1.05-cluster*.12),radius*.65,1);dummy.updateMatrix();poses.push(dummy.matrix.clone());

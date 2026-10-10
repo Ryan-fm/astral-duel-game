@@ -1,5 +1,4 @@
 {
-  "buildCommand": "VITE_DUEL_SOCKET_PATH=/api/duel/socket.io npm run release:game",
   "outputDirectory": "dist/game",
   "functions": {"api/duel.mjs": {"maxDuration": 300, "includeFiles": "{server/*.json,src/cards.json}"}},
   "buildCommand": "VITE_DUEL_SOCKET_PATH=/api/duel/socket.io npm run release:prototype:game",

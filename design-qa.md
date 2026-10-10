@@ -161,3 +161,35 @@ Reused existing illustrated backdrops, monster art and authentic full card faces
 - Added a compact non-official / missing release authorization label at entry and expandable rights/source notices in settings. Attribution is not presented as clearance.
 - The asset audit records all 140 public files, including unused copied resources, and carries full notices for 148 production dependency instances. Device template images are excluded from standalone outputs without modifying protected files.
 - Browser verifies the status, source and license links. Four release-check tests, 107 game tests and both builds pass; the rights release check intentionally fails while IP permission and other evidence remain unresolved. No change to publishing or existing external copies. Details and actual screenshot: ../copyright-review/README.md.
+
+## 手牌扇形还原 · 2026-10-10
+
+Source visual truth: `../02-pvp-arena.png`（1672×941）与用户红框截图（941×465）；原图是手牌方向，红框截图是修改对象，不是要照抄的布局。
+
+Implementation: `../hand-fan-review/evidence/03-desktop-selected.png`（1280×720）；另验证 844×390 和 568×320 横屏。截图为对应 CSS 视口像素。原概念图等比归一化到 1280×720，在 `06-comparison-full.png` 同时对照全景，在 `07-comparison-hand.png` 同时对照相同区域；对照副本没有作为游戏资产使用。
+
+State: 五张真实手牌、第三张选中、主要阶段。概念图的卡组、怪兽和夜景与当前遗迹版本不同；按本次红框要求，仅评估手牌，延续此前已确认的角色、场景和规则。保留完整真实英文卡面、中文说明面板，而非复制概念图简化的中文卡牌图。
+
+Comparison history:
+
+1. P1：旧版卡片仅约 85 px 高，平排且没有弧线，与设计图的大手牌层次明显不同。修复为手机约 120 px、桌面约 214 px，左右 ±8°，轻微错叠，中央略高；证据 `01-mobile-fan.png`、`03-desktop-selected.png`。
+2. P2：选中卡后面板缩窄手牌，鼠标留在相邻卡上会使两张卡同时抬起。修复为已有选中卡时相邻悬停不抬起；重抓 `02-mobile-selected.png` 确认单卡突出。
+3. P2：窄横屏打开详情会减小手牌容量，末尾选中卡可能隐藏。修复为容量变化后自动展示选中卡所在组；`05-narrow-selected.png` 确认 568×320 下栗子球仍可见，点击“前一组”可访问此前卡牌。
+
+Required fidelity surfaces:
+
+- Typography: 保留真实卡面中的原字体，不再覆盖额外卡名和数值。中文正文沿用已放大的说明面板；手牌位置由无障碍标签说明，不占据卡图。
+- Layout / spacing: 五张浅扇形、轻微错叠，选中卡抬起转正；布局按可用宽度缩放，暴露卡牌间距至少 44 px，超量用明确翻组。全景和手牌特写已在同一对照图中检查。
+- Colors: 使用设计图的青色选中描边和微光，其余牌收敛为细边与纸张阴影。继承卡面怪兽／魔法／陷阱颜色，不增加新类型色。
+- Image fidelity: 使用既有完整卡面，保持 813:1185 比例、无拉伸、无卡图绘制替代。底部比原概念图多显示少量纸面，为阅读保留的有意差异；不同卡组内容不属于视觉偏差。
+- Copy / content: 没有新增重复“可操作”或卡名覆盖层；沿用中文详情及拖出指引，翻组仅在空间不足时出现。
+
+Primary interaction verification: 轻点切换详情，空格键提起及 Esc 取消；指针拖出神秘妖精并完成召唤，手牌数量 5→4；小屏详情与手牌翻组可用。浏览器捕获的 error／warn 为空。系统／游戏内减弱动态关闭手牌过渡。未验证手机真机性能。
+
+Validation: 131 项完整游戏测试、36 项战斗界面／拖放专项通过；game／Toy 本地构建、保护运行时及 git diff 校验通过。
+
+Findings: 无本轮范围内待修复的 P0／P1／P2。P3：原图裁去的底部纸面在实机多保留少量，纸面字体与原图的简化中文素材不同，沿用真实卡面与中文详情的既定约束。
+
+Implementation checklist: 对照手牌层次、选中态和窄屏；确认点击／拖放／取消；保留本地预览，发布等待用户确认。以上均已完成。
+
+final result: passed

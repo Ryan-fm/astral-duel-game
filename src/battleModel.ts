@@ -60,3 +60,9 @@ export function battleGuidance(game:any){
 }
 
 export function shouldShowMonster(card:{id?:string,faceUp?:boolean}|null,area:string){return area==='field'&&!!card?.faceUp&&!!card.id;}
+/** The engine's surrender reason is written from the winner's perspective. */
+export function duelResultReason(game:any){
+ const result=game.result;
+ if(result?.reason==='对手投降'&&result.winner!==null&&result.winner!==game.you)return '你已投降';
+ return result?.reason||'';
+}

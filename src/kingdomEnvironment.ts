@@ -12,10 +12,10 @@ export function createKingdomEnvironment(maps:KingdomMaps){
  const textures:T.Texture[]=[],materials:T.Material[]=[],batches=new Map<T.Material,T.BufferGeometry[]>();
  function copy(source:T.Texture,repeatX=1,repeatY=1){const t=source.clone();t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(repeatX,repeatY);t.anisotropy=4;if(!source.image)t.version=0;textures.push(t);return t;}
  function pbr(source:StoneMaps,color:number,repeatX=1,repeatY=1){
-  const arm=copy(source.arm,repeatX,repeatY),m=new T.MeshStandardMaterial({map:copy(source.color,repeatX,repeatY),normalMap:copy(source.normal,repeatX,repeatY),normalScale:new T.Vector2(.75,.75),roughnessMap:arm,aoMap:arm,aoMapIntensity:.75,roughness:1,color});materials.push(m);return m;
+  const arm=copy(source.arm,repeatX,repeatY),m=new T.MeshStandardMaterial({map:copy(source.color,repeatX,repeatY),normalMap:copy(source.normal,repeatX,repeatY),normalScale:new T.Vector2(.55,.55),roughnessMap:arm,aoMap:arm,aoMapIntensity:.75,roughness:1,color});materials.push(m);return m;
  }
- const stone=pbr(maps.stone,0xe4e0d6),pale=stone.clone(),dark=stone.clone();pale.color.set(0xf2ecdc);dark.color.set(0xb7b3a7);materials.push(pale,dark);
- const paving=pbr(maps.floor,0xdfd8c9,52/4.4,44/4.4);paving.normalScale.set(1.15,1.15);
+ const stone=pbr(maps.stone,0xc8d1d6),pale=stone.clone(),dark=stone.clone();pale.color.set(0xe0e2dd);dark.color.set(0x949eaa);materials.push(pale,dark);
+ const paving=pbr(maps.floor,0xb5c1cc,52/4.4,44/4.4);paving.normalScale.set(.68,.68);paving.roughness=.82;
  const leafMaterial=new T.MeshStandardMaterial({color:0x596749,roughness:.87,side:T.DoubleSide,vertexColors:true});materials.push(leafMaterial);
  const stemMaterial=new T.MeshStandardMaterial({color:0x555240,roughness:1});materials.push(stemMaterial);
  const cloth=new T.MeshStandardMaterial({color:0x584952,roughness:1,side:T.DoubleSide});materials.push(cloth);
@@ -40,7 +40,8 @@ export function createKingdomEnvironment(maps:KingdomMaps){
      diffuseColor.rgb*=1.0-seam*.28;
     }
     float margin=max(smoothstep(9.5,13.0,abs(vStoneWorld.x)),1.0-smoothstep(-13.0,-9.0,vStoneWorld.z));
-    float stain=margin*(1.0-smoothstep(.2,2.4,vStoneWorld.y))*smoothstep(.43,.83,wear)*.4;
+    float stain=margin*(1.0-smoothstep(.15,2.1,vStoneWorld.y))*smoothstep(.32,.77,wear)*.58;
+    diffuseColor.rgb*=.91+.09*smoothstep(.12,.85,wear);
     diffuseColor.rgb*=1.0-stain*.32;
     diffuseColor.rgb=mix(diffuseColor.rgb,diffuseColor.rgb*vec3(.63,.8,.55),stain);`);
   };material.customProgramCacheKey=()=> 'kingdom-pbr-patina-v2';

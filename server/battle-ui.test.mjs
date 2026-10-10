@@ -1,8 +1,46 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createGame,projectGame,legalActions,applyAction,autoPass,CARDS,instance,DECKS,chooseAi} from './engine.mjs';
-import {attackPreview,unavailableReason,battleGuidance,findVisibleCard,monsterPresentation} from '../src/battleModel.ts';
+import {attackPreview,unavailableReason,battleGuidance,findVisibleCard,monsterPresentation,duelResultReason} from '../src/battleModel.ts';
+import {ACTIVATION_HOLD_MS,emptyActivationFeed,collectActivations,advanceActivation,currentChainCard,restoreActivationFeed} from '../src/activationFeed.ts';
+import {fieldMarker,packFieldMarkers} from '../src/fieldMarkers.ts';
+import {handFanLayout} from '../src/handFan.ts';
 const attackingGame=()=>{const g=createGame({scenario:'T02'});g.players[0].field[0].id='blue_eyes';g.players[1].field[0].id='battle_ox';return g;};
+test('hand fan keeps complete card proportions, symmetric spread and accessible exposed portions',()=>{
+ for(const [width,height] of [[340,144],[506,160],[768,266]])for(const count of [1,5,6,7]){
+  const layout=handFanLayout(width,height,count),first=layout.cards[0],last=layout.cards.at(-1);
+  assert.ok(Math.abs(layout.cardWidth/layout.cardHeight-813/1185)<.0001);
+  assert.ok(Math.abs(first.x+last.x)<.0001);assert.ok(Math.abs(first.angle+last.angle)<.0001);
+  assert.ok(first.x-layout.cardWidth/2>=-width/2+18);assert.ok(last.x+layout.cardWidth/2<=width/2-18);
+  layout.cards.forEach((card,i)=>{assert.ok(Number.isFinite(card.x));if(i)assert.ok(card.x-layout.cards[i-1].x>=44);});
+ }
+});
+test('oversized hands paginate without shrinking their exposed card targets below 44 pixels',()=>{
+ const layout=handFanLayout(340,144,40);
+ assert.ok(layout.capacity<40);assert.equal(layout.cards.length,layout.capacity);
+ assert.ok(layout.cardWidth>=68);assert.ok(layout.cardHeight>=96);
+ assert.equal(handFanLayout(506,160,0).cards.length,0);
+});
+test('face-down field markers disclose neither kind nor stats even if a private id is supplied',()=>{
+ const a=fieldMarker({uid:'a',id:'mirror_force',faceUp:false},false,'spells',2,CARDS);
+ const b=fieldMarker({uid:'b',id:'fissure',faceUp:false},false,'spells',2,CARDS);
+ assert.deepEqual(a,b);assert.equal(a.kind,'sealed');assert.equal(a.name,'对方盖牌');assert.equal(a.stat,'');assert.equal(a.number,'03');assert.doesNotMatch(a.ariaLabel,/神圣|地割/);
+ assert.equal(fieldMarker({uid:'a',id:'mirror_force',faceUp:false},true,'spells',2,CARDS).name,'神圣防护罩');
+});
+test('public field markers show only the revealed kind and correct combat values',()=>{
+ const spell=fieldMarker({uid:'a',id:'fissure',faceUp:true},false,'spells',0,CARDS,true);
+ assert.equal(spell.kind,'spell');assert.equal(spell.icon,'bolt');assert.equal(spell.status,'发动中');
+ const card={uid:'b',id:'battle_ox',faceUp:true,bonus:700,position:'attack'};
+ assert.equal(fieldMarker(card,true,'field',0,CARDS).stat,'ATK 2400');
+ assert.equal(fieldMarker({...card,position:'defense'},true,'field',0,CARDS).stat,'DEF 1000');
+});
+test('perspective-compressed rows retain separate touch targets and stable card ordering',()=>{
+ for(const viewport of [568,667,844,1280])for(const width of [44,76]){
+  const input=Array.from({length:5},(_,i)=>({id:String(i),x:viewport-170+i*25,width})),packed=packFieldMarkers(input,viewport);
+  for(let i=0;i<5;i++){const x=packed.get(String(i));assert.ok(x-width/2>=8);assert.ok(x+width/2<=viewport-8);if(i)assert.ok(x-packed.get(String(i-1))>=width+5);}
+ }
+ const spaced=[{id:'a',x:50,width:44},{id:'b',x:120,width:44}];assert.deepEqual([...packFieldMarkers(spaced,400)],[['a',50],['b',120]]);
+});
 test('attack preview matches authoritative LP damage after an unopposed attack',()=>{
  const game=attackingGame(),view=projectGame(game,0),action=view.legal.find(a=>a.kind==='attack');
  const preview=attackPreview(view,action,CARDS);assert.match(preview.text,/1300/);
@@ -74,4 +112,50 @@ test('normal AI uses a defensive monster to protect against stronger public atta
 test('featured summon presentation applies to other high-level and collected monsters',()=>{
  for(const id of ['summoned_skull','red_eyes','hyozanryu','seiyaryu'])assert.equal(monsterPresentation(CARDS[id]).featured,true,id);
  assert.equal(monsterPresentation(CARDS.battle_ox).featured,false);assert.notEqual(monsterPresentation(CARDS.battle_ox).color,monsterPresentation(CARDS.luster_dragon).color);
+});
+
+test('surrender results describe the viewer correctly without changing the authoritative winner',()=>{
+ const game=createGame({scenario:'T02'});applyAction(game,0,{kind:'surrender'});
+ assert.equal(duelResultReason(projectGame(game,0)),'你已投降');
+ assert.equal(duelResultReason(projectGame(game,1)),'对手投降');
+ assert.equal(game.result.winner,1);
+ assert.equal(duelResultReason({you:0,result:{winner:null,reason:'双方断线'}}),'双方断线');
+});
+
+test('opponent trap and countering spell stay identifiable after source cards leave the field',()=>{
+ const game=createGame({scenario:'T02'}),trap={...instance('mirror_force'),owner:1,faceUp:false,placedTurn:1};
+ game.players[1].spells[0]=trap;game.players[0].hand=[{...instance('mst'),owner:0}];
+ let feed=collectActivations(emptyActivationFeed(game.id),projectGame(game,0),CARDS);
+ assert.equal(feed.history.length,0,'knowing the card catalog does not expose a set card');
+ applyAction(game,0,legalActions(game,0).find(a=>a.kind==='attack'));
+ applyAction(game,1,legalActions(game,1).find(a=>a.kind==='activate'&&a.cardUid===trap.uid));
+ let view=projectGame(game,0);assert.equal(currentChainCard(view,CARDS).card.id,'mirror_force');assert.equal(currentChainCard(view,CARDS).player,1);
+ feed=collectActivations(feed,view,CARDS);assert.equal(feed.active.id,'mirror_force');
+ applyAction(game,0,legalActions(game,0).find(a=>a.kind==='activate'&&a.targetUid===trap.uid));
+ view=projectGame(game,0);assert.equal(currentChainCard(view,CARDS).card.id,'mst');
+ feed=collectActivations(feed,view,CARDS);assert.equal(feed.active.id,'mirror_force');assert.equal(feed.queue[0].id,'mst');
+ autoPass(game);feed=collectActivations(feed,projectGame(game,0),CARDS);
+ assert.ok(!game.players[1].spells.some(c=>c?.uid===trap.uid));assert.equal(feed.history[1].id,'mirror_force');
+ assert.equal(advanceActivation(feed).active.id,'mst');assert.equal(ACTIVATION_HOLD_MS,4000);
+});
+test('batched and repeated activations are queued once by event identity, not card name',()=>{
+ const events=[{type:'activate',id:'mst',player:1,eventId:'first'},{type:'activate',id:'mst',player:1,eventId:'second'}],view={id:'a',events};
+ const feed=collectActivations(emptyActivationFeed('a'),view,CARDS);
+ assert.equal(feed.active.key,'first');assert.equal(feed.queue[0].key,'second');assert.equal(feed.history.length,2);
+ assert.equal(collectActivations(feed,{...view,version:10},CARDS),feed);
+ const drained=advanceActivation(advanceActivation(feed));assert.equal(drained.active,null);assert.equal(drained.history.length,2);
+ assert.equal(collectActivations(feed,{id:'b',events:[]},CARDS).history.length,0);
+});
+test('activation records ignore non-public placements and invalid card or player identities',()=>{
+ const view={id:'a',events:[{type:'set',id:'mirror_force',player:1,eventId:'set'},{type:'summon',player:1,eventId:'summon'},{type:'activate',id:'not_in_catalog',player:1,eventId:'missing'},{type:'activate',id:'mst',player:4,eventId:'invalid'}]};
+ assert.equal(collectActivations(emptyActivationFeed('a'),view,CARDS).history.length,0);
+ assert.equal(currentChainCard({pending:{chain:[{player:1}]}},CARDS),null);
+});
+
+test('restoring an activation feed keeps history and shows only the live chain source',()=>{
+ const game={id:'restore',events:[{type:'activate',id:'fissure',player:1,eventId:'old'},{type:'activate',id:'mirror_force',player:1,eventId:'live'}],pending:{chain:[{id:'mirror_force',player:1}]}};
+ const restored=restoreActivationFeed(game,CARDS);
+ assert.equal(restored.active.id,'mirror_force');assert.deepEqual(restored.queue,[]);assert.deepEqual(restored.history.map(e=>e.id),['mirror_force','fissure']);
+ const settled=restoreActivationFeed({...game,pending:null},CARDS);assert.equal(settled.active,null);assert.equal(settled.history.length,2);
+ assert.equal(collectActivations(restored,game,CARDS),restored);
 });

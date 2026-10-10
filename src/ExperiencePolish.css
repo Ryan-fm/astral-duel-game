@@ -1,0 +1,37 @@
+/* Clear card affordances, restrained glass controls and a continuous world camera. */
+.in-game .hand-strip{gap:9px;filter:drop-shadow(0 10px 15px #03071180)}
+.in-game .mini-card{border-radius:5px;box-shadow:0 3px 0 #b8ae95,0 7px 15px #0008;filter:brightness(.92);transform-origin:50% 100%;transition:transform .18s ease,filter .18s ease,box-shadow .18s ease}
+.in-game .mini-card.legal{outline:1px solid #98dee1;outline-offset:1px;box-shadow:0 3px 0 #c9bd9e,0 5px 13px #0009,0 0 12px #79d1dc35}
+.in-game .mini-card:hover,.in-game .mini-card:focus-visible{transform:translateY(-20px) scale(1.07);filter:brightness(1.1);z-index:3}
+.in-game .mini-card.is-dragging{opacity:.16;transform:translateY(5px);filter:brightness(.65)}
+.in-game .field-card-control{border-radius:5px;backdrop-filter:blur(5px);box-shadow:0 4px 12px #0007;border-bottom:2px solid #8ebacb80}
+.in-game .field-card-control.is-target{border-color:#e7bd70;box-shadow:0 0 14px #e7bd7050}
+.in-game .battle-tools{gap:5px}
+.in-game .battle-tools .icon-btn{background:#0d2432d4;backdrop-filter:blur(7px);border-color:#89b5c14d;border-radius:6px}
+.in-game .battle-tools .icon-btn:hover{background:#214b5ae8;border-color:#b4e8ec}
+.in-game .battle-phase-dock>.primary-btn{background:linear-gradient(125deg,#265a6b,#0b3348);border-color:#90cfd4;box-shadow:0 7px 18px #0005,inset 0 1px #d9fcff30;min-height:50px}
+.in-game:has(.battle-inspector) .battle-phase-dock{display:flex}
+.in-game .battle-inspector{border-color:#aacbc15c;box-shadow:0 12px 30px #0007;border-radius:9px}
+.in-game .inspector-heading{min-height:44px}
+.in-game .inspector-heading .icon-btn{width:44px;height:44px}
+.in-game .inspector-actions button,.in-game .choice-buttons button{min-height:44px}
+.in-game .inspector-card h2{font-size:17px}
+.in-game .execute-card{background:linear-gradient(125deg,#366c68,#193e49);border-color:#a6ded2}
+.in-game .battle-objective{background:#102936d4;border-color:#c0d4c245;backdrop-filter:blur(8px)}
+.in-game .card-drag-guide:not(.dragging){background:#102736d4;border-color:#a7d2d145;box-shadow:0 6px 15px #0003;backdrop-filter:blur(8px)}
+.in-game .response-tray{box-shadow:0 8px 25px #0009;border-color:#ebd09a;backdrop-filter:blur(12px)}
+.in-game .response-options button{min-height:48px}
+.battle-command-status{position:absolute;left:50%;bottom:23%;transform:translateX(-50%);z-index:19;pointer-events:none;display:flex;align-items:center;gap:8px;padding:9px 15px;background:#0a2032ed;border:1px solid #8bcdd399;border-radius:20px;font-size:12px;color:#e2f5f4;box-shadow:0 5px 20px #0006}
+.battle-command-status svg{animation:command-spin 1s linear infinite}
+.duel-lp.has-loss strong{color:#ffd4ca;animation:lp-loss .4s ease-out}
+@keyframes command-spin{to{transform:rotate(360deg)}}
+@keyframes lp-loss{0%{transform:translateX(3px)}35%{transform:translateX(-3px)}100%{transform:translateX(0)}}
+@media(max-height:560px){
+ .in-game .hand-strip{gap:6px}
+ .in-game .mini-card:hover,.in-game .mini-card:focus-visible{transform:translateY(-10px) scale(1.04)}
+ .in-game .battle-phase-dock>.primary-btn{min-height:44px}
+ .in-game .inspector-heading{min-height:0;height:0}
+ .in-game .inspector-heading .icon-btn{position:absolute;right:0;top:0}
+ .battle-command-status{bottom:27%;padding:7px 12px;font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){.in-game .mini-card{transition:none}.duel-lp.has-loss strong,.battle-command-status svg{animation:none}}
