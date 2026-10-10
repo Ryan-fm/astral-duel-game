@@ -129,3 +129,6 @@ Toy 版现可通过联机入口连接独立对战服务，支持在线匹配、�
 不使用 Redis 时运行 `npm run build:solo`，生成 `dist/solo/game.html`；Toy 使用 `npm run build:toy:solo`，生成 `dist/toy/index.html`。规则直接在浏览器运行，人机、抽卡、收藏、组卡保留，匹配／好友入口关闭。Toy 正式环境仍接账号云存档及挑战排行榜；普通静态预览只在页面内存暂存，刷新不保留。服务端也可配置 `DUEL_ONLINE_ENABLED=0` 提供关闭状态而不初始化 Redis。联机入口在连接前检查可用性，失败不覆盖原 Toy 存档。
 
 详细验证与部署步骤见 [免费资源与部署记录](../online-pk-review/DEPLOYMENT.md)。Vercel Hobby 公网服务已部署并共用现有免费库。真实 HTTPS/WSS 已验证匹配、好友 PK、隐藏手牌、请求去重、恢复同局及五分钟函数轮换后的自动重连。Toy 包使用该公网地址；预览页因没有作品 ID 使用临时身份，正式页面继续使用账号云凭证。当前清权问题仍记录为未解除。
+
+
+Toy 发布兼容性：`prepare-toy-build.mjs` 将扫描岩壁的 `.gltf` 以字节相同的 `.json` 别名分发，并保留同目录的二进制与纹理依赖，避免 Toy 预览对 `.gltf` 返回 404。公网版仍使用原始资产。联网 Toy 包需同时设置 `VITE_DUEL_SERVER_URL=https://astral-duel-game.vercel.app` 与 `VITE_DUEL_SOCKET_PATH=/api/duel/socket.io`。

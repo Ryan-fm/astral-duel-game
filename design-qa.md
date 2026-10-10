@@ -193,3 +193,8 @@ Findings: 无本轮范围内待修复的 P0／P1／P2。P3：原图裁去的底�
 Implementation checklist: 对照手牌层次、选中态和窄屏；确认点击／拖放／取消；保留本地预览，发布等待用户确认。以上均已完成。
 
 final result: passed
+
+
+## Toy publication compatibility · 2026-10-10
+
+The uploaded preview rendered a fallback island because the platform served the scanned-cliff `.gltf` as HTTP 404, while its `.bin`, textures and HDR were HTTP 200. The Toy build now uses a `.json` transport alias with identical model bytes and unchanged relative dependencies; the full-server asset remains untouched. The build checks the model reference and byte identity, preserves the public online endpoint / socket path, and both folder and ZIP content doctor remain clean. Platform verification of the replacement preview follows before review confirmation.
