@@ -3,18 +3,19 @@ import {ArrowRight,ArrowLeft,X,Sword,Lightning,Eye,Clock,Check,Shield,Warning} f
 import {attackPreview,battleGuidance,unavailableReason,findVisibleCard} from './battleModel';
 import './BattleControls.css';
 
-const keyNames:Record<string,string>={position:'表示',zone:'区域',tributes:'祭品',targetUid:'目标'};
+const keyNames:Record<string,string>={position:'表示',zone:'区域',tributes:'祭品',targetUid:'目标',fusionId:'融合怪兽',ritualUid:'仪式怪兽',materialUids:'融合素材'};
 export function BattleInspector({game,card,catalog,effectText,kinds,kind,names,selections,action,onKind,onChoice,onExecute,onClose,onZoom,busy,dragToPlay=false,dropConfirmed=false}:{game:any,card:any,catalog:Record<string,any>,effectText?:string,kinds:string[],kind:string,names:Record<string,string>,selections:any[],action:any,onKind:(kind:string)=>void,onChoice:(index:number,value:string)=>void,onExecute:(a:any)=>void,onClose:()=>void,onZoom:()=>void,busy:boolean,dragToPlay?:boolean,dropConfirmed?:boolean}){
  const d=catalog[card?.id],preview=attackPreview(game,action,catalog);
  const label=(key:string,raw:string)=>{
   const value=JSON.parse(raw);
   if(key==='position')return value==='attack'?'攻击表示':kind==='summon'?'盖放守备':'守备表示';
+  if(key==='fusionId')return catalog[value]?.name||value;
   if(key==='zone')return `${value+1}`;
-  const name=(uid:string)=>{const c=findVisibleCard(game,uid);return `${c?.player===game.you?'我方':'对方'} · ${catalog[c?.card.id]?.name||'未知盖牌'}`;};
-  if(key==='tributes')return value.length?value.map(name).join(' + '):'无需祭品';
+  const name=(uid:string)=>{const c=findVisibleCard(game,uid);const d=catalog[c?.card.id];return `${c?.area==='hand'?'手牌':c?.area==='field'?'场上':c?.player===game.you?'我方':'对方'} · ${d?.name||'未知盖牌'}${['tributes','materialUids'].includes(key)?` ★${d?.level||0}`:''}`;};
+  if(['tributes','materialUids'].includes(key))return value.length?value.map(name).join(' + ')+(key==='tributes'&&action?.ritualUid?`（总等级 ${value.reduce((s:number,uid:string)=>s+(catalog[findVisibleCard(game,uid)?.card.id]?.level||0),0)}）`:''):'无需祭品';
   return value===null?'直接攻击对手':name(value);
  };
- const visibleSelections=selections.filter(s=>!(dragToPlay&&s.key==='zone')&&(!dragToPlay||dropConfirmed||!['tributes','targetUid'].includes(s.key))&&(s.key!=='tributes'||JSON.parse(s.value).length));
+ const visibleSelections=selections.filter(s=>!(dragToPlay&&s.key==='zone')&&(!dragToPlay||dropConfirmed||!['tributes','targetUid','fusionId','ritualUid','materialUids'].includes(s.key))&&(s.key!=='tributes'||JSON.parse(s.value).length));
  return <aside className="battle-inspector" aria-label="卡牌操作面板">
   <div className="inspector-heading"><span>已选卡牌</span><button className="icon-btn" aria-label="收起卡牌操作" onClick={onClose}><X/></button></div>
   <div className="inspector-card"><button onClick={onZoom} aria-label="放大完整卡面"><img src={d?.face||'/game-assets/card-back.png'} alt={d?.name||'未知盖牌'}/><Eye size={16}/></button><div><small>{d?.kind==='monster'?'怪兽':d?.kind==='spell'?'魔法':d?.kind==='trap'?'陷阱':'隐藏卡牌'}</small><h2>{d?.name||'未知盖牌'}</h2>{d?.kind==='monster'&&<strong>ATK {d.atk+(card?.bonus||0)}<br/>DEF {d.def}<span className="inspector-level"> · 等级 {d.level}</span></strong>}</div></div>
@@ -25,7 +26,7 @@ export function BattleInspector({game,card,catalog,effectText,kinds,kind,names,s
    </>:<div className="unavailable-reason"><Warning size={17}/>{unavailableReason(game,card,catalog)}</div>}
   </div>
   {kinds.length>0&&dragToPlay&&!dropConfirmed&&<div className="drag-placement-note">拖出手牌即可出牌</div>}
-  {kinds.length>0&&(!dragToPlay||dropConfirmed)&&<button className="primary-btn execute-card" aria-label={kind==='summon'?'确认召唤':undefined} disabled={!action||busy||game.paused||!!game.result} onClick={()=>onExecute(action)}>{kind==='attack'?'确认攻击':kind==='summon'?JSON.parse(selections.find(s=>s.key==='position')?.value||'"attack"')==='defense'?'确认盖放':action?.tributes?.length?`解放 ${action.tributes.length} 只 · 召唤`:'确认召唤':names[kind]} <Lightning/></button>}
+  {kinds.length>0&&(!dragToPlay||dropConfirmed)&&<button className="primary-btn execute-card" aria-label={kind==='summon'?'确认召唤':undefined} disabled={!action||busy||game.paused||!!game.result} onClick={()=>onExecute(action)}>{action?.fusionId?'确认融合召唤':action?.ritualUid?'确认仪式召唤':kind==='attack'?'确认攻击':kind==='summon'?JSON.parse(selections.find(s=>s.key==='position')?.value||'"attack"')==='defense'?'确认盖放':action?.tributes?.length?`解放 ${action.tributes.length} 只 · 召唤`:'确认召唤':names[kind]} <Lightning/></button>}
  </aside>;
 }
 export function BattleResponse({game,catalog,response,busy,onSelect,onExecute}:{game:any,catalog:Record<string,any>,response:number|null,busy:boolean,onSelect:(uid:string)=>void,onExecute:(a:any)=>void}){
@@ -55,7 +56,7 @@ export function BattleFeedback({game,reduced=false}:{game:any,reduced?:boolean})
 }
 export function BattleSummonCue({game,catalog,enabled,skip=0}:{game:any,catalog:Record<string,any>,enabled:boolean,skip?:number}){
  const seen=useRef(new Set<string>()),[card,setCard]=useState<any>(null),event=game.events?.filter((e:any)=>e.type==='summon').at(-1),eventKey=event?(event.eventId||event.id+':'+event.uid):null;
- useEffect(()=>{setCard(null);if(!event||!enabled||seen.current.has(eventKey))return;seen.current.add(eventKey);setCard(catalog[event.id]);const timer=setTimeout(()=>setCard(null),2100);return()=>clearTimeout(timer);},[game.id,eventKey,enabled,skip]);
+ useEffect(()=>{setCard(null);if(!event||!enabled||seen.current.has(eventKey))return;seen.current.add(eventKey);setCard({...catalog[event.id],summonType:event.summonType});const timer=setTimeout(()=>setCard(null),2100);return()=>clearTimeout(timer);},[game.id,eventKey,enabled,skip]);
  // Event identity is separate from the public card definition id.
- return card?<div className="summon-cue" role="status"><small>MONSTER SUMMON</small><b>{card.name}</b><span>ATK {card.atk} · DEF {card.def}</span></div>:null;
+ return card?<div className={"summon-cue "+(card.summonType||'normal')} role="status"><small>{card.summonType==='fusion'?'FUSION SUMMON · 融合召唤':card.summonType==='ritual'?'RITUAL SUMMON · 仪式召唤':'MONSTER SUMMON'}</small><b>{card.name}</b><span>ATK {card.atk} · DEF {card.def}</span></div>:null;
 }

@@ -1,20 +1,21 @@
 import { readFileSync } from 'node:fs';
 import { randomUUID, randomInt } from 'node:crypto';
+import {specialSpellActions,resolveSpecialSpell,canRevive} from './classicSummons.mjs';
 
 export const CARDS = {...JSON.parse(readFileSync(new URL('../src/cards.json', import.meta.url))),...JSON.parse(readFileSync(new URL('./hidden-cards.json', import.meta.url)))};
 export const DECKS = JSON.parse(readFileSync(new URL('./decks.json', import.meta.url)));
 export const SCENARIOS = JSON.parse(readFileSync(new URL('./scenarios.json', import.meta.url)));
-export const RULES_VERSION = 'classic-strategies-v2';
+export const RULES_VERSION = 'classic-dm-v3';
 const cnPhase = { main1:'主要阶段 1', battle:'战斗阶段', main2:'主要阶段 2' };
 export const attackValue = c => CARDS[c.id].atk + (c.bonus || 0);
 const monster = c => c && CARDS[c.id]?.kind === 'monster';
 export function instance(id) { return { uid:randomUUID(), id, faceUp:true, position:'attack', bonus:0, summonedTurn:-1, switchedTurn:-1, attacked:false, placedTurn:-1 }; }
 const shuffle = array => { for(let i=array.length-1;i>0;i--){const j=randomInt(i+1);[array[i],array[j]]=[array[j],array[i]];} return array; };
 const deckFor = id => { const deck=DECKS.find(d=>d.id===id); if(!deck)throw new Error('无效卡组'); return shuffle(deck.cards.flatMap(e=>Array.from({length:e.count},()=>instance(e.card_id)))); };
-const blankPlayer = (name,deckId,list) => ({name,deckId,lp:8000,hand:[],deck:list?shuffle(list.map(instance)):deckFor(deckId),grave:[],field:Array(5).fill(null),spells:Array(5).fill(null),normalUsed:false});
-export function createGame({id=randomUUID(),mode='practice',names=['决斗者','AI'],decks=['tempo_starter','dark_magician_starter'],deckLists=[],scenario=null,now=Date.now(),timed=false}={}){
-  const g={id,mode,scenario,rulesVersion:RULES_VERSION,version:0,turn:1,active:0,phase:'main1',players:names.map((n,i)=>blankPlayer(n,decks[i],deckLists[i])),window:null,pending:null,log:[],events:[],result:null,deadline:timed?now+120000:null,timed,ownTurns:1};
-  for(let i=0;i<g.players.length;i++){const p=g.players[i];for(const c of p.deck)c.owner=i;p.hand=p.deck.splice(0,5);}
+const blankPlayer = (name,deckId,list,extra) => ({name,deckId,lp:8000,hand:[],deck:list?shuffle(list.map(instance)):deckFor(deckId),grave:[],extraDeck:(extra||DECKS.find(d=>d.id===deckId)?.extra||[]).map(instance),field:Array(5).fill(null),spells:Array(5).fill(null),normalUsed:false});
+export function createGame({id=randomUUID(),mode='practice',names=['决斗者','AI'],decks=['tempo_starter','dark_magician_starter'],deckLists=[],extraLists=[],scenario=null,now=Date.now(),timed=false}={}){
+  const g={id,mode,scenario,rulesVersion:RULES_VERSION,version:0,turn:1,active:0,phase:'main1',players:names.map((n,i)=>blankPlayer(n,decks[i],deckLists[i],extraLists[i])),window:null,pending:null,log:[],events:[],result:null,deadline:timed?now+120000:null,timed,ownTurns:1};
+  for(let i=0;i<g.players.length;i++){const p=g.players[i];for(const c of [...p.deck,...p.extraDeck])c.owner=i;p.hand=p.deck.splice(0,5);}
   if(scenario)setupScenario(g,scenario,now);
   log(g,'决斗开始 · '+cnPhase[g.phase]);
   return g;
@@ -47,7 +48,8 @@ function effectActions(g,p,c,source,reactive){
    if(['mirror_force','negate_attack','magic_cylinder'].includes(c.id)&&g.pending?.kind==='attack')return [{...base,targetUid:g.pending.uid}];
    return [];
  }
- if(c.id==='monster_reborn')return targetList(g,'grave').filter(t=>monster(locate(g,t.uid)?.card)).flatMap(t=>freeSlots(me.field).flatMap(zone=>['attack','defense'].map(position=>({...base,targetUid:t.uid,zone,position}))));
+ const special=specialSpellActions(me,c,base,CARDS);if(special)return special;
+ if(c.id==='monster_reborn')return targetList(g,'grave').filter(t=>canRevive(locate(g,t.uid)?.card,CARDS)).flatMap(t=>freeSlots(me.field).flatMap(zone=>['attack','defense'].map(position=>({...base,targetUid:t.uid,zone,position}))));
  if(c.id==='fissure')return other.field.some(x=>x?.faceUp)?[base]:[];
  if(c.id==='mst')return targetList(g,'spells').filter(t=>t.uid!==c.uid).map(t=>({...base,targetUid:t.uid}));
  if(c.id==='rush_recklessly')return targetList(g,'field',true).map(t=>({...base,targetUid:t.uid}));
@@ -68,7 +70,7 @@ export function legalActions(g,p){
  if(g.active!==p)return [];
  if(g.phase==='discard')return me.hand.map(c=>({kind:'discard',cardUid:c.uid}));
  if(g.phase==='main1'||g.phase==='main2'){
-   if(!me.normalUsed){const occupied=me.field.filter(Boolean).map(c=>c.uid);for(const c of me.hand)if(monster(c)){
+   if(!me.normalUsed){const occupied=me.field.filter(Boolean).map(c=>c.uid);for(const c of me.hand)if(monster(c)&&!CARDS[c.id].summonType){
      const need=CARDS[c.id].level>=7?2:CARDS[c.id].level>=5?1:0;
      for(const tributes of combos(occupied,need)){
        const zones=me.field.flatMap((x,i)=>!x||tributes.includes(x.uid)?[i]:[]);
@@ -94,7 +96,7 @@ export function legalActions(g,p){
  if(g.phase==='main1'&&g.turn!==1)actions.push({kind:'phase',phase:'end'});
  return actions;
 }
-const actionKey=a=>JSON.stringify(Object.fromEntries(Object.entries(a).sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>[k,k==='tributes'?[...v].sort():v])));
+const actionKey=a=>JSON.stringify(Object.fromEntries(Object.entries(a).sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>[k,['tributes','materialUids'].includes(k)?[...v].sort():v])));
 function openWindow(g,p,now){g.window={responder:p,passes:0,deadline:g.timed?Math.min(now+15000,g.deadline??Infinity):null,speed:2};}
 function newPriority(g,p,now,speed=2){g.window={responder:p,passes:0,deadline:g.timed?Math.min(now+15000,g.deadline??Infinity):null,speed};}
 function objective(g){
@@ -102,6 +104,7 @@ function objective(g){
  if(g.scenario==='T01'&&g.players[0].field.some(Boolean))finish(g,0,'教学完成：召唤与站位');
  if(g.scenario==='C01'&&g.players[0].field.some(c=>c?.uid===g.goalUid&&c.faceUp))finish(g,0,'挑战完成：上级召唤');
  if(g.scenario==='C04'&&g.players[0].field.some(c=>c?.uid===g.goalUid&&c.faceUp))finish(g,0,'挑战完成：资源再生');
+ if(['T04','T05'].includes(g.scenario)&&g.players[0].field.some(c=>c?.properSummoned&&CARDS[c.id].summonType===(g.scenario==='T04'?'fusion':'ritual')))finish(g,0,'教学完成：'+(g.scenario==='T04'?'融合召唤':'仪式召唤'));
  if(g.scenario==='C02'&&g.ownTurns>2)finish(g,1,'挑战失败：超过两个我方回合');
 }
 export function applyAction(g,p,input,now=Date.now()){
@@ -142,7 +145,8 @@ export function applyAction(g,p,input,now=Date.now()){
 }
 function resolveEffect(g,e){
  const me=g.players[e.player],op=g.players[1-e.player];const target=locate(g,e.targetUid);
- if(e.id==='monster_reborn'&&target?.area==='grave'&&!me.field[e.zone]){
+ if(resolveSpecialSpell(g,e,CARDS,{locate,remove,bury,event,log})){}
+ else if(e.id==='monster_reborn'&&target?.area==='grave'&&canRevive(target.card,CARDS)&&!me.field[e.zone]){
    const c=target.card;remove(g,target);c.faceUp=true;c.position=e.position;c.summonedTurn=g.turn;c.attacked=false;c.bonus=0;me.field[e.zone]=c;event(g,'summon',{id:c.id,uid:c.uid,player:e.player});
  }else if(e.id==='fissure'){
    const list=op.field.filter(c=>c?.faceUp).sort((a,b)=>attackValue(a)-attackValue(b));if(list.length)bury(g,list[0].uid);
@@ -199,8 +203,8 @@ export function tickGame(g,now=Date.now()){
 }
 export function projectGame(g,p){
  const visible=(c,owner)=>!c?null:owner===p||c.faceUp?{...c}:({uid:c.uid,hidden:true,faceUp:false,position:c.position});
- const players=g.players.map((v,owner)=>({name:v.name,deckId:v.deckId,appearance:v.appearance||{back:'default',summon:'default'},lp:v.lp,handCount:v.hand.length,deckCount:v.deck.length,hand:owner===p?v.hand.map(c=>({...c})):[],grave:v.grave.map(c=>({...c})),field:v.field.map(c=>visible(c,owner)),spells:v.spells.map(c=>visible(c,owner)),normalUsed:v.normalUsed}));
- const exposedIds=new Set(players.flatMap(v=>[...v.hand,...v.field,...v.spells,...v.grave]).filter(Boolean).map(c=>c.id).filter(Boolean));const cardCatalog=Object.fromEntries([...exposedIds].filter(id=>CARDS[id]?.hiddenPool).map(id=>[id,CARDS[id]]));
+ const players=g.players.map((v,owner)=>({name:v.name,deckId:v.deckId,appearance:v.appearance||{back:'default',summon:'default'},lp:v.lp,handCount:v.hand.length,deckCount:v.deck.length,hand:owner===p?v.hand.map(c=>({...c})):[],extraCount:v.extraDeck.length,extraDeck:owner===p?v.extraDeck.map(c=>({...c})):[],grave:v.grave.map(c=>({...c})),field:v.field.map(c=>visible(c,owner)),spells:v.spells.map(c=>visible(c,owner)),normalUsed:v.normalUsed}));
+ const exposedIds=new Set(players.flatMap(v=>[...v.hand,...v.extraDeck,...v.field,...v.spells,...v.grave]).filter(Boolean).map(c=>c.id).filter(Boolean));const cardCatalog=Object.fromEntries([...exposedIds].filter(id=>CARDS[id]?.hiddenPool).map(id=>[id,CARDS[id]]));
  return {cardCatalog,id:g.id,mode:g.mode,scenario:g.scenario,rulesVersion:g.rulesVersion,version:g.version,you:p,active:g.active,turn:g.turn,phase:g.phase,deadline:g.deadline,players,window:g.window?{...g.window}:null,pending:g.pending?{kind:g.pending.kind,player:g.pending.player,uid:g.pending.uid,targetUid:g.pending.targetUid,chain:g.pending.chain.map(c=>({id:c.id,player:c.player})),amount:g.pending.amount}:null,log:g.log,events:g.events,result:g.result,legal:legalActions(g,p),serverNow:Date.now()};
 }
 function setupScenario(g,id,now){
@@ -209,8 +213,10 @@ function setupScenario(g,id,now){
  const put=(p,area,zone,id,props={})=>{const c=Object.assign(instance(id),{owner:p,summonedTurn:1,placedTurn:1},props);if(['field','spells'].includes(area))g.players[p][area][zone]=c;else g.players[p][area].push(c);return c;};
  if(id==='T01'){put(0,'hand',0,'celtic_guardian');}
  if(id==='C01'){const preset=DECKS.find(d=>d.id===g.players[0].deckId),ace=preset?.ace_card;
-   const boss=CARDS[ace]?.level>=5?ace:g.players[0].deck.filter(c=>CARDS[c.id]?.level>=5).sort((a,b)=>attackValue(b)-attackValue(a))[0]?.id||'summoned_skull';
+   const boss=CARDS[ace]?.level>=5&&!CARDS[ace].summonType?ace:g.players[0].deck.filter(c=>CARDS[c.id]?.level>=5&&!CARDS[c.id].summonType).sort((a,b)=>attackValue(b)-attackValue(a))[0]?.id||'summoned_skull';
    put(0,'field',0,'celtic_guardian');put(0,'field',1,'mystical_elf');g.goalUid=put(0,'hand',0,boss).uid;}
+ if(id==='T04'){g.players[0].extraDeck=[Object.assign(instance('gaia_dragon_champion'),{owner:0})];put(0,'hand',0,'polymerization');put(0,'hand',0,'gaia');put(0,'field',0,'curse_of_dragon',{faceUp:false,position:'defense'});}
+ if(id==='T05'){put(0,'hand',0,'black_luster_ritual');put(0,'hand',0,'black_luster_soldier');put(0,'hand',0,'celtic_guardian');put(0,'field',0,'mystical_elf');}
  if(id==='T02'){g.phase='battle';put(0,'field',0,'battle_ox');put(1,'field',0,'celtic_guardian');}
  if(id==='C02'){g.phase='battle';put(0,'field',0,'celtic_guardian');put(0,'hand',0,'rush_recklessly');put(1,'field',0,'giant_soldier',{position:'defense'});g.players[1].lp=1400;}
  if(id==='C04'){g.players[0].normalUsed=true;g.goalUid=put(0,'grave',0,'summoned_skull').uid;put(0,'hand',0,'monster_reborn');}
@@ -232,6 +238,7 @@ export function chooseAi(g,p,difficulty='normal'){
    if(a.kind==='kuriboh')return 120;
    if(a.kind==='activate'){
      if(['mirror_force','magic_cylinder','negate_attack','trap_hole'].includes(c.id))return 100;
+     if(a.fusionId||a.ritualUid){const target=a.fusionId?CARDS[a.fusionId]:CARDS[find(a.ritualUid)?.id];const cost=(a.materialUids||a.tributes||[]).reduce((sum,uid)=>sum+(CARDS[find(uid)?.id]?.atk||0),0);return (target?.atk||0)/25-cost/(difficulty==='hard'?100:200)+(a.position==='attack'?8:0);}
      if(c.id==='monster_reborn')return (td?.atk||0)/25+(a.position==='attack'?5:0);
      if(c.id==='fissure')return op.field.some(x=>x?.faceUp)?80:-30;
      if(c.id==='mst')return op.spells.some(x=>x?.uid===a.targetUid)?(t?.faceUp?40:20):-60;

@@ -1,0 +1,23 @@
+素材与版权说明 · 2026-10-10
+
+这是非官方本地评审原型，目前未取得游戏王相关内容的公开发布授权。相关卡图、角色、名称及其他第三方内容的权利属于各自权利人；本项目不声称获得 KONAMI 或其他权利人的认可。来源标注、免费、同人或 AI 生成说明都不替代发布许可。
+
+完整卡图与裁剪插画：46 种卡牌的 92 个文件通过 YGOPRODeck API/图片服务取得并缓存。API 使用说明不构成本项目对游戏王内容的游戏分发、改编或商标使用授权。
+青眼、黑魔导、入场图及部分其他美术：AI 生成或用户提供。保留既有角色形象的重画不等于原创 IP 授权；其余生成素材仍需许可与相似性复核。
+配乐：四首 AI 辅助生成器乐，由 doubao_music 工作流生成，再进行循环及音量处理。提示词要求全新旋律，不引入动画配乐；具体服务许可与旋律相似性仍待复核。
+提示音：代码中使用 Web Audio 振荡器合成，未发现外部音效采样。
+
+可追溯的环境资产（CC0）：
+Monastery Stone Floor — Amal Kumar — https://polyhaven.com/a/monastery_stone_floor
+Sandstone Cracks — Rob Tuytel — https://polyhaven.com/a/sandstone_cracks
+Kloppenheim 06 (Pure Sky) — Greg Zaal / Jarod Guest — https://polyhaven.com/a/kloppenheim_06_puresky
+Rock Face 01 — Dario Barresi — https://polyhaven.com/a/rock_face_01
+Leafy Grass — Charlotte Baglioni — https://polyhaven.com/a/leafy_grass
+Pine Tree 01 — photography Rob Tuytel / modeling Rico Cilliers — https://polyhaven.com/a/pine_tree_01
+Asset license: https://polyhaven.com/license
+CC0 applies to the asset downloads, not website logos, avatars, example renders or unrelated game artwork.
+
+程序化场景几何和交互代码在本项目开发；不据此声明整个应用素材已经获得发行许可。
+开源代码、图标、字体许可全文见同目录 THIRD-PARTY-NOTICES.txt。库许可不适用于游戏王素材。
+
+详细权利台账：项目 legal/asset-rights.json。公开发布前必须解决 legal/release-policy.json 中的待确认项，并另行取得用户对 PR/Toy 更新的确认。

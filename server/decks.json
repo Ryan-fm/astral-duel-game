@@ -282,5 +282,171 @@
         "count": 2
       }
     ]
+  },
+  {
+    "id": "dm_fusion_starter",
+    "name": "融合 · 龙骑士之约",
+    "ace_card": "gaia_dragon_champion",
+    "subtitle": "素材组合 · 额外卡组",
+    "description": "用融合汇集手牌与场上素材，召唤龙骑士盖亚、炎之剑士或黑魔龙；保留通常召唤构筑防线。",
+    "cards": [
+      {
+        "card_id": "gaia",
+        "count": 3
+      },
+      {
+        "card_id": "curse_of_dragon",
+        "count": 3
+      },
+      {
+        "card_id": "flame_manipulator",
+        "count": 3
+      },
+      {
+        "card_id": "masaki",
+        "count": 3
+      },
+      {
+        "card_id": "red_eyes",
+        "count": 2
+      },
+      {
+        "card_id": "summoned_skull",
+        "count": 2
+      },
+      {
+        "card_id": "celtic_guardian",
+        "count": 3
+      },
+      {
+        "card_id": "mystical_elf",
+        "count": 3
+      },
+      {
+        "card_id": "polymerization",
+        "count": 3
+      },
+      {
+        "card_id": "monster_reborn",
+        "count": 1
+      },
+      {
+        "card_id": "fissure",
+        "count": 2
+      },
+      {
+        "card_id": "mst",
+        "count": 2
+      },
+      {
+        "card_id": "rush_recklessly",
+        "count": 2
+      },
+      {
+        "card_id": "mirror_force",
+        "count": 2
+      },
+      {
+        "card_id": "trap_hole",
+        "count": 2
+      },
+      {
+        "card_id": "negate_attack",
+        "count": 2
+      },
+      {
+        "card_id": "magic_cylinder",
+        "count": 2
+      }
+    ],
+    "extra": [
+      "gaia_dragon_champion",
+      "gaia_dragon_champion",
+      "gaia_dragon_champion",
+      "flame_swordsman",
+      "flame_swordsman",
+      "flame_swordsman",
+      "b_skull_dragon",
+      "b_skull_dragon",
+      "b_skull_dragon"
+    ]
+  },
+  {
+    "id": "dm_ritual_starter",
+    "name": "仪式 · 混沌降临",
+    "ace_card": "black_luster_soldier",
+    "subtitle": "等级合计 · 仪式解放",
+    "description": "用配套仪式魔法和手牌、场上怪兽的等级召唤混沌战士或混沌黑魔术师；仪式不消耗通常召唤次数。",
+    "cards": [
+      {
+        "card_id": "black_luster_soldier",
+        "count": 3
+      },
+      {
+        "card_id": "magician_black_chaos",
+        "count": 3
+      },
+      {
+        "card_id": "black_luster_ritual",
+        "count": 3
+      },
+      {
+        "card_id": "black_magic_ritual",
+        "count": 3
+      },
+      {
+        "card_id": "celtic_guardian",
+        "count": 3
+      },
+      {
+        "card_id": "mystical_elf",
+        "count": 3
+      },
+      {
+        "card_id": "battle_ox",
+        "count": 3
+      },
+      {
+        "card_id": "luster_dragon",
+        "count": 3
+      },
+      {
+        "card_id": "giant_soldier",
+        "count": 2
+      },
+      {
+        "card_id": "kuriboh",
+        "count": 2
+      },
+      {
+        "card_id": "monster_reborn",
+        "count": 1
+      },
+      {
+        "card_id": "fissure",
+        "count": 2
+      },
+      {
+        "card_id": "mst",
+        "count": 2
+      },
+      {
+        "card_id": "rush_recklessly",
+        "count": 2
+      },
+      {
+        "card_id": "mirror_force",
+        "count": 2
+      },
+      {
+        "card_id": "negate_attack",
+        "count": 2
+      },
+      {
+        "card_id": "magic_cylinder",
+        "count": 1
+      }
+    ],
+    "extra": []
   }
 ]

@@ -13,7 +13,8 @@
     "quick": false,
     "counter": false,
     "source": "https://ygoprodeck.com/card/blue-eyes-white-dragon-7485",
-    "face": "/game-assets/cards/full/blue_eyes.jpg"
+    "face": "/game-assets/cards/full/blue_eyes.jpg",
+    "era": "DM"
   },
   "dark_magician": {
     "id": "dark_magician",
@@ -29,7 +30,8 @@
     "quick": false,
     "counter": false,
     "source": "https://ygoprodeck.com/card/dark-magician-4003",
-    "face": "/game-assets/cards/full/dark_magician.jpg"
+    "face": "/game-assets/cards/full/dark_magician.jpg",
+    "era": "DM"
   },
   "red_eyes": {
     "id": "red_eyes",
@@ -45,7 +47,8 @@
     "quick": false,
     "counter": false,
     "source": "https://ygoprodeck.com/card/red-eyes-black-dragon-6276",
-    "face": "/game-assets/cards/full/red_eyes.jpg"
+    "face": "/game-assets/cards/full/red_eyes.jpg",
+    "era": "DM"
   },
   "summoned_skull": {
     "id": "summoned_skull",
@@ -61,7 +64,8 @@
     "quick": false,
     "counter": false,
     "source": "https://ygoprodeck.com/card/summoned-skull-5941",
-    "face": "/game-assets/cards/full/summoned_skull.jpg"
+    "face": "/game-assets/cards/full/summoned_skull.jpg",
+    "era": "DM"
   },
   "luster_dragon": {
     "id": "luster_dragon",
@@ -77,7 +81,8 @@
     "quick": false,
     "counter": false,
     "source": "https://ygoprodeck.com/card/luster-dragon-958",
-    "face": "/game-assets/cards/full/luster_dragon.jpg"
+    "face": "/game-assets/cards/full/luster_dragon.jpg",
+    "era": "DM"
   },
   "battle_ox": {
     "id": "battle_ox",
@@ -93,7 +98,8 @@
     "quick": false,
     "counter": false,
     "source": "https://ygoprodeck.com/card/battle-ox-451",
-    "face": "/game-assets/cards/full/battle_ox.jpg"
+    "face": "/game-assets/cards/full/battle_ox.jpg",
+    "era": "DM"
   },
   "celtic_guardian": {
     "id": "celtic_guardian",
@@ -109,7 +115,8 @@
     "quick": false,
     "counter": false,
     "source": "https://ygoprodeck.com/card/celtic-guardian-7610",
-    "face": "/game-assets/cards/full/celtic_guardian.jpg"
+    "face": "/game-assets/cards/full/celtic_guardian.jpg",
+    "era": "DM"
   },
   "mystical_elf": {
     "id": "mystical_elf",
@@ -125,7 +132,8 @@
     "quick": false,
     "counter": false,
     "source": "https://ygoprodeck.com/card/mystical-elf-1289",
-    "face": "/game-assets/cards/full/mystical_elf.jpg"
+    "face": "/game-assets/cards/full/mystical_elf.jpg",
+    "era": "DM"
   },
   "giant_soldier": {
     "id": "giant_soldier",
@@ -141,7 +149,8 @@
     "quick": false,
     "counter": false,
     "source": "https://ygoprodeck.com/card/giant-soldier-of-stone-1125",
-    "face": "/game-assets/cards/full/giant_soldier.jpg"
+    "face": "/game-assets/cards/full/giant_soldier.jpg",
+    "era": "DM"
   },
   "kuriboh": {
     "id": "kuriboh",
@@ -157,7 +166,8 @@
     "quick": false,
     "counter": false,
     "source": "https://ygoprodeck.com/card/kuriboh-3456",
-    "face": "/game-assets/cards/full/kuriboh.jpg"
+    "face": "/game-assets/cards/full/kuriboh.jpg",
+    "era": "DM"
   },
   "monster_reborn": {
     "id": "monster_reborn",
@@ -173,7 +183,8 @@
     "quick": false,
     "counter": false,
     "source": "https://ygoprodeck.com/card/monster-reborn-7027",
-    "face": "/game-assets/cards/full/monster_reborn.jpg"
+    "face": "/game-assets/cards/full/monster_reborn.jpg",
+    "era": "DM"
   },
   "fissure": {
     "id": "fissure",
@@ -189,7 +200,8 @@
     "quick": false,
     "counter": false,
     "source": "https://ygoprodeck.com/card/fissure-5609",
-    "face": "/game-assets/cards/full/fissure.jpg"
+    "face": "/game-assets/cards/full/fissure.jpg",
+    "era": "DM"
   },
   "mst": {
     "id": "mst",
@@ -205,7 +217,8 @@
     "quick": true,
     "counter": false,
     "source": "https://ygoprodeck.com/card/mystical-space-typhoon-470",
-    "face": "/game-assets/cards/full/mst.jpg"
+    "face": "/game-assets/cards/full/mst.jpg",
+    "era": "DM"
   },
   "rush_recklessly": {
     "id": "rush_recklessly",
@@ -221,7 +234,8 @@
     "quick": true,
     "counter": false,
     "source": "https://ygoprodeck.com/card/rush-recklessly-5890",
-    "face": "/game-assets/cards/full/rush_recklessly.jpg"
+    "face": "/game-assets/cards/full/rush_recklessly.jpg",
+    "era": "DM"
   },
   "mirror_force": {
     "id": "mirror_force",
@@ -237,7 +251,8 @@
     "quick": false,
     "counter": false,
     "source": "https://ygoprodeck.com/card/mirror-force-3764",
-    "face": "/game-assets/cards/full/mirror_force.jpg"
+    "face": "/game-assets/cards/full/mirror_force.jpg",
+    "era": "DM"
   },
   "trap_hole": {
     "id": "trap_hole",
@@ -253,7 +268,8 @@
     "quick": false,
     "counter": false,
     "source": "https://ygoprodeck.com/card/trap-hole-379",
-    "face": "/game-assets/cards/full/trap_hole.jpg"
+    "face": "/game-assets/cards/full/trap_hole.jpg",
+    "era": "DM"
   },
   "negate_attack": {
     "id": "negate_attack",
@@ -269,7 +285,8 @@
     "quick": false,
     "counter": true,
     "source": "https://ygoprodeck.com/card/negate-attack-1227",
-    "face": "/game-assets/cards/full/negate_attack.jpg"
+    "face": "/game-assets/cards/full/negate_attack.jpg",
+    "era": "DM"
   },
   "magic_cylinder": {
     "id": "magic_cylinder",
@@ -285,6 +302,254 @@
     "quick": false,
     "counter": false,
     "source": "https://ygoprodeck.com/card/magic-cylinder-5267",
-    "face": "/game-assets/cards/full/magic_cylinder.jpg"
+    "face": "/game-assets/cards/full/magic_cylinder.jpg",
+    "era": "DM"
+  },
+  "gaia": {
+    "id": "gaia",
+    "name": "暗黑骑士 盖亚",
+    "canonical": "Gaia The Fierce Knight",
+    "kind": "monster",
+    "level": 7,
+    "atk": 2300,
+    "def": 2100,
+    "attribute": "EARTH",
+    "race": "Warrior",
+    "quick": false,
+    "counter": false,
+    "era": "DM",
+    "description": "''A knight whose horse travels faster than the wind. His battle-charge is a force to be reckoned with.''",
+    "source": "https://ygoprodeck.com/card/gaia-the-fierce-knight-561",
+    "art": "/game-assets/cards/gaia.jpg",
+    "face": "/game-assets/cards/full/gaia.jpg"
+  },
+  "curse_of_dragon": {
+    "id": "curse_of_dragon",
+    "name": "诅咒之龙",
+    "canonical": "Curse of Dragon",
+    "kind": "monster",
+    "level": 5,
+    "atk": 2000,
+    "def": 1500,
+    "attribute": "DARK",
+    "race": "Dragon",
+    "quick": false,
+    "counter": false,
+    "era": "DM",
+    "description": "A wicked dragon that taps into dark forces to execute a powerful attack.",
+    "source": "https://ygoprodeck.com/card/curse-of-dragon-2404",
+    "art": "/game-assets/cards/curse_of_dragon.jpg",
+    "face": "/game-assets/cards/full/curse_of_dragon.jpg"
+  },
+  "flame_manipulator": {
+    "id": "flame_manipulator",
+    "name": "火焰操纵者",
+    "canonical": "Flame Manipulator",
+    "kind": "monster",
+    "level": 3,
+    "atk": 900,
+    "def": 1000,
+    "attribute": "FIRE",
+    "race": "Spellcaster",
+    "quick": false,
+    "counter": false,
+    "era": "DM",
+    "description": "This Spellcaster attacks enemies with fire-related spells such as \"Sea of Flames\" and \"Wall of Fire\".",
+    "source": "https://ygoprodeck.com/card/flame-manipulator-2926",
+    "art": "/game-assets/cards/flame_manipulator.jpg",
+    "face": "/game-assets/cards/full/flame_manipulator.jpg"
+  },
+  "masaki": {
+    "id": "masaki",
+    "name": "传说的剑豪 正树",
+    "canonical": "Masaki the Legendary Swordsman",
+    "kind": "monster",
+    "level": 4,
+    "atk": 1100,
+    "def": 1100,
+    "attribute": "EARTH",
+    "race": "Warrior",
+    "quick": false,
+    "counter": false,
+    "era": "DM",
+    "description": "Legendary swordmaster Masaki is a veteran of over 100 battles.",
+    "source": "https://ygoprodeck.com/card/masaki-the-legendary-swordsman-3777",
+    "art": "/game-assets/cards/masaki.jpg",
+    "face": "/game-assets/cards/full/masaki.jpg"
+  },
+  "polymerization": {
+    "id": "polymerization",
+    "name": "融合",
+    "canonical": "Polymerization",
+    "kind": "spell",
+    "level": 0,
+    "atk": 0,
+    "def": 0,
+    "attribute": null,
+    "race": "Normal",
+    "quick": false,
+    "counter": false,
+    "era": "DM",
+    "description": "Fusion Summon 1 Fusion Monster from your Extra Deck, using monsters from your hand or field as Fusion Material.",
+    "source": "https://ygoprodeck.com/card/polymerization-2077",
+    "art": "/game-assets/cards/polymerization.jpg",
+    "face": "/game-assets/cards/full/polymerization.jpg"
+  },
+  "black_luster_soldier": {
+    "id": "black_luster_soldier",
+    "name": "混沌战士",
+    "canonical": "Black Luster Soldier",
+    "kind": "monster",
+    "level": 8,
+    "atk": 3000,
+    "def": 2500,
+    "attribute": "EARTH",
+    "race": "Warrior",
+    "quick": false,
+    "counter": false,
+    "era": "DM",
+    "description": "You can Ritual Summon this card with \"Black Luster Ritual\".",
+    "source": "https://ygoprodeck.com/card/black-luster-soldier-479",
+    "art": "/game-assets/cards/black_luster_soldier.jpg",
+    "face": "/game-assets/cards/full/black_luster_soldier.jpg",
+    "summonType": "ritual"
+  },
+  "black_luster_ritual": {
+    "id": "black_luster_ritual",
+    "name": "混沌的仪式",
+    "canonical": "Black Luster Ritual",
+    "kind": "spell",
+    "level": 0,
+    "atk": 0,
+    "def": 0,
+    "attribute": null,
+    "race": "Ritual",
+    "quick": false,
+    "counter": false,
+    "era": "DM",
+    "description": "This card is used to Ritual Summon \"Black Luster Soldier\". You must also Tribute monsters from your hand or field whose total Levels equal 8 or more.",
+    "source": "https://ygoprodeck.com/card/black-luster-ritual-4749",
+    "art": "/game-assets/cards/black_luster_ritual.jpg",
+    "face": "/game-assets/cards/full/black_luster_ritual.jpg",
+    "ritualFor": "black_luster_soldier"
+  },
+  "magician_black_chaos": {
+    "id": "magician_black_chaos",
+    "name": "混沌黑魔术师",
+    "canonical": "Magician of Black Chaos",
+    "kind": "monster",
+    "level": 8,
+    "atk": 2800,
+    "def": 2600,
+    "attribute": "DARK",
+    "race": "Spellcaster",
+    "quick": false,
+    "counter": false,
+    "era": "DM",
+    "description": "You can Ritual Summon this card with \"Black Magic Ritual\".",
+    "source": "https://ygoprodeck.com/card/magician-of-black-chaos-2559",
+    "art": "/game-assets/cards/magician_black_chaos.jpg",
+    "face": "/game-assets/cards/full/magician_black_chaos.jpg",
+    "summonType": "ritual"
+  },
+  "black_magic_ritual": {
+    "id": "black_magic_ritual",
+    "name": "黑魔术的仪式",
+    "canonical": "Black Magic Ritual",
+    "kind": "spell",
+    "level": 0,
+    "atk": 0,
+    "def": 0,
+    "attribute": null,
+    "race": "Ritual",
+    "quick": false,
+    "counter": false,
+    "era": "DM",
+    "description": "This card is used to Ritual Summon \"Magician of Black Chaos\". You must also Tribute monsters from your hand or field whose total Levels equal 8 or more.",
+    "source": "https://ygoprodeck.com/card/black-magic-ritual-6462",
+    "art": "/game-assets/cards/black_magic_ritual.jpg",
+    "face": "/game-assets/cards/full/black_magic_ritual.jpg",
+    "ritualFor": "magician_black_chaos"
+  },
+  "gaia_dragon_champion": {
+    "id": "gaia_dragon_champion",
+    "name": "龙骑士 盖亚",
+    "canonical": "Gaia the Dragon Champion",
+    "kind": "monster",
+    "level": 7,
+    "atk": 2600,
+    "def": 2100,
+    "attribute": "WIND",
+    "race": "Dragon",
+    "quick": false,
+    "counter": false,
+    "era": "DM",
+    "description": "\"Gaia The Fierce Knight\" + \"Curse of Dragon\"",
+    "source": "https://ygoprodeck.com/card/gaia-the-dragon-champion-5618",
+    "art": "/game-assets/cards/gaia_dragon_champion.jpg",
+    "face": "/game-assets/cards/full/gaia_dragon_champion.jpg",
+    "summonType": "fusion",
+    "materials": [
+      "gaia",
+      "curse_of_dragon"
+    ],
+    "materialNames": [
+      "暗黑骑士 盖亚",
+      "诅咒之龙"
+    ]
+  },
+  "b_skull_dragon": {
+    "id": "b_skull_dragon",
+    "name": "黑魔龙",
+    "canonical": "Black Skull Dragon",
+    "kind": "monster",
+    "level": 9,
+    "atk": 3200,
+    "def": 2500,
+    "attribute": "DARK",
+    "race": "Dragon",
+    "quick": false,
+    "counter": false,
+    "era": "DM",
+    "description": "\"Summoned Skull\" + \"Red-Eyes Black Dragon\"\r\n\r\n\r\n\r\n(This card is always treated as an \"Archfiend\" card.)",
+    "source": "https://ygoprodeck.com/card/black-skull-dragon-1029",
+    "art": "/game-assets/cards/b_skull_dragon.jpg",
+    "face": "/game-assets/cards/full/b_skull_dragon.jpg",
+    "summonType": "fusion",
+    "materials": [
+      "summoned_skull",
+      "red_eyes"
+    ],
+    "materialNames": [
+      "恶魔的召唤",
+      "真红眼黑龙"
+    ]
+  },
+  "flame_swordsman": {
+    "id": "flame_swordsman",
+    "name": "炎之剑士",
+    "canonical": "Flame Swordsman",
+    "kind": "monster",
+    "level": 5,
+    "atk": 1800,
+    "def": 1600,
+    "attribute": "FIRE",
+    "race": "Warrior",
+    "quick": false,
+    "counter": false,
+    "era": "DM",
+    "description": "\"Flame Manipulator\" + \"Masaki the Legendary Swordsman\"",
+    "source": "https://ygoprodeck.com/card/flame-swordsman-3857",
+    "art": "/game-assets/cards/flame_swordsman.jpg",
+    "face": "/game-assets/cards/full/flame_swordsman.jpg",
+    "summonType": "fusion",
+    "materials": [
+      "flame_manipulator",
+      "masaki"
+    ],
+    "materialNames": [
+      "火焰操纵者",
+      "传说的剑豪 正树"
+    ]
   }
 }

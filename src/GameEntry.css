@@ -13,6 +13,7 @@
 .entry-screen:hover .entry-action,.entry-screen:focus-visible .entry-action{border-color:#c5f2ff;box-shadow:0 0 30px #3196e24d,inset 0 0 14px #60bdff20}
 .entry-screen:active .entry-action{background:#185071}
 .entry-rotate-note{display:none}
+.entry-rights-note{position:absolute;bottom:5px;left:12px;font-size:11px;line-height:1.5;padding:3px 7px;color:#c5d5e3;background:#040b17d9;border-radius:3px;pointer-events:none}
 .entry-game{width:100%;height:100%;animation:entry-arrive .45s ease-out both}
 @keyframes entry-arrive{from{opacity:0}to{opacity:1}}
 @media(max-height:560px){.entry-logo{gap:4px;padding:8px 12px}.entry-logo strong{font-size:clamp(18px,2.6vw,27px)}.entry-action{min-width:190px;min-height:48px;padding:10px 16px;gap:10px}.entry-action-line{width:20px}.entry-action svg{width:18px;height:18px}}

@@ -35,7 +35,7 @@ export function actionsAtDrop(game:any,uid:string,site:DropSite|null,position='a
  });
 }
 export function dropNeedsChoice(actions:any[],site:DropSite){
- return actions.some(a=>a.tributes?.length>0||a.targetUid!==undefined&&(site.type!=='zone'||site.uid!==a.targetUid));
+ return actions.some(a=>a.tributes?.length>0||a.materialUids?.length>0||a.fusionId!==undefined||a.ritualUid!==undefined||a.targetUid!==undefined&&(site.type!=='zone'||site.uid!==a.targetUid));
 }
 export function dragStillCurrent(game:any,snapshot:{id:string,version:number}){
  return !!game&&!game.paused&&!game.result&&game.id===snapshot.id&&game.version===snapshot.version;

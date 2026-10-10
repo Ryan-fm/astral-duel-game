@@ -84,12 +84,17 @@
 .in-game .choice-targetUid:has(.fixed-choice){display:flex;align-items:baseline;gap:10px}
 .in-game .choice-targetUid:has(.fixed-choice)>div:first-child{margin:0;flex-shrink:0}
 @media(max-height:560px){.in-game .inspector-card{padding-right:43px}.in-game .inspector-level{display:none}.in-game .choice-group{margin:6px 0}.in-game .damage-preview{margin-top:5px;padding:6px}.in-game .inspector-scroll{padding-bottom:4px}}
-/* The ground in the illustration is the stage; avoid a second opaque scene over it. */
-.in-game .world-background{background-size:cover,140% auto;background-position:center,center bottom}
-.in-game .arena-canvas{top:27%;bottom:12%;right:6%}
-.in-game:has(.battle-inspector) .arena-canvas{right:calc(var(--control-width) + 20px)}
+/* Preserve the architecture and horizon; enlarge inlays without an opaque board. */
+.duel-app .world-background{background:linear-gradient(0deg,#101a2d22,transparent 65%),url('/game-assets/kingdom-ruins-anime.jpg') center/cover}
+.duel-app .world-background,.in-game .world-background{background-size:cover;background-position:center}
+.duel-app.city-scene .world-background{background:linear-gradient(0deg,#051a3225,transparent 60%),url('/game-assets/city-arena-refined.jpg') center/cover}
+.in-game .world-background:after{background:linear-gradient(0deg,#080e1938,transparent 45%),radial-gradient(ellipse at 50% 65%,transparent 45%,#060d202e)}
+.in-game .arena-canvas{top:23%;bottom:8%;left:5%;right:5%}
+.in-game:has(.battle-inspector) .arena-canvas{right:5%}
 .duel-app .arena-canvas canvas{mask-image:none}
-@media(max-height:560px){.in-game .arena-canvas{top:24%;bottom:12%;right:5%}.in-game .world-background{background-size:cover,130% auto}}
-.duel-app.city-scene .world-background{background:linear-gradient(0deg,#051a3225,transparent 60%),url('/game-assets/arena.png') center/cover}
-.in-game.city-scene .world-background{background-size:cover,140% auto;background-position:center,center bottom}
-@media(max-height:560px){.in-game.city-scene .world-background{background-size:cover,130% auto}}
+.in-game .field-card-control{border-color:#c6d9e133;background:linear-gradient(180deg,#071d35ef,#071728df);box-shadow:0 5px 13px #03091435}
+.in-game.roman-scene .field-card-control{border-color:#9ad9ea66;background:linear-gradient(180deg,#102941ec,#0c1b2ddd)}
+@media(max-height:560px){.in-game .arena-canvas{top:25%;bottom:9%;left:10%;right:9%}.in-game:has(.battle-inspector) .arena-canvas{right:9%}}
+
+/* In the ruin scene the entire viewport is one world camera, including its ground. */
+.duel-app.roman-scene .arena-canvas,.in-game.roman-scene .arena-canvas,.in-game.roman-scene:has(.battle-inspector) .arena-canvas{inset:0}

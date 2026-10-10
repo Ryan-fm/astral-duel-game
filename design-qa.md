@@ -90,3 +90,74 @@ P0/P1/P2 无未解决功能问题。P3：模型属于风格化资产原型，尚
 用户拒绝当前程序建模怪兽，恢复此前 6291629 的怪兽卡面／青眼与黑魔导立绘策略；删除模型组件与查看入口。保留隐藏盖牌保护、卡牌点击、拖放、按等级／属性生成召唤特效与简洁 HUD。
 
 场景的整块米色石台与重复低精度柱形成明显覆盖层，已移除。遗迹插画中的实际地面承担场景，透明卡位和浅纹章融入其中，使用 imagegen 制作的旧石材纹理提供低对比细节。新增用户参考的霓虹都市：原都市竞技场素材、金属地面、冷色光与细霓虹边框；两种基础场景免费可选。人机入口、设置、好友房间可选择，存档保存；对局开始时固定场景，好友／匹配双方使用同一个服务器场景。旧冰蓝奖励兼容保留。此前实体模型截图为被回退版本，仅作历史记录。
+
+## 场景精修本地审阅版 · 2026-10-10
+
+根据用户最新反馈重绘两个环境的高机位构图，完整保留建筑与地面层次，将远端卡位压回地面范围。移除地面整体纹理覆层，使用贴地雕刻嵌线、角部框、中心纹章、立绘接触阴影、边缘牌堆与 28 个低强度粒子。选卡不再调整场景宽度，避免背景不动而场面突然收缩。保留卡牌规则、真实卡面、恢复后的王牌立绘。关闭效果／减弱动态隐藏环境粒子。
+
+62 项游戏测试、完整／Toy 本地构建及 28 个保护文件检查通过。1280×720 检查遗迹／都市和紧凑攻击面板；844×390 检查都市攻击、遗迹五个合法落点、键盘取消、指针拖放到区域 2 完成召唤。确认攻击按钮 210×44 CSS 像素。图片、实际提示词和审阅说明位于 ../scene-polish-review/。
+
+未提交源码、未更新 PR、未上传或提交 Toy。用户确认视觉效果后才能发布。
+
+
+## 配乐本地审阅版 · 2026-10-10
+
+新增四段 AI 生成纯器乐配乐：大厅《遗迹序章》、抽卡《秘藏的回应》、战斗《决斗之刻》、任一方公开 LP ≤ 2500 时《逆转之焰》。统一 Web Audio 上下文，按需解码并缓存；1.35 秒交叉淡入淡出，默认 30% 音量。音乐与现有效果提示音分别开关，音乐开关／音量保存到本机；大厅、战斗和抽卡均提供快捷静音。点击入场后解锁音频，后台与练习暂停停止播放，恢复时重新淡入。异步加载通过 revision 校验防止过期音乐在新页面或静音后开始，旧 voice 结束释放节点。
+
+69 项游戏测试、完整／Toy 本地构建、28 个保护文件校验通过。新增 7 项音乐生命周期测试涵盖自动播放、公开 LP 场景选择、加载竞争、缓存、静音、后台暂停、练习暂停与卸载、零音量和快速切换；浏览器发现并修复原生 fetch 作为实例方法调用的兼容问题。IAB 实际验证大厅／战斗播放状态、音乐开关、35% 音量刷新保存、练习暂停／继续、抽卡页快捷静音和返回大厅。音量滑条实测 475×44 CSS 像素。该轮 IAB viewport 覆盖未应用到目标页，实际仍为 1280×720，未把截图标为手机验证；已清除覆盖。
+
+四段素材均实际解码、归一化并进行首尾交叠，约 58 秒／1.16 MB，提示词与采样／电平检查保存在 ../music-review/。不声称已完成主观听感、乐理或真机音频检查。静音与后台期间的待解码取消由生命周期测试验证。Vite 保留已有约 990 kB JS chunk 体积提醒；本轮配乐为独立静态 MP3 按需获取。
+
+当前源码、配乐与场景仍未提交／推送，也没有更新 PR、上传 Toy 或提交 Toy 审核，等待用户确认。
+
+
+## 动画王国遗迹本地审阅版 · 2026-10-10
+
+用户选择决斗王国／古代遗迹方向。用 image_gen 基于原遗迹透视重绘「临海石城＋断柱＋藤蔓＋蓝灰石板」动画手绘背景，接入 kingdom-ruins-anime.jpg；旧素材保留。默认名称改为王国遗迹，night/city 与旧 ice 存档兼容。遗迹卡位采用浅蓝／紫色细投影边线，调整场景光色、低强度粒子，与地面融合，未添加不透明舞台或新文字。都市、怪兽回退策略、拖放和音乐保留。
+
+69 项游戏测试、完整版／Toy 构建、28 个保护文件校验通过。IAB 1280×720 实际拖出精灵剑士到中间怪兽区并完成教学；检查五个落点、Escape 取消、双怪兽战场、选择／攻击预览及都市切换。攻击按钮 234×44 CSS 像素。前版与新版同状态截图一起比较，确认结构占比和卡位透视保持一致，建筑不占据合法落点。当前浏览器无 error/warn。本轮未完成真机或完整空间资产验证。
+
+这是按用户所选篇章氛围设计的原创背景，不声称逐帧复刻动画某一场地。素材、实际提示词、官方篇章背景出处及实机截图保存于 ../kingdom-scene-review/。未提交／推送、未更新 PR、未上传／提交 Toy，待用户确认。
+
+## Spatial kingdom environment · 2026-10-10
+
+- Replaced the ruin battle's screen-fixed floor with a continuous instanced stone courtyard and merged 3D architecture. Stone stairs, arch, colonnades, broken shafts, parapets and rubble share the gameplay camera and directional shadows.
+- Added world-coordinate weathering and warm sunset lighting. Upper-region anime matte is restricted to a curved far-world panorama; it no longer supplies the playable floor. Deferred unloaded cloned texture uploads to avoid Three.js warnings while preserving cache ownership.
+- Full-screen ruin canvas; city scene stays on its existing rendering path. Monster presentation rollback, saved scene IDs, free choices, drag/drop, audio and publishing gate retained.
+- 74 game tests pass including 5 spatial coverage/resource tests. Game and Toy builds succeed locally. Browser QA at 1280×720 confirms orbit, card selection, attack LP 8000→7700 and a hand-card drag onto the rotated front row. No phone performance claim.
+- Review proof: ../spatial-scene-review/kingdom-front.png and kingdom-orbit.png. PR/Toy not updated; user approval remains required.
+
+## Realism refinement · 2026-10-10
+
+- Replaced repeated square paving with a subtly uneven continuous courtyard using original Poly Haven color, normal and packed AO/roughness maps. Kept linear data maps separate from sRGB color maps.
+- Integrated fluted shafts and eroded breaks into real column geometry; varied masonry edges, staggered retaining walls, stone steps, rubble, fallen shaft and sparse folded-leaf ivy. All legal zones remain clear.
+- Replaced the cropped giant anime matte with actual distant castle geometry, HDR sky / PMREM environment, animated sea normals and a locally bundled Rock Face 01 model. Three cliff copies share geometry, textures and materials; async completion/failure and unmount disposal are guarded.
+- Slightly wider camera and softer shadows; extended the rear retaining wall across the courtyard. Preserved city rendering, saved choices, monster rollback, UI, audio and rules.
+- 78 tests pass; game and local Toy builds succeed. Browser verifies offline HDR/model loading, hand drag onto the front row and city scene switch, with no rendering warnings/errors. Desktop 1280×720; no phone frame-rate claim. Proof: ../realism-scene-review/.
+- Publish gate remains in force: no PR/Toy update, push or upload. Third-party source links and authors: public/game-assets/pbr/SOURCES.md.
+
+## Lobby card presentation · 2026-10-10
+
+Reused existing illustrated backdrops, monster art and authentic full card faces for a layered perspective showcase with foil, edge thickness and slow motion. All four strategies and custom decks drive the representative card; clicking it opens the existing card inspector. Deck tiles now show complete faces with selected-state accessibility. The lobby releases the WebGL battle scene and remounts it only when entering a duel. System reduced motion and in-game effect preferences stop showcase animations. Runtime integrity, game and Toy local builds pass. Desktop browser QA confirms all four selections, card inspection and practice entry / return. PR and Toy remain unchanged pending user confirmation.
+
+## Island surroundings refinement · 2026-10-10
+
+- Connected the courtyard to rear and side island terrain with PBR grass, six shared coastal cliff instances, a textured stone path, pine foliage and sparse grass. The raised castle now rests on the terrain and has recessed entry/window shadows. Fixed the gate and side-wall terrain seams.
+- Added multidirectional fine sea waves, distance haze, softer neutral lighting, wider shadow coverage and mild banner/foliage wind. Deferred alpha-map uploads with other unloaded texture clones. Kept city, card presentation, controls, audio and rules intact.
+- Full game suite: 81 passing tests. Following the final seam adjustment, 12 relevant tests passed again; both game and Toy builds succeeded. Tests cover 20 legal zones across orbit rays, terrain continuity, upward road normals and owned/shared resource disposal. Environment geometry is approximately 287,576 triangles, excluding cards and effects.
+- Desktop browser at 1280×720 verifies default/orbit views and card selection/attack preview, with no rendering warnings or errors. No mobile hardware performance claim. Current screenshots and credits: ../surroundings-review/README.md.
+- Local changes only. No commit, push, PR update, Toy upload or review submission; user confirmation remains required.
+
+## DM pool and platform interaction · 2026-10-10
+
+- Expanded to 46 definitions with 20 new cards, a curated DM draw pool, separate Main/Extra Deck editing, two free presets and Fusion/Ritual tutorials. Legacy ownership remains intact.
+- Dragging Polymerization or a Ritual Spell opens legal material confirmation, supports attack/defense, highlights owned materials and retains the compact inspector. Card faces remain original cached artwork. Opponent Extra Deck exposes only its count.
+- Desktop 1280×720 verified Fusion, defense Ritual, complete deck save and refresh; mobile landscape 844×390 verified Fusion drag, a 44px confirmation target, tutorial settlement and scrollable voice candidate controls.
+- Account/cloud/rank/voice code is integrated; local static Toy preview visibly states temporary memory-only guest progress. Mocked SDK and audio lifecycle checks are not real-account or microphone hardware QA. Full server rankings are authoritative; static Toy scores are casual client scores.
+- 107 tests pass; both builds, runtime integrity and Toy subpath doctor pass. Evidence and limitations: ../dm-review/README.md and ../platform-review/README.md. PR/Toy remain unchanged pending user confirmation.
+
+## Copyright status presentation · 2026-10-10
+
+- Added a compact non-official / missing release authorization label at entry and expandable rights/source notices in settings. Attribution is not presented as clearance.
+- The asset audit records all 140 public files, including unused copied resources, and carries full notices for 148 production dependency instances. Device template images are excluded from standalone outputs without modifying protected files.
+- Browser verifies the status, source and license links. Four release-check tests, 107 game tests and both builds pass; the rights release check intentionally fails while IP permission and other evidence remain unresolved. No change to publishing or existing external copies. Details and actual screenshot: ../copyright-review/README.md.

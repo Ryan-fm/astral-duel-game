@@ -1,3 +1,4 @@
 import {defineConfig} from 'vite';
 import react from '@vitejs/plugin-react';
-export default defineConfig({plugins:[react()],build:{outDir:'dist/game',rollupOptions:{input:'game.html'}}});
+import {browserRulesAdapter} from './scripts/browser-rules-adapter';
+export default defineConfig({plugins:[browserRulesAdapter(),react()],build:{outDir:'dist/game',rollupOptions:{input:'game.html'}}});

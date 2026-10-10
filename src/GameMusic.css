@@ -1,0 +1,9 @@
+.music-settings{padding:12px 15px;margin:10px 0 18px;border:1px solid #83bad13d;border-radius:8px;background:#0b263b66}
+.music-settings .toggle{margin:0!important}.music-settings .music-volume{display:grid;grid-template-columns:1fr auto;align-items:center;gap:5px;margin:8px 0 2px}
+.music-volume output{color:#b8e3fa;font-size:13px;min-width:36px;text-align:right;font-variant-numeric:tabular-nums}
+.music-volume input[type=range]{grid-column:1/-1;width:100%;height:44px;min-height:44px;padding:0;border:0;background:transparent;accent-color:#98dfff;cursor:pointer;touch-action:pan-y}
+.music-volume input:disabled{opacity:.4}.music-settings .music-status{display:block;margin:3px 0 0!important;color:#b8cedd;font-size:11px;line-height:1.6}
+@media(max-height:560px){.music-settings{padding:9px 12px}.music-volume input[type=range]{height:44px}}
+
+.summon-header-actions{display:flex;align-items:center;gap:12px}.summon-header-actions .music-toggle{min-width:44px;min-height:44px;flex-shrink:0}
+@media(max-height:560px){.summon-header-actions{gap:8px}}

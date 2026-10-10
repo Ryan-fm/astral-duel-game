@@ -1,0 +1,49 @@
+.duel-app.in-lobby .world-background{background:linear-gradient(90deg,#050e1be0 0%,#09142655 50%,#060f1dcf 76%),linear-gradient(0deg,#060f1ee8,transparent 65%),url('/game-assets/kingdom-ruins-anime.jpg') center/cover}
+.duel-app.in-lobby.city-scene .world-background{background:linear-gradient(90deg,#050e1bd9,#09142644 50%,#060f1dde 76%),linear-gradient(0deg,#060f1ee8,transparent 65%),url('/game-assets/city-arena-refined.jpg') center/cover}
+.in-lobby .world-background:after{background:radial-gradient(ellipse at 40% 44%,#6bd5eb15,transparent 55%)}
+.lobby-showcase{position:absolute;left:4%;top:18%;width:60%;height:45%;pointer-events:none;perspective:1000px}
+.showcase-scene{position:relative;width:100%;height:100%;animation:showcase-enter .6s ease-out both}
+.showcase-aura{position:absolute;inset:-20% 5% -15% 0;background:radial-gradient(ellipse,#77e3ff25,transparent 62%);filter:blur(12px)}
+.showcase-art{position:absolute;left:0;top:-6%;width:63%;height:108%;overflow:hidden;mask-image:radial-gradient(ellipse at 50% 43%,#000 23%,#0009 48%,transparent 70%);opacity:.82}
+.showcase-art img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 23px #92eaff55)}
+.showcase-art:not(.is-cutout){mix-blend-mode:luminosity;opacity:.48}
+.showcase-art:not(.is-cutout) img{object-fit:cover;object-position:50% 38%;transform:scale(1.03);filter:contrast(1.1)}
+.showcase-art.is-cutout{mask-image:linear-gradient(#000 78%,transparent);opacity:1;left:-3%;width:70%;height:122%;top:-13%}
+.showcase-circle{position:absolute;left:16%;bottom:-6%;width:65%;height:38%;object-fit:fill;opacity:.55;filter:drop-shadow(0 0 12px #81dfff66);transform:rotate(-5deg)}
+.showcase-fan{position:absolute;right:10%;top:0;height:94%;aspect-ratio:813/1185;perspective:1100px;animation:showcase-float 6s ease-in-out infinite}
+.showcase-card{position:absolute;inset:0;padding:0;border:1px solid #e0d4aa;border-radius:8px;background:#29241f;transform:rotateY(-14deg) rotateZ(-5deg);box-shadow:4px 3px 0 #78623c,7px 5px 0 #211b16,0 18px 35px #000b,0 0 35px #7edaff25;pointer-events:auto;overflow:hidden;transition:transform .25s,box-shadow .25s}
+.showcase-card>img{display:block;width:100%;height:100%;object-fit:fill}
+.showcase-card:hover,.showcase-card:focus-visible{transform:rotateY(0) rotateZ(0) translateY(-7px);box-shadow:3px 3px 0 #78623c,0 25px 38px #000b,0 0 38px #9eefff55;outline:2px solid #b8edff;outline-offset:5px}
+.card-foil{position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 25%,#fff3 42%,#a4e9ff1a 48%,transparent 60%);background-size:280% 100%;animation:showcase-foil 8s ease-in-out infinite;mix-blend-mode:screen}
+.showcase-inspect{position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:7px;background:#071629ed;padding:8px;color:#d3effb;font-size:11px;opacity:0;transition:opacity .2s}
+.showcase-card:hover .showcase-inspect,.showcase-card:focus-visible .showcase-inspect{opacity:1}
+.showcase-companion{position:absolute;inset:7% 0;width:100%;height:86%;object-fit:fill;border:1px solid #b59c6d;border-radius:5px;box-shadow:0 10px 25px #0009;filter:brightness(.74)}
+.companion-0{transform:translateX(-28%) rotate(-17deg)}.companion-1{transform:translateX(38%) rotate(14deg)}
+.showcase-tag{position:absolute;left:9%;top:93%;display:flex;gap:8px;align-items:center;font-size:9px;color:#cab890;letter-spacing:.12em}.showcase-tag span{color:#e0eaf0;letter-spacing:.03em;border-left:1px solid #a8cee13d;padding-left:9px}
+.in-lobby .hero-copy{left:5%;bottom:22%;padding:0;border:0;background:none;width:57%;max-width:none;pointer-events:none;text-shadow:0 2px 15px #000}
+.in-lobby .hero-copy h1{font-size:clamp(25px,3vw,43px);margin:8px 0;letter-spacing:.05em}.in-lobby .hero-copy p{max-width:570px;font-size:12px;line-height:1.7;margin:5px 0 10px;color:#b6cad9}
+.in-lobby .hero-stats{font-size:11px;gap:20px}.in-lobby .hero-copy .eyebrow{color:#d8c08b;font-size:10px}
+.in-lobby .mode-menu{right:4%;top:23%;width:29%;gap:14px}.in-lobby .section-heading{font-size:12px;color:#d2e1ee}.in-lobby .section-heading small{opacity:.5}
+.in-lobby .mode-card{position:relative;isolation:isolate;overflow:hidden;border-color:#8badc540;min-height:98px;border-radius:8px;background:linear-gradient(110deg,#112940f2,#142036e6);padding:20px;gap:16px;box-shadow:0 8px 25px #0004;transition:transform .2s,border-color .2s,box-shadow .2s}
+.in-lobby .mode-card:before{content:'';position:absolute;z-index:-1;right:-3%;top:-25%;height:155%;width:60%;background:url('/game-assets/duelist-player.png') center 12%/cover;opacity:.24;mask-image:linear-gradient(90deg,transparent,#000 50%)}
+.in-lobby .mode-card:nth-of-type(2):before{background-image:url('/game-assets/duelist-rival.png')}.in-lobby .mode-card:nth-of-type(3):before{background-image:url('/game-assets/cards/dark_magician.jpg');opacity:.19}
+.in-lobby .mode-card.primary{border-color:#95eaff8a;background:linear-gradient(110deg,#164758f5,#122c41e0);box-shadow:inset 3px 0 #8ee8ff,0 8px 28px #0005}
+.in-lobby .mode-card:hover:not(:disabled),.in-lobby .mode-card:focus-visible{transform:translateX(-4px);border-color:#a7ebff;box-shadow:0 8px 30px #68cce325;outline:2px solid #a7ebff;outline-offset:3px}
+.in-lobby .mode-card b{font-size:20px;letter-spacing:.07em}.in-lobby .mode-card small{font-size:10px;color:#c0d3e0}.in-lobby .mode-note{font-size:9px;margin-top:1px}
+.in-lobby .deck-bar{bottom:3%;padding:12px 17px;background:linear-gradient(110deg,#091827f5,#0e1d30ed);border-color:#8eb0cd40;border-radius:9px;box-shadow:0 -4px 35px #0005}
+.in-lobby .deck-strategies{gap:10px;padding:3px}.in-lobby .deck-strategies .deck-option{height:92px;flex-basis:185px;max-width:none;padding:9px 9px 9px 14px;gap:13px;border-color:#819bad44;background:linear-gradient(120deg,#203247b3,#102034cc);border-radius:5px;overflow:visible;transition:border-color .2s,background .2s}
+.in-lobby .deck-strategies .deck-option img{height:79px;width:54px;object-fit:contain;aspect-ratio:813/1185;border:0;border-radius:2px;transform:rotate(-7deg);box-shadow:2px 2px 0 #5b4d3b,0 6px 10px #0007;transition:transform .2s}
+.in-lobby .deck-option:hover img,.in-lobby .deck-option.selected img{transform:rotate(0) translateY(-4px)}
+.in-lobby .deck-strategies .deck-option.selected{border-color:#e7c982;background:linear-gradient(120deg,#68562b55,#172537);box-shadow:inset 0 0 17px #e9c47513}.in-lobby .deck-option b{font-size:11px}.in-lobby .deck-option small{font-size:9px;color:#b2c5d5;margin-top:6px}.in-lobby .deck-option>svg{position:absolute;right:5px;top:5px;width:13px;height:13px}
+.in-lobby .deck-heading{min-width:11%;font-size:12px}.in-lobby .deck-heading small{font-size:9px}.in-lobby .deck-extra-controls{min-width:75px}.in-lobby .lobby-header{top:5%}.in-lobby .brand b{text-shadow:0 3px 20px #000}.in-lobby .brand .edition{color:#9bb1c3}
+.showcase-scene img{user-select:none}.showcase-scene button:disabled{cursor:default}
+@keyframes showcase-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes showcase-foil{0%,25%{background-position:100% 0}65%,100%{background-position:0 0}}
+@keyframes showcase-enter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.lobby-showcase.is-still *{animation:none!important;transition:none!important}
+@media(max-height:560px){.lobby-showcase{top:21%;height:40%;width:61%}.showcase-tag{font-size:8px;top:94%}.in-lobby .lobby-header{top:4%}.in-lobby .hero-copy{bottom:24%;width:58%}.in-lobby .hero-copy h1{font-size:25px;margin:4px 0}.in-lobby .hero-copy p{font-size:9px;line-height:1.4;margin:4px 0;max-width:90%}.in-lobby .hero-copy .eyebrow{font-size:8px}.in-lobby .hero-stats{font-size:8px;gap:12px}.in-lobby .mode-menu{top:23%;gap:8px;width:30%}.in-lobby .mode-card{min-height:58px;padding:12px;gap:12px}.in-lobby .mode-card b{font-size:16px}.in-lobby .mode-card small{font-size:8px}.in-lobby .mode-note{font-size:8px}.in-lobby .deck-bar{padding:7px 11px;gap:9px}.in-lobby .deck-strategies .deck-option{height:61px;flex-basis:144px;padding:5px 6px;gap:8px}.in-lobby .deck-strategies .deck-option img{height:51px;width:35px}.in-lobby .deck-option b{font-size:9px}.in-lobby .deck-option small{font-size:7px;margin-top:3px}.in-lobby .deck-heading{font-size:10px;min-width:9%;gap:7px}.in-lobby .deck-heading small{font-size:7px}.in-lobby .deck-extra-controls{min-width:64px}.showcase-inspect{padding:5px;font-size:9px}}
+@media(max-width:800px) and (orientation:landscape){.in-lobby .hero-copy h1{font-size:22px}.in-lobby .hero-copy{left:4%}.in-lobby .hero-copy p{max-width:95%}.showcase-fan{right:8%}.in-lobby .mode-menu{right:3%;width:31%}.in-lobby .mode-card b{font-size:14px}.in-lobby .mode-card small{font-size:7px}.in-lobby .mode-card>svg:first-child{width:23px}.in-lobby .mode-note span{display:none}.in-lobby .brand{max-width:51%}.in-lobby .deck-heading{display:none}.in-lobby .deck-strategies .deck-option{flex-basis:132px}.in-lobby .header-controls{gap:6px}.in-lobby .deck-bar{left:3%;right:3%}}
+@media(prefers-reduced-motion:reduce){.lobby-showcase *{animation:none!important;transition:none!important}.in-lobby .mode-card,.in-lobby .deck-option,.in-lobby .deck-option img{transition:none!important}}
+
+@media(min-height:561px) and (max-height:700px){.in-lobby .mode-menu{top:23%;gap:8px}.in-lobby .mode-card{min-height:72px;padding:12px 16px}.in-lobby .mode-card b{font-size:18px}.in-lobby .mode-card small{margin-top:4px}}
+.online-intro>svg{color:var(--cyan)}.online-intro p{line-height:1.65}.online-intro small{display:block;color:#a9bfd3;line-height:1.6;margin-bottom:20px}

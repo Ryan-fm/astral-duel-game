@@ -6,8 +6,8 @@ export function monsterPresentation(card:any){
 }
 export function findVisibleCard(game:any,uid:string|null){
  if(!game||!uid)return null;
- for(let player=0;player<2;player++)for(const area of ['hand','field','spells','grave']){
-  const card=game.players[player][area].find((c:any)=>c?.uid===uid);
+ for(let player=0;player<2;player++)for(const area of ['hand','field','spells','grave','extraDeck']){
+  const card=(game.players[player][area]||[]).find((c:any)=>c?.uid===uid);
   if(card)return {card,player,area};
  }
  return null;
@@ -30,8 +30,11 @@ export function unavailableReason(game:any,card:any,catalog:Record<string,any>){
  if(game.window)return game.window.responder!==game.you?'等待对方连锁响应':'此卡不满足当前连锁的发动条件';
  if(game.active!==game.you)return '对手正在行动，等待你的回合或响应机会';
  if(!loc||loc.player!==game.you)return '对方卡牌只能查看；先选我方怪兽再选择攻击目标';
+ if(loc.area==='extraDeck')return '融合怪兽需要通过融合魔法和指定素材召唤';
  if(loc.area==='grave')return '墓地卡牌需要通过复活等效果使用';
  if(loc.area==='hand'&&d?.kind==='monster'){
+  if(d.summonType==='ritual')return '仪式怪兽不能通常召唤；拖出配套仪式魔法，确认等级足够的祭品';
+  if(d.summonType==='fusion')return '融合怪兽应放入额外卡组';
   if(!['main1','main2'].includes(game.phase))return '怪兽需在主要阶段召唤';
   if(game.players[game.you].normalUsed)return '本回合的通常召唤机会已使用';
   const need=d.level>=7?2:d.level>=5?1:0;

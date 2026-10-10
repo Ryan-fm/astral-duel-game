@@ -1,0 +1,13 @@
+{
+  "reviewedAt": "2026-10-10",
+  "publicRelease": "blocked",
+  "meaning": "Local review continues. A successful build does not establish copyright clearance or permission to publish.",
+  "blockers": [
+    {"scope":"brand / card names / card text", "status":"unresolved", "reason":"游戏王与 YU-GI-OH! 游戏名称、卡牌身份及相关内容未找到可核验的应用发布授权；需原创化或取得覆盖目标平台和用途的授权"},
+    {"scope":"public/game-assets/cards", "status":"unresolved", "reason":"实卡图片的 API 下载许可不等于权利人授权第三方游戏分发"},
+    {"scope":"AI-generated artwork and supplied entry image", "status":"unresolved", "reason":"青眼／黑魔导仍保留既有角色表达；其他生成图需留存生成及许可记录并复核相似性"},
+    {"scope":"public/game-assets/music", "status":"unresolved", "reason":"生成过程可追溯，具体音乐服务的发布／商业许可证据与旋律相似性复核尚未完成"},
+    {"scope":"screenshots / posters / recorded footage / existing Git history", "status":"unresolved", "reason":"宣传材料及已有提交继承游戏素材风险；发行新包也不会撤回已发布副本"},
+    {"scope":"mobile starter assets and project code provenance", "status":"unresolved", "reason":"保护的模板与设备外观素材缺少独立可核验的再分发许可记录；独立游戏发行时应排除无关模板资源或确认许可"}
+  ]
+}

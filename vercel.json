@@ -1,0 +1,16 @@
+{
+  "buildCommand": "VITE_DUEL_SOCKET_PATH=/api/duel/socket.io npm run release:game",
+  "outputDirectory": "dist/game",
+  "functions": {"api/duel.mjs": {"maxDuration": 300, "includeFiles": "{server/*.json,src/cards.json}"}},
+  "buildCommand": "VITE_DUEL_SOCKET_PATH=/api/duel/socket.io npm run release:prototype:game",
+  "rewrites": [
+    {"source": "/api/duel/socket.io", "destination": "/api/duel"},
+    {"source": "/api/duel/socket.io/", "destination": "/api/duel"},
+    {"source": "/api/duel/socket.io/:path*", "destination": "/api/duel"},
+    {"source": "/api/health", "destination": "/api/duel"},
+    {"source": "/api/online-status", "destination": "/api/duel"},
+    {"source": "/api/cards", "destination": "/api/duel"},
+    {"source": "/api/duel/tick", "destination": "/api/duel"},
+    {"source": "/", "destination": "/game.html"}
+  ]
+}

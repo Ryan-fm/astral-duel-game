@@ -1,0 +1,11 @@
+.git
+.env*
+evidence
+legal/vendor
+node_modules
+dist
+test-results
+playwright-report
+recordings
+profiles.json
+work

@@ -15,7 +15,8 @@
     "counter": false,
     "source": "https://ygoprodeck.com/card/alexandrite-dragon-3674",
     "hiddenPool": true,
-    "rarity": "SR"
+    "rarity": "SR",
+    "era": "ZEXAL"
   },
   "dragon_zombie": {
     "id": "dragon_zombie",
@@ -33,7 +34,8 @@
     "counter": false,
     "source": "https://ygoprodeck.com/card/dragon-zombie-5598",
     "hiddenPool": true,
-    "rarity": "R"
+    "rarity": "R",
+    "era": "DM"
   },
   "gemini_elf": {
     "id": "gemini_elf",
@@ -51,7 +53,8 @@
     "counter": false,
     "source": "https://ygoprodeck.com/card/gemini-elf-5811",
     "hiddenPool": true,
-    "rarity": "SR"
+    "rarity": "SR",
+    "era": "DM"
   },
   "harpie_lady": {
     "id": "harpie_lady",
@@ -69,7 +72,8 @@
     "counter": false,
     "source": "https://ygoprodeck.com/card/harpie-lady-6464",
     "hiddenPool": true,
-    "rarity": "N"
+    "rarity": "N",
+    "era": "DM"
   },
   "hyozanryu": {
     "id": "hyozanryu",
@@ -87,7 +91,8 @@
     "counter": false,
     "source": "https://ygoprodeck.com/card/hyozanryu-5275",
     "hiddenPool": true,
-    "rarity": "R"
+    "rarity": "R",
+    "era": "DM"
   },
   "saggi": {
     "id": "saggi",
@@ -105,7 +110,8 @@
     "counter": false,
     "source": "https://ygoprodeck.com/card/saggi-the-dark-clown-5591",
     "hiddenPool": true,
-    "rarity": "N"
+    "rarity": "N",
+    "era": "DM"
   },
   "seiyaryu": {
     "id": "seiyaryu",
@@ -123,7 +129,8 @@
     "counter": false,
     "source": "https://ygoprodeck.com/card/seiyaryu-585",
     "hiddenPool": true,
-    "rarity": "UR"
+    "rarity": "UR",
+    "era": "DM"
   },
   "silver_fang": {
     "id": "silver_fang",
@@ -141,6 +148,176 @@
     "counter": false,
     "source": "https://ygoprodeck.com/card/silver-fang-7545",
     "hiddenPool": true,
+    "rarity": "N",
+    "era": "DM"
+  },
+  "armored_lizard": {
+    "id": "armored_lizard",
+    "name": "铠蜥蜴",
+    "canonical": "Armored Lizard",
+    "kind": "monster",
+    "level": 4,
+    "atk": 1500,
+    "def": 1200,
+    "attribute": "EARTH",
+    "race": "Reptile",
+    "quick": false,
+    "counter": false,
+    "era": "DM",
+    "description": "A lizard with a very tough hide and a vicious bite.",
+    "source": "https://ygoprodeck.com/card/armored-lizard-1332",
+    "art": "/game-assets/cards/armored_lizard.jpg",
+    "face": "/game-assets/cards/full/armored_lizard.jpg",
+    "hiddenPool": true,
     "rarity": "N"
+  },
+  "giga_tech_wolf": {
+    "id": "giga_tech_wolf",
+    "name": "机甲狼",
+    "canonical": "Giga-Tech Wolf",
+    "kind": "monster",
+    "level": 4,
+    "atk": 1200,
+    "def": 1400,
+    "attribute": "FIRE",
+    "race": "Machine",
+    "quick": false,
+    "counter": false,
+    "era": "DM",
+    "description": "An iron wolf with razor-sharp fangs that can penetrate any armor.",
+    "source": "https://ygoprodeck.com/card/giga-tech-wolf-717",
+    "art": "/game-assets/cards/giga_tech_wolf.jpg",
+    "face": "/game-assets/cards/full/giga_tech_wolf.jpg",
+    "hiddenPool": true,
+    "rarity": "N"
+  },
+  "la_jinn": {
+    "id": "la_jinn",
+    "name": "灯之魔精 拉·基恩",
+    "canonical": "La Jinn the Mystical Genie of the Lamp",
+    "kind": "monster",
+    "level": 4,
+    "atk": 1800,
+    "def": 1000,
+    "attribute": "DARK",
+    "race": "Fiend",
+    "quick": false,
+    "counter": false,
+    "era": "DM",
+    "description": "A genie of the lamp that is at the beck and call of its master.",
+    "source": "https://ygoprodeck.com/card/la-jinn-the-mystical-genie-of-the-lamp-8115",
+    "art": "/game-assets/cards/la_jinn.jpg",
+    "face": "/game-assets/cards/full/la_jinn.jpg",
+    "hiddenPool": true,
+    "rarity": "SR"
+  },
+  "seven_colored_fish": {
+    "id": "seven_colored_fish",
+    "name": "七色鱼",
+    "canonical": "7 Colored Fish",
+    "kind": "monster",
+    "level": 4,
+    "atk": 1800,
+    "def": 800,
+    "attribute": "WATER",
+    "race": "Fish",
+    "quick": false,
+    "counter": false,
+    "era": "DM",
+    "description": "A rare rainbow fish that has never been caught by mortal man.",
+    "source": "https://ygoprodeck.com/card/7-colored-fish-2049",
+    "art": "/game-assets/cards/seven_colored_fish.jpg",
+    "face": "/game-assets/cards/full/seven_colored_fish.jpg",
+    "hiddenPool": true,
+    "rarity": "SR"
+  },
+  "meteor_dragon": {
+    "id": "meteor_dragon",
+    "name": "陨石之龙",
+    "canonical": "Meteor Dragon",
+    "kind": "monster",
+    "level": 6,
+    "atk": 1800,
+    "def": 2000,
+    "attribute": "EARTH",
+    "race": "Dragon",
+    "quick": false,
+    "counter": false,
+    "era": "DM",
+    "description": "This dragon appeared from the sky and crashed to the earth.",
+    "source": "https://ygoprodeck.com/card/meteor-dragon-5422",
+    "art": "/game-assets/cards/meteor_dragon.jpg",
+    "face": "/game-assets/cards/full/meteor_dragon.jpg",
+    "hiddenPool": true,
+    "rarity": "R"
+  },
+  "tri_horned_dragon": {
+    "id": "tri_horned_dragon",
+    "name": "三角魔龙",
+    "canonical": "Tri-Horned Dragon",
+    "kind": "monster",
+    "level": 8,
+    "atk": 2850,
+    "def": 2350,
+    "attribute": "DARK",
+    "race": "Dragon",
+    "quick": false,
+    "counter": false,
+    "era": "DM",
+    "description": "An unworthy dragon with three sharp horns sprouting from its head.",
+    "source": "https://ygoprodeck.com/card/tri-horned-dragon-3313",
+    "art": "/game-assets/cards/tri_horned_dragon.jpg",
+    "face": "/game-assets/cards/full/tri_horned_dragon.jpg",
+    "hiddenPool": true,
+    "rarity": "UR"
+  },
+  "zoa": {
+    "id": "zoa",
+    "name": "佐亚",
+    "canonical": "Zoa",
+    "kind": "monster",
+    "level": 7,
+    "atk": 2600,
+    "def": 1900,
+    "attribute": "DARK",
+    "race": "Fiend",
+    "quick": false,
+    "counter": false,
+    "era": "DM",
+    "description": "A monster whose full potential can be achieved when outfitted with \"Metalmorph\".",
+    "source": "https://ygoprodeck.com/card/zoa-2099",
+    "art": "/game-assets/cards/zoa.jpg",
+    "face": "/game-assets/cards/full/zoa.jpg",
+    "hiddenPool": true,
+    "rarity": "UR"
+  },
+  "meteor_black_dragon": {
+    "id": "meteor_black_dragon",
+    "name": "陨石黑龙",
+    "canonical": "Meteor Black Dragon",
+    "kind": "monster",
+    "level": 8,
+    "atk": 3500,
+    "def": 2000,
+    "attribute": "FIRE",
+    "race": "Dragon",
+    "quick": false,
+    "counter": false,
+    "era": "DM",
+    "description": "\"Red-Eyes Black Dragon\" + \"Meteor Dragon\"",
+    "source": "https://ygoprodeck.com/card/meteor-black-dragon-7573",
+    "art": "/game-assets/cards/meteor_black_dragon.jpg",
+    "face": "/game-assets/cards/full/meteor_black_dragon.jpg",
+    "summonType": "fusion",
+    "materials": [
+      "red_eyes",
+      "meteor_dragon"
+    ],
+    "hiddenPool": true,
+    "rarity": "UR",
+    "materialNames": [
+      "真红眼黑龙",
+      "陨石之龙"
+    ]
   }
 }

@@ -45,9 +45,9 @@ test('summoning the same card definition twice produces two distinct visual even
  const events=game.events.filter(e=>e.type==='summon');assert.equal(events.length,2);assert.equal(events[0].id,events[1].id);assert.notEqual(events[0].eventId,events[1].eventId);
 });
 test('three alternative starter strategies contain no Blue-Eyes and use distinct card distributions',()=>{
- assert.equal(DECKS.length,4);const alternatives=DECKS.filter(d=>d.id!=='blue_eyes_starter');assert.equal(alternatives.length,3);
+ assert.equal(DECKS.length,6);const alternatives=DECKS.filter(d=>d.id!=='blue_eyes_starter');assert.equal(alternatives.length,5);
  for(const d of alternatives)assert.ok(!d.cards.some(c=>c.card_id==='blue_eyes'));
- assert.equal(new Set(DECKS.map(d=>JSON.stringify(d.cards))).size,4);
+ assert.equal(new Set(DECKS.map(d=>JSON.stringify(d.cards))).size,6);
  const defense=DECKS.find(d=>d.id==='defense_starter');assert.equal(defense.ace_card,'giant_soldier');
 });
 test('tribute challenge adapts to all four selected strategies rather than requiring Blue-Eyes',()=>{

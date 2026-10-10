@@ -1,0 +1,1292 @@
+{
+  "reviewedAt": "2026-10-10",
+  "scope": "all files under public; includes unused assets copied by the bundler",
+  "assets": [
+    {
+      "path": "public/assets/android/Keyboard.png",
+      "sha256": "6085e50be17ca2705b4351283187be2c5b01b58262c70b90d74b3376efb4adfe",
+      "bytes": 42695,
+      "status": "template-license-pending",
+      "source": "protected mobile starter / public template asset",
+      "reason": "模板再分发证据未独立核验；独立游戏包应排除无关设备资源"
+    },
+    {
+      "path": "public/assets/android/Pixel10.png",
+      "sha256": "a87c1250ba20756f5d020b5351a7ae71d663dcfc64aca3a1cd56452e8a05233e",
+      "bytes": 214337,
+      "status": "template-license-pending",
+      "source": "protected mobile starter / public template asset",
+      "reason": "模板再分发证据未独立核验；独立游戏包应排除无关设备资源"
+    },
+    {
+      "path": "public/assets/android/navigation-bar.svg",
+      "sha256": "077a782a3b6c2915fc518dfb4bba825c8c5861b2572f9522a7024902b9cb2850",
+      "bytes": 542,
+      "status": "template-license-pending",
+      "source": "protected mobile starter / public template asset",
+      "reason": "模板再分发证据未独立核验；独立游戏包应排除无关设备资源"
+    },
+    {
+      "path": "public/assets/iphone/Bezel.png",
+      "sha256": "ee2514d74d2f75f3541405fa2f20811f159879a66586778cfd8c9c84c44959df",
+      "bytes": 353980,
+      "status": "template-license-pending",
+      "source": "protected mobile starter / public template asset",
+      "reason": "模板再分发证据未独立核验；独立游戏包应排除无关设备资源"
+    },
+    {
+      "path": "public/assets/iphone/Keyboard.png",
+      "sha256": "292e2d83d69adaeb663d6a840ce8db8d0a5257710b472c20713e03f56b08ea88",
+      "bytes": 53341,
+      "status": "template-license-pending",
+      "source": "protected mobile starter / public template asset",
+      "reason": "模板再分发证据未独立核验；独立游戏包应排除无关设备资源"
+    },
+    {
+      "path": "public/assets/status/ios-status-icons.svg",
+      "sha256": "40e218b274d0973d519b50f42884e6e05ef0f2b6a0e46e102fda54218784466d",
+      "bytes": 2765,
+      "status": "template-license-pending",
+      "source": "protected mobile starter / public template asset",
+      "reason": "模板再分发证据未独立核验；独立游戏包应排除无关设备资源"
+    },
+    {
+      "path": "public/assets/status/status-icons.svg",
+      "sha256": "1a8bd4207cf34532ae514bdcdca693acc9a2b8ebc9d3182dc163c3e9ddcc4823",
+      "bytes": 824,
+      "status": "template-license-pending",
+      "source": "protected mobile starter / public template asset",
+      "reason": "模板再分发证据未独立核验；独立游戏包应排除无关设备资源"
+    },
+    {
+      "path": "public/game-assets/arena.png",
+      "sha256": "54903d55d2f3d0d325f27d8fae7e91bc872f0978e9b44862f279bd76b4fb5211",
+      "bytes": 2329453,
+      "status": "generation-review-pending",
+      "source": "recorded as generated artwork / supplied reference in project history",
+      "evidence": "asset-manifest.csv; legal/generation-provenance.json",
+      "reason": "需补齐具体生成记录、服务许可，并复核与既有角色／UI／场景表达的相似性"
+    },
+    {
+      "path": "public/game-assets/blue-eyes.png",
+      "sha256": "9b85771d43819bb5ba50b47b9e71a9655f9c11f5f89cc5861f8f462daf9f6fff",
+      "bytes": 2038457,
+      "status": "ip-authorization-missing",
+      "source": "AI redraw / user-supplied image",
+      "evidence": "legal/generation-provenance.json",
+      "reason": "仍为既有游戏王角色表达，未取得本应用发布授权"
+    },
+    {
+      "path": "public/game-assets/card-back.png",
+      "sha256": "aadf6e79357cbaf25a07b78812d85032f9e6ad4d9178522ee6c75e7a08dab1ab",
+      "bytes": 2613403,
+      "status": "generation-review-pending",
+      "source": "recorded as generated artwork / supplied reference in project history",
+      "evidence": "asset-manifest.csv; legal/generation-provenance.json",
+      "reason": "需补齐具体生成记录、服务许可，并复核与既有角色／UI／场景表达的相似性"
+    },
+    {
+      "path": "public/game-assets/cards/alexandrite_dragon.jpg",
+      "sha256": "1b2adcb51fdb298f7ea20e3d8f1b4320e2832e1fabc7648813ef40c9b847a50c",
+      "bytes": 125741,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/armored_lizard.jpg",
+      "sha256": "839cd6e513ebe6aed0774182b1b411fb1959d618aaf0793ae8ff634244b99f61",
+      "bytes": 132451,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/b_skull_dragon.jpg",
+      "sha256": "3a8421039425bb3a89e0b4ff5231e071b620bc7b436dfa8fd98afc7a2f9b949b",
+      "bytes": 105105,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/battle_ox.jpg",
+      "sha256": "2daec0e8128152d65a5f998e0d9f1ce2b158fc108afc9e653cc20bf36c30b48b",
+      "bytes": 117361,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/black_luster_ritual.jpg",
+      "sha256": "302a1802570e4eefdbde8a430fb0791cea6551a99610108805dcd7be0aa3b23d",
+      "bytes": 118888,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/black_luster_soldier.jpg",
+      "sha256": "c91927ed5ea04694109df64bbed7b3d77dd0e6d4c36f34c111c84041b3cd25ff",
+      "bytes": 122901,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/black_magic_ritual.jpg",
+      "sha256": "f62241ad9154b736f55ace235cd13aeacb432bcebc2c9da0f46b530025bb80d9",
+      "bytes": 93918,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/blue_eyes.jpg",
+      "sha256": "16a731fa4307c3bf5eee6985e9198570ef3d5e920676447debdf47bc9f3d88b6",
+      "bytes": 162800,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/celtic_guardian.jpg",
+      "sha256": "344d22059ce3dd807bd20bf5ee28f201516f2f60ca31be944fe987ca7157e983",
+      "bytes": 118462,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/curse_of_dragon.jpg",
+      "sha256": "c14d8db8e1812a0de5becc128b0685142dd1f2f61e9673f6951722acab1447c0",
+      "bytes": 94250,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/dark_magician.jpg",
+      "sha256": "cffad3a9a824b3d9538dacc23a447a9ba5047079ab84533e9ec8328544df245c",
+      "bytes": 133569,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/dragon_zombie.jpg",
+      "sha256": "7d04adadeab71d6c87fa2b5193309cc874510c049a55af39a68dc2c288219469",
+      "bytes": 119978,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/fissure.jpg",
+      "sha256": "d29bc71c6d4e8cea6c6aa553c9a5326d007b46ea98c4e4266785ffa74cc4e512",
+      "bytes": 124148,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/flame_manipulator.jpg",
+      "sha256": "8c030c2b1069c5d1f4ce9d1a94d65874cc0c46fc45bb5d462ab27bc8b324850d",
+      "bytes": 103149,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/flame_swordsman.jpg",
+      "sha256": "8860bc363be9e2c109de7d70fedd951057c8b4a9ca0bf813d00c2240bd98d192",
+      "bytes": 138035,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/alexandrite_dragon.jpg",
+      "sha256": "3ede2d14ce9a065869530b49e0469507a2cd1f7f18b265ba5ea689c3f9808d52",
+      "bytes": 168688,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/armored_lizard.jpg",
+      "sha256": "a77a8b800bc955ecc43fd8df699d629eccb082e3b89e427e2951bf0d2933e8d9",
+      "bytes": 144217,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/b_skull_dragon.jpg",
+      "sha256": "4b6470f0302eb1d3441ce8d6b7eead01caea2fc2c8d4fcd40ca5f62b1d32f066",
+      "bytes": 139384,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/battle_ox.jpg",
+      "sha256": "4bfb935d3fb5a75c5621472eb9144b90746d0daae5c32614910d2afed52dc1b4",
+      "bytes": 139746,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/black_luster_ritual.jpg",
+      "sha256": "191dcd9531ffd2093e8e79d5591fe726cc99235f2af3ee8f57d4d0fd23b54bab",
+      "bytes": 138637,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/black_luster_soldier.jpg",
+      "sha256": "e6b1b15d97432382146571839f59ab1532e558d11656727172481fec87a68a65",
+      "bytes": 146222,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/black_magic_ritual.jpg",
+      "sha256": "0cf9d20fc2816f6467bb7a4f6c42c1d6a26dd13301d4c13f752591292e96db61",
+      "bytes": 129316,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/blue_eyes.jpg",
+      "sha256": "f290bb1d5184c76d94c7cd34587159dd34c5ce64601f1aa33e4e12fb0db7c2fe",
+      "bytes": 178118,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/celtic_guardian.jpg",
+      "sha256": "6d74e9cd7465f0ffed8728b4fbf1c3c4bcc5f7fda75a2744da2ec55540ca9525",
+      "bytes": 145087,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/curse_of_dragon.jpg",
+      "sha256": "aabf2b05866a90c5b0adc7748c3308edeb0801970ae05df68b8ec90df2cbb44e",
+      "bytes": 130643,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/dark_magician.jpg",
+      "sha256": "704d9bd6a620f24084b761555fc9543d3308d3383088106423f72a216dc34764",
+      "bytes": 152791,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/dragon_zombie.jpg",
+      "sha256": "d761c7183fa14cc6d560ced5ea2988d2e1c1d74b347202266de290110e237d97",
+      "bytes": 138378,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/fissure.jpg",
+      "sha256": "5c86cda9a7646930c46e52e206bb5d59710fb22d842a50a89445440282ef2422",
+      "bytes": 136629,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/flame_manipulator.jpg",
+      "sha256": "7250af9b252b2a7476446af18afe5004d8d140f57bffab9e4cde54b5f1d7c012",
+      "bytes": 132829,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/flame_swordsman.jpg",
+      "sha256": "71e0368891b72ef4cd84e227267ac8a7e8e874c5fb9247db691b9d3372f54a0f",
+      "bytes": 146339,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/gaia.jpg",
+      "sha256": "0bcfbfbf147e6d1221ee136c17da3eb58a193d6604d16cda1c031c7e768f3b40",
+      "bytes": 156350,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/gaia_dragon_champion.jpg",
+      "sha256": "f15d7553bd55ae5b3da6c17aac76467d209c78abea5a0c55ad5270fdd33417da",
+      "bytes": 139081,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/gemini_elf.jpg",
+      "sha256": "602a8834d1d4f711fe4ccbafbe062c8bb0bb114febb0c8ede83b9b2561465122",
+      "bytes": 138866,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/giant_soldier.jpg",
+      "sha256": "313acadb19e7506640c7ac4c8137d78eb6d50fa0f6b75af4af240081f5fd4146",
+      "bytes": 144763,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/giga_tech_wolf.jpg",
+      "sha256": "da989166da54aa83aaf754eebed262132683d9d9e189a3b4be6b447528ee6f40",
+      "bytes": 132511,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/harpie_lady.jpg",
+      "sha256": "def881cbf45e9d5663fbbc398d92dbb7f56ebc71848065739d3446880054962e",
+      "bytes": 134431,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/hyozanryu.jpg",
+      "sha256": "fc0200a9c48e04164ac35e92e3eb4fdde9167603e9b9fd3c8f857909d394cbd6",
+      "bytes": 140191,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/kuriboh.jpg",
+      "sha256": "fd843ab92b825ebe9b5b7473b49fa6f7ef7a8042624314fdf656595c26bf55fe",
+      "bytes": 133635,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/la_jinn.jpg",
+      "sha256": "eb0162b18c93f6c44010395df6cf742feed638775a2ab67a37856ea24ef36984",
+      "bytes": 127686,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/luster_dragon.jpg",
+      "sha256": "6ed8d4f19e529fa2eb340ff0098524710c1cfd0ee6983b987f01764929946390",
+      "bytes": 153198,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/magic_cylinder.jpg",
+      "sha256": "d7f2794722228cad87e00c497090c6c754e287e4aead9d2f62bee0b2cb2f3fce",
+      "bytes": 136541,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/magician_black_chaos.jpg",
+      "sha256": "c794f7f8b2848d175d40b1dfc6b494fd6277dd82274277bb6f0967c04d9617d8",
+      "bytes": 152158,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/masaki.jpg",
+      "sha256": "28ed4016044328e1d128fcac8424e414ed5d47cd03e0b0b175447438d03aca48",
+      "bytes": 132380,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/meteor_black_dragon.jpg",
+      "sha256": "d7407ed87484dd2033571cf5498170e1159238e9e7b09a1f96d48e6bdcebdef6",
+      "bytes": 154039,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/meteor_dragon.jpg",
+      "sha256": "32892a4902c43b1b72cd0dbc9c13d6b147b8606c73aab0df85564f1918729ea5",
+      "bytes": 140204,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/mirror_force.jpg",
+      "sha256": "1e1a8c8383feaa9a12138c73d7cdf01ad6bda751483c6cf92d918e04efbf54b9",
+      "bytes": 97912,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/monster_reborn.jpg",
+      "sha256": "ad081f70bd6a7189be53b0f2a742e82859f55ccfc11c69b47ebcf9a915929a72",
+      "bytes": 133793,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/mst.jpg",
+      "sha256": "cff20f0437fd05223125875cdf9174566eeb8829d8ffdc536c77629bd6f91f37",
+      "bytes": 136476,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/mystical_elf.jpg",
+      "sha256": "63041ce4e780deac593d61fa8aa6846339da3434be45f4cce4c70c1d6d908a61",
+      "bytes": 109887,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/negate_attack.jpg",
+      "sha256": "784214ba18bb9a3b6fe9b289d4b5835cc5eb3a4be733181a726541d67db952a5",
+      "bytes": 119828,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/polymerization.jpg",
+      "sha256": "95fca02307b59cb16c7cf136c86bcfa906a55eec1b15661f7026974761386894",
+      "bytes": 120955,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/red_eyes.jpg",
+      "sha256": "e409c4159f81c91ba3f5a4c390a49bbd855b7571cc90d9117358681df6e68625",
+      "bytes": 163217,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/rush_recklessly.jpg",
+      "sha256": "3778ef7141170c35270aabbff187c65528f574ffb3683423dff4b5a2aa2e5f5f",
+      "bytes": 109586,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/saggi.jpg",
+      "sha256": "d589b24f64c881c5ce60ee4afaa5f79ddad4ea5734d3dab762e74e1eedb6aee1",
+      "bytes": 140261,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/seiyaryu.jpg",
+      "sha256": "98dca72e99fb2b6ed2901010d573671f095760a366a0fdd0dbe2560e3e58d843",
+      "bytes": 117532,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/seven_colored_fish.jpg",
+      "sha256": "4334b1482015b4beb7d68335e61747a83aba20a35bbfeb0931d7937b6af10b54",
+      "bytes": 128082,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/silver_fang.jpg",
+      "sha256": "32997905024d1f81289e6260c492f872a12aa357f711569fe36ea253869e24c5",
+      "bytes": 126412,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/summoned_skull.jpg",
+      "sha256": "4b2b80526afd8a4bab2f5fc356ad9728a696da3dd1743392accaf5d4e07a2f37",
+      "bytes": 147473,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/trap_hole.jpg",
+      "sha256": "e2fa966203a67d04090f31ebe9b4a48c9f548a5bf978935d3afcefe94864241b",
+      "bytes": 105413,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/tri_horned_dragon.jpg",
+      "sha256": "3279f8ac89cf61ee55d56dda0756aeeb6819b6f63e892a2e68158921d223350d",
+      "bytes": 136215,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/zoa.jpg",
+      "sha256": "84f909ffa11fca95f04b6feb6ab2c7dee89f5be03641850c749005d3c2ad3d51",
+      "bytes": 146089,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/gaia.jpg",
+      "sha256": "7e191cb849dfacc4cef12cd133649b89bfa2c01d80042d2211f091ae4eb9a93f",
+      "bytes": 132043,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/gaia_dragon_champion.jpg",
+      "sha256": "ee51c6e1c8cd620d5705895b231b8ca322d0bf4a9d3d10d130f978a10db0a2aa",
+      "bytes": 116025,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/gemini_elf.jpg",
+      "sha256": "718c662c2402bedef1ddcf9190232c3338ddf3878e7b702af9fb67eccf61d991",
+      "bytes": 129483,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/giant_soldier.jpg",
+      "sha256": "4f1378e1c7a189de7a93219b5edcfb36206c38f229af9060bfe46c388a7d7dc9",
+      "bytes": 111288,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/giga_tech_wolf.jpg",
+      "sha256": "351cfad8d32c581dab19923e921c1c3fc3539e48f6819b63ae6159d062d2c3e3",
+      "bytes": 98170,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/harpie_lady.jpg",
+      "sha256": "e673eef5ff75c8624325acdfdf69edcc1b84a8865e82db3293e99d2e08ba1ab2",
+      "bytes": 106263,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/hyozanryu.jpg",
+      "sha256": "bf647137d12506855a127cfa7fc105f351e4abdd9232219a6b20db181468ba46",
+      "bytes": 118227,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/kuriboh.jpg",
+      "sha256": "d0dddae76273d682be6e09e523bd5561d9ba56a63d8e7de92d6495fd6cace67f",
+      "bytes": 77398,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/la_jinn.jpg",
+      "sha256": "64185c1dcbb5446ddfdfe2b5e6e23f98109f91f6889a369ad78f68380f717374",
+      "bytes": 98527,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/luster_dragon.jpg",
+      "sha256": "eb1ef1db2c96a59474cf8110dedd0e7f5680eb934c120723fd9410813ecb33f9",
+      "bytes": 140090,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/magic_cylinder.jpg",
+      "sha256": "1053bb717047a90d8fc13c8410614b80818093954d27f449e629e9a037197697",
+      "bytes": 120994,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/magician_black_chaos.jpg",
+      "sha256": "845c79a7cb60df9995ae7151d1fc26df8d6d090901c428868b0abe124ee78af5",
+      "bytes": 143848,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/masaki.jpg",
+      "sha256": "908b5add6800dae569c18a5a94dd33dd44ded10adc255eeb2c032c36f5120f07",
+      "bytes": 102122,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/meteor_black_dragon.jpg",
+      "sha256": "754495f5b271c43a6d4e53df06b559c483d3c8bc1e0ef9d29f866700019082af",
+      "bytes": 150976,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/meteor_dragon.jpg",
+      "sha256": "293137f9111c7937fc9d75a474a23179177e5df789c290eb9c810b933c9a2128",
+      "bytes": 188682,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/mirror_force.jpg",
+      "sha256": "131f801c9ca1acacae02555e485484c834ae38f32a882aff7e722c00d22f71ca",
+      "bytes": 54170,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/monster_reborn.jpg",
+      "sha256": "f569b70c7caa67f79227070b247efecd8c04ba084e5b3ee5a7964caff527b584",
+      "bytes": 124087,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/mst.jpg",
+      "sha256": "bf89a3e0b87867e97e867b6d98f0f02e301115b49c5661aa95be34d1e8e7046f",
+      "bytes": 123044,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/mystical_elf.jpg",
+      "sha256": "8c8af1fe5a9442fa57115e5ac4b8244c71242c00974e171d4c630b2034d586c2",
+      "bytes": 63708,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/negate_attack.jpg",
+      "sha256": "d313a1a085ff31ba7ff202f57a338d6d917cda693ccf1b72e7b32376357d2ee4",
+      "bytes": 94435,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/polymerization.jpg",
+      "sha256": "1711c6d633f2b3547a9ff8308c2ff8b3b53876d4cdfbacbb6b9f938fb8887f04",
+      "bytes": 98235,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/red_eyes.jpg",
+      "sha256": "c670871ee8686e6f1b0d240d1fe341a7007d35cbd24098bb4dcf19048a48e2e1",
+      "bytes": 145963,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/rush_recklessly.jpg",
+      "sha256": "06697a0404ad0040cc821471883290f2cca809daf025c697019e55c495b6777b",
+      "bytes": 73107,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/saggi.jpg",
+      "sha256": "c87e6d421f62ebe46c30e887dc1b37066f84b561a5a79ccb38e7c73e431650a5",
+      "bytes": 113039,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/seiyaryu.jpg",
+      "sha256": "9d3803497b1330519c26b83269d0ef4c36d77814318ba2dbc018e485a06e0cd1",
+      "bytes": 79397,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/seven_colored_fish.jpg",
+      "sha256": "57ae062e18ed2fc697fb296b52f6e43fea579fafa61b621d85727aed07b94982",
+      "bytes": 103303,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/silver_fang.jpg",
+      "sha256": "a1c34d46c759ddb4aa4a807353ffe0e2ad0dc75f75572b4a5291c2d652c55b1e",
+      "bytes": 90621,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/summoned_skull.jpg",
+      "sha256": "01fc1a056c8a68d0577c36c9571a2d419ea41f6e27151f3edce3c6c32a5d3b56",
+      "bytes": 99088,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/trap_hole.jpg",
+      "sha256": "5a44675292aa02461ea023ad7fef580be73f373cb8efe9f0bfcb0cd1c4987ea0",
+      "bytes": 67005,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/tri_horned_dragon.jpg",
+      "sha256": "739d729d1610c7c4a8ba68480847cb7644b35d52e3580ccb8f1cd13be1ba9aad",
+      "bytes": 110454,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/cards/zoa.jpg",
+      "sha256": "78eeac86049c7d152e2d3fe4fe00ee0942cd3c82bce39562818c80ab22bfef4b",
+      "bytes": 140406,
+      "status": "ip-authorization-missing",
+      "source": "YGOPRODeck cached card image",
+      "sourceUrl": "https://ygoprodeck.com/api-guide/",
+      "reason": "实卡图片：未找到权利人针对本游戏的公开分发授权"
+    },
+    {
+      "path": "public/game-assets/city-arena-refined.jpg",
+      "sha256": "65cd047d1e4d13cd1a4b1d9c16d4d88763e7252944fe5fb17294fdf2f504d07e",
+      "bytes": 710416,
+      "status": "generation-review-pending",
+      "source": "recorded as generated artwork / supplied reference in project history",
+      "evidence": "asset-manifest.csv; legal/generation-provenance.json",
+      "reason": "需补齐具体生成记录、服务许可，并复核与既有角色／UI／场景表达的相似性"
+    },
+    {
+      "path": "public/game-assets/dark-magician.png",
+      "sha256": "cf70d718736fe275dbd8009af6a4ff7c59528b54ed488335c5060a4a47759691",
+      "bytes": 2082619,
+      "status": "ip-authorization-missing",
+      "source": "AI redraw / user-supplied image",
+      "evidence": "legal/generation-provenance.json",
+      "reason": "仍为既有游戏王角色表达，未取得本应用发布授权"
+    },
+    {
+      "path": "public/game-assets/duel-hud-frame.png",
+      "sha256": "9413a3ede37b889d5ccc09b98f38b5406dd8f09b66478fba5a223a18a206ca51",
+      "bytes": 389869,
+      "status": "generation-review-pending",
+      "source": "recorded as generated artwork / supplied reference in project history",
+      "evidence": "asset-manifest.csv; legal/generation-provenance.json",
+      "reason": "需补齐具体生成记录、服务许可，并复核与既有角色／UI／场景表达的相似性"
+    },
+    {
+      "path": "public/game-assets/duelist-player.png",
+      "sha256": "095c674e1573479b467cff73a669be0fbcab98535afb8e942f60568426a35a0c",
+      "bytes": 421790,
+      "status": "generation-review-pending",
+      "source": "recorded as generated artwork / supplied reference in project history",
+      "evidence": "asset-manifest.csv; legal/generation-provenance.json",
+      "reason": "需补齐具体生成记录、服务许可，并复核与既有角色／UI／场景表达的相似性"
+    },
+    {
+      "path": "public/game-assets/duelist-rival.png",
+      "sha256": "3967265b89fd1fc8f46d3d79228ee8a3159160d17ef80aab63ba8fa08164cefb",
+      "bytes": 460128,
+      "status": "generation-review-pending",
+      "source": "recorded as generated artwork / supplied reference in project history",
+      "evidence": "asset-manifest.csv; legal/generation-provenance.json",
+      "reason": "需补齐具体生成记录、服务许可，并复核与既有角色／UI／场景表达的相似性"
+    },
+    {
+      "path": "public/game-assets/entry-blue-eyes.jpg",
+      "sha256": "af4c0fc3f654806c1a9c1e74e28e950d385411f52d29b0575716c80b4a2c10fc",
+      "bytes": 279077,
+      "status": "ip-authorization-missing",
+      "source": "AI redraw / user-supplied image",
+      "evidence": "legal/generation-provenance.json",
+      "reason": "仍为既有游戏王角色表达，未取得本应用发布授权"
+    },
+    {
+      "path": "public/game-assets/kingdom-ruins-anime.jpg",
+      "sha256": "88eb32102a9353d19ad1f03138ab2096c29aab7ed728b15a272ac32c3f69218e",
+      "bytes": 806142,
+      "status": "generation-review-pending",
+      "source": "recorded as generated artwork / supplied reference in project history",
+      "evidence": "asset-manifest.csv; legal/generation-provenance.json",
+      "reason": "需补齐具体生成记录、服务许可，并复核与既有角色／UI／场景表达的相似性"
+    },
+    {
+      "path": "public/game-assets/metal-floor.png",
+      "sha256": "c614bed9a529b3b99c8e9b2dab6be79b988ad8fc25f06317c9f012ac66ebe25e",
+      "bytes": 3092022,
+      "status": "generation-review-pending",
+      "source": "recorded as generated artwork / supplied reference in project history",
+      "evidence": "asset-manifest.csv; legal/generation-provenance.json",
+      "reason": "需补齐具体生成记录、服务许可，并复核与既有角色／UI／场景表达的相似性"
+    },
+    {
+      "path": "public/game-assets/music/battle.mp3",
+      "sha256": "923f0441eadfad6fa75cecdf7d337880b47445f3edda1db2b64238332b8104a2",
+      "bytes": 1161448,
+      "status": "service-license-pending",
+      "source": "doubao_music text_to_bgm + loop processing",
+      "evidence": "legal/generation-provenance.json",
+      "reason": "生成服务具体发布许可及旋律相似性复核待补齐"
+    },
+    {
+      "path": "public/game-assets/music/danger.mp3",
+      "sha256": "5e49c26c7c41b85f2adb0e3a8c8054d834b6c1b576d44ae64e1ba1d819bedd7f",
+      "bytes": 1161448,
+      "status": "service-license-pending",
+      "source": "doubao_music text_to_bgm + loop processing",
+      "evidence": "legal/generation-provenance.json",
+      "reason": "生成服务具体发布许可及旋律相似性复核待补齐"
+    },
+    {
+      "path": "public/game-assets/music/lobby.mp3",
+      "sha256": "c82079214a437f9c290ad9b6885df17370589dac114ddcb3a12ef234360e2a43",
+      "bytes": 1159880,
+      "status": "service-license-pending",
+      "source": "doubao_music text_to_bgm + loop processing",
+      "evidence": "legal/generation-provenance.json",
+      "reason": "生成服务具体发布许可及旋律相似性复核待补齐"
+    },
+    {
+      "path": "public/game-assets/music/summon.mp3",
+      "sha256": "b0650e2f6057adee6a9d7b54208b05c13887e7c529be616e21e595ff9fcd2925",
+      "bytes": 1159880,
+      "status": "service-license-pending",
+      "source": "doubao_music text_to_bgm + loop processing",
+      "evidence": "legal/generation-provenance.json",
+      "reason": "生成服务具体发布许可及旋律相似性复核待补齐"
+    },
+    {
+      "path": "public/game-assets/pbr/SOURCES.md",
+      "sha256": "979dfb1859c0e5fac74399002aafe272866145e38cb0e2573cdb3f923c205e84",
+      "bytes": 1690,
+      "status": "provenance-document",
+      "source": "project asset attribution",
+      "reason": "来源说明文档"
+    },
+    {
+      "path": "public/game-assets/pbr/kloppenheim_06_puresky_1k.hdr",
+      "sha256": "206c67e3a1b992282821cf06662bdd69bbb4915c1c4444a66338a40d6a7d4e34",
+      "bytes": 1173154,
+      "status": "cc0-verified",
+      "source": "Kloppenheim 06 (Pure Sky)",
+      "author": "Greg Zaal / Jarod Guest",
+      "license": "CC0-1.0",
+      "sourceUrl": "https://polyhaven.com/a/kloppenheim_06_puresky",
+      "evidence": "public/game-assets/pbr/SOURCES.md; https://polyhaven.com/license; verified 2026-10-10"
+    },
+    {
+      "path": "public/game-assets/pbr/leafy_grass_arm.jpg",
+      "sha256": "95432451cb2693794459fe7ea339ea9ffdb5959c40373740f80a4aa1703f089d",
+      "bytes": 1010081,
+      "status": "cc0-verified",
+      "source": "Leafy Grass",
+      "author": "Charlotte Baglioni",
+      "license": "CC0-1.0",
+      "sourceUrl": "https://polyhaven.com/a/leafy_grass",
+      "evidence": "public/game-assets/pbr/SOURCES.md; https://polyhaven.com/license; verified 2026-10-10"
+    },
+    {
+      "path": "public/game-assets/pbr/leafy_grass_diff.jpg",
+      "sha256": "cfa40bc9d9417d1852db8753a8d5917f110c40101179f63543c382e39bc05e4a",
+      "bytes": 1195394,
+      "status": "cc0-verified",
+      "source": "Leafy Grass",
+      "author": "Charlotte Baglioni",
+      "license": "CC0-1.0",
+      "sourceUrl": "https://polyhaven.com/a/leafy_grass",
+      "evidence": "public/game-assets/pbr/SOURCES.md; https://polyhaven.com/license; verified 2026-10-10"
+    },
+    {
+      "path": "public/game-assets/pbr/leafy_grass_nor_gl.jpg",
+      "sha256": "832328216adc0a7e1f70a31d5ee48c9ab7f2152d83816122736cf42ac4b2ebd6",
+      "bytes": 1466049,
+      "status": "cc0-verified",
+      "source": "Leafy Grass",
+      "author": "Charlotte Baglioni",
+      "license": "CC0-1.0",
+      "sourceUrl": "https://polyhaven.com/a/leafy_grass",
+      "evidence": "public/game-assets/pbr/SOURCES.md; https://polyhaven.com/license; verified 2026-10-10"
+    },
+    {
+      "path": "public/game-assets/pbr/monastery_stone_floor_arm.jpg",
+      "sha256": "66674e9eac9ac60e2124890f63fde95b967f9e1c6f5ee3b07df77cdb9e024457",
+      "bytes": 645382,
+      "status": "cc0-verified",
+      "source": "Monastery Stone Floor",
+      "author": "Amal Kumar",
+      "license": "CC0-1.0",
+      "sourceUrl": "https://polyhaven.com/a/monastery_stone_floor",
+      "evidence": "public/game-assets/pbr/SOURCES.md; https://polyhaven.com/license; verified 2026-10-10"
+    },
+    {
+      "path": "public/game-assets/pbr/monastery_stone_floor_diff.jpg",
+      "sha256": "aa12137fff1728bbbfe98b30480e33a34cba3b5c096575702c1d66939214e14a",
+      "bytes": 3021140,
+      "status": "cc0-verified",
+      "source": "Monastery Stone Floor",
+      "author": "Amal Kumar",
+      "license": "CC0-1.0",
+      "sourceUrl": "https://polyhaven.com/a/monastery_stone_floor",
+      "evidence": "public/game-assets/pbr/SOURCES.md; https://polyhaven.com/license; verified 2026-10-10"
+    },
+    {
+      "path": "public/game-assets/pbr/monastery_stone_floor_nor_gl.jpg",
+      "sha256": "8f3e131a9d6d9c3a95c872173393830f7c1de389cd60d4878b2211058d706d2c",
+      "bytes": 4248820,
+      "status": "cc0-verified",
+      "source": "Monastery Stone Floor",
+      "author": "Amal Kumar",
+      "license": "CC0-1.0",
+      "sourceUrl": "https://polyhaven.com/a/monastery_stone_floor",
+      "evidence": "public/game-assets/pbr/SOURCES.md; https://polyhaven.com/license; verified 2026-10-10"
+    },
+    {
+      "path": "public/game-assets/pbr/pine_bark_diff.jpg",
+      "sha256": "5c76836b01c3536fa0e24207b67bf4f3315b53ebe2b4ecc6f08dfcf3f8d74929",
+      "bytes": 725265,
+      "status": "cc0-verified",
+      "source": "Pine Tree 01",
+      "author": "Rob Tuytel / Rico Cilliers",
+      "license": "CC0-1.0",
+      "sourceUrl": "https://polyhaven.com/a/pine_tree_01",
+      "evidence": "public/game-assets/pbr/SOURCES.md; https://polyhaven.com/license; verified 2026-10-10"
+    },
+    {
+      "path": "public/game-assets/pbr/pine_twig_alpha.png",
+      "sha256": "6f91aa99f2c27108d6f817f874954aa7df8bfbb4dea2673e9322555a6ae79d99",
+      "bytes": 351928,
+      "status": "cc0-verified",
+      "source": "Pine Tree 01",
+      "author": "Rob Tuytel / Rico Cilliers",
+      "license": "CC0-1.0",
+      "sourceUrl": "https://polyhaven.com/a/pine_tree_01",
+      "evidence": "public/game-assets/pbr/SOURCES.md; https://polyhaven.com/license; verified 2026-10-10"
+    },
+    {
+      "path": "public/game-assets/pbr/pine_twig_diff.jpg",
+      "sha256": "e649f0f9bc74d1af5f1a45eaf2fe7a29adaaddfab251f746b983da301e4b80e1",
+      "bytes": 510932,
+      "status": "cc0-verified",
+      "source": "Pine Tree 01",
+      "author": "Rob Tuytel / Rico Cilliers",
+      "license": "CC0-1.0",
+      "sourceUrl": "https://polyhaven.com/a/pine_tree_01",
+      "evidence": "public/game-assets/pbr/SOURCES.md; https://polyhaven.com/license; verified 2026-10-10"
+    },
+    {
+      "path": "public/game-assets/pbr/rock_face_01/rock_face_01.bin",
+      "sha256": "873eac0319333e92bc96ddeedf8ebf69dc3c68ff1dfe32d8c14ddc165cdb20ac",
+      "bytes": 476436,
+      "status": "cc0-verified",
+      "source": "Rock Face 01",
+      "author": "Dario Barresi",
+      "license": "CC0-1.0",
+      "sourceUrl": "https://polyhaven.com/a/rock_face_01",
+      "evidence": "public/game-assets/pbr/SOURCES.md; https://polyhaven.com/license; verified 2026-10-10"
+    },
+    {
+      "path": "public/game-assets/pbr/rock_face_01/rock_face_01_1k.gltf",
+      "sha256": "96c332c01d173a2431115f3bac29be101fba341e5500e2a08e384f4edd17299e",
+      "bytes": 2793,
+      "status": "cc0-verified",
+      "source": "Rock Face 01",
+      "author": "Dario Barresi",
+      "license": "CC0-1.0",
+      "sourceUrl": "https://polyhaven.com/a/rock_face_01",
+      "evidence": "public/game-assets/pbr/SOURCES.md; https://polyhaven.com/license; verified 2026-10-10"
+    },
+    {
+      "path": "public/game-assets/pbr/rock_face_01/textures/rock_face_01_arm_1k.jpg",
+      "sha256": "59128c79d207a50a69a38002986135ade3b19642d26158cec141eca41578c9ca",
+      "bytes": 693610,
+      "status": "cc0-verified",
+      "source": "Rock Face 01",
+      "author": "Dario Barresi",
+      "license": "CC0-1.0",
+      "sourceUrl": "https://polyhaven.com/a/rock_face_01",
+      "evidence": "public/game-assets/pbr/SOURCES.md; https://polyhaven.com/license; verified 2026-10-10"
+    },
+    {
+      "path": "public/game-assets/pbr/rock_face_01/textures/rock_face_01_diff_1k.jpg",
+      "sha256": "41bd26ed2db1332b1ebb4b1326fd8af4d21f0f0eb57b8ea385033115c722cfdb",
+      "bytes": 853749,
+      "status": "cc0-verified",
+      "source": "Rock Face 01",
+      "author": "Dario Barresi",
+      "license": "CC0-1.0",
+      "sourceUrl": "https://polyhaven.com/a/rock_face_01",
+      "evidence": "public/game-assets/pbr/SOURCES.md; https://polyhaven.com/license; verified 2026-10-10"
+    },
+    {
+      "path": "public/game-assets/pbr/rock_face_01/textures/rock_face_01_nor_gl_1k.jpg",
+      "sha256": "9a9d85b9a01f4e24fc9ceec8baf96c019f552bca69591ff544c7a725e28b1d97",
+      "bytes": 1023400,
+      "status": "cc0-verified",
+      "source": "Rock Face 01",
+      "author": "Dario Barresi",
+      "license": "CC0-1.0",
+      "sourceUrl": "https://polyhaven.com/a/rock_face_01",
+      "evidence": "public/game-assets/pbr/SOURCES.md; https://polyhaven.com/license; verified 2026-10-10"
+    },
+    {
+      "path": "public/game-assets/pbr/sandstone_cracks_arm.jpg",
+      "sha256": "94697b622aeb94acb38b474c96dce2e548a1b4c706f84a340764142e17a0e697",
+      "bytes": 222344,
+      "status": "cc0-verified",
+      "source": "Sandstone Cracks",
+      "author": "Rob Tuytel",
+      "license": "CC0-1.0",
+      "sourceUrl": "https://polyhaven.com/a/sandstone_cracks",
+      "evidence": "public/game-assets/pbr/SOURCES.md; https://polyhaven.com/license; verified 2026-10-10"
+    },
+    {
+      "path": "public/game-assets/pbr/sandstone_cracks_diff.jpg",
+      "sha256": "cf381bbcf60aac570ce895719025a2b7adae7c03369b3d545b4f52f94e57e0e9",
+      "bytes": 696657,
+      "status": "cc0-verified",
+      "source": "Sandstone Cracks",
+      "author": "Rob Tuytel",
+      "license": "CC0-1.0",
+      "sourceUrl": "https://polyhaven.com/a/sandstone_cracks",
+      "evidence": "public/game-assets/pbr/SOURCES.md; https://polyhaven.com/license; verified 2026-10-10"
+    },
+    {
+      "path": "public/game-assets/pbr/sandstone_cracks_nor_gl.jpg",
+      "sha256": "cb983540cae33979e79862fe27b4ec23a5d41c627230d3730e9d5ff6671859f9",
+      "bytes": 1307622,
+      "status": "cc0-verified",
+      "source": "Sandstone Cracks",
+      "author": "Rob Tuytel",
+      "license": "CC0-1.0",
+      "sourceUrl": "https://polyhaven.com/a/sandstone_cracks",
+      "evidence": "public/game-assets/pbr/SOURCES.md; https://polyhaven.com/license; verified 2026-10-10"
+    },
+    {
+      "path": "public/game-assets/roman-arena-refined.jpg",
+      "sha256": "4f8ef699890e4ed040b9866316864f3572e0ced514fe90bc293a31851f1fe031",
+      "bytes": 836750,
+      "status": "generation-review-pending",
+      "source": "recorded as generated artwork / supplied reference in project history",
+      "evidence": "asset-manifest.csv; legal/generation-provenance.json",
+      "reason": "需补齐具体生成记录、服务许可，并复核与既有角色／UI／场景表达的相似性"
+    },
+    {
+      "path": "public/game-assets/roman-arena.jpg",
+      "sha256": "140a93616132af967e6008205c12651f572eae3168c8cf21a70adfab26241ce2",
+      "bytes": 680322,
+      "status": "generation-review-pending",
+      "source": "recorded as generated artwork / supplied reference in project history",
+      "evidence": "asset-manifest.csv; legal/generation-provenance.json",
+      "reason": "需补齐具体生成记录、服务许可，并复核与既有角色／UI／场景表达的相似性"
+    },
+    {
+      "path": "public/game-assets/roman-stone.jpg",
+      "sha256": "96fa8999daca36c5cc4242b75895471f7701be96a96c22c8538f28dace3f56d7",
+      "bytes": 571999,
+      "status": "generation-review-pending",
+      "source": "recorded as generated artwork / supplied reference in project history",
+      "evidence": "asset-manifest.csv; legal/generation-provenance.json",
+      "reason": "需补齐具体生成记录、服务许可，并复核与既有角色／UI／场景表达的相似性"
+    },
+    {
+      "path": "public/game-assets/summon-circle.png",
+      "sha256": "785f3ca6a737d14b72f0e0019139c0ea240defd792dbb5f56112231191d46070",
+      "bytes": 995669,
+      "status": "generation-review-pending",
+      "source": "recorded as generated artwork / supplied reference in project history",
+      "evidence": "asset-manifest.csv; legal/generation-provenance.json",
+      "reason": "需补齐具体生成记录、服务许可，并复核与既有角色／UI／场景表达的相似性"
+    },
+    {
+      "path": "public/game-assets/summon-sanctum.png",
+      "sha256": "a25e4b65d2e6ffed896fe6de750d29971b0a0df31ff054af328e152227f35176",
+      "bytes": 2541641,
+      "status": "generation-review-pending",
+      "source": "recorded as generated artwork / supplied reference in project history",
+      "evidence": "asset-manifest.csv; legal/generation-provenance.json",
+      "reason": "需补齐具体生成记录、服务许可，并复核与既有角色／UI／场景表达的相似性"
+    },
+    {
+      "path": "public/legal/ASSET-NOTICES.txt",
+      "sha256": "a3574ec78c4ecf0786db350c9364ad957e88a045cab470c95faea1e1ab633507",
+      "bytes": 2199,
+      "status": "provenance-document",
+      "source": "project credit / license collection",
+      "reason": "说明文档，非相关游戏 IP 授权"
+    },
+    {
+      "path": "public/legal/THIRD-PARTY-NOTICES.txt",
+      "sha256": "8f8d5166cb1a6fe14af4f13ef5f8dcb958253d9d1881c69183011b2c63acb170",
+      "bytes": 179578,
+      "status": "dependency-notice",
+      "source": "project credit / license collection",
+      "reason": "说明文档，非相关游戏 IP 授权"
+    }
+  ]
+}
