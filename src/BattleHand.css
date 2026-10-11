@@ -17,3 +17,5 @@
 @media(max-width:670px){.in-game .hand-strip.hand-fan{left:16%;right:24%;height:144px}.in-game:has(.battle-inspector) .hand-strip.hand-fan{right:calc(var(--control-width) + 18px)}}
 .in-game .hand-fan.reduced-motion .hand-fan-card{transition:none}
 @media(prefers-reduced-motion:reduce){.in-game .hand-fan .hand-fan-card{transition:none}}
+.in-game .hand-fan.is-playing .hand-fan-card:not(.is-dragging){filter:brightness(.85);transform:translate(-50%,calc(-1 * var(--fan-rise) + 5px)) rotate(var(--fan-angle));z-index:var(--fan-layer)}
+.in-game .hand-fan.is-playing .hand-selection-caret{display:none}

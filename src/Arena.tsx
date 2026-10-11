@@ -61,7 +61,7 @@ export default function Arena({game,deck,theme='night',onPick,effects=true,reduc
    const tip=document.createElement('span');tip.className='marker-tip';tip.setAttribute('aria-hidden','true');const name=document.createElement('b'),status=document.createElement('small');name.textContent=marker.name;status.textContent=`${zone+1} 号 · ${tribute?'召唤素材':target?'选择目标':marker.status}`;tip.append(name,status);button.append(tip);
    button.onclick=()=>latest.current.onPick(c.uid);labelLayer.append(button);labels.push({node:button,anchor:new THREE.Vector3(x,.2,z+(area==='field'?1.22:own?.85:-1.5)),row:button.dataset.player+':'+area,width:marker.width,above:area==='spells'&&!own});
   }
-  function zoneControl(x:number,z:number,site:DropSite){const node=document.createElement('span'),chosen=siteKey(latest.current.dropHover)===siteKey(site);node.className='drop-zone-label'+(chosen?' is-hovered':'');node.textContent=chosen?'松手放置':'拖入这里';if(site.type==='zone'){node.dataset.dropZone=String(site.zone);node.dataset.dropArea=site.area;node.dataset.dropPlayer=String(site.player);}labelLayer.append(node);labels.push({node,anchor:new THREE.Vector3(x,.25,z)});}
+  function zoneControl(x:number,z:number,site:DropSite){const node=document.createElement('span'),chosen=siteKey(latest.current.dropHover)===siteKey(site);node.className='drop-zone-label'+(chosen?' is-hovered':'');node.textContent=site.type==='zone'&&site.uid?(chosen?'目标已选':'可选目标'):'自动落位';if(site.type==='zone'){node.dataset.dropZone=String(site.zone);node.dataset.dropArea=site.area;node.dataset.dropPlayer=String(site.player);}labelLayer.append(node);labels.push({node,anchor:new THREE.Vector3(x,.25,z)});}
   function rebuild(){const {game:g,deck:d}=latest.current;disposeGroup(entities);pickables.length=0;slots.clear();labels.length=0;labelLayer.replaceChildren();
    if(!g){creature(latest.current.heroId,-3,-.5,true);return;}
    // Physical stacks at the margins give the scene scale without exposing hidden cards.
@@ -70,7 +70,7 @@ export default function Arena({game,deck,theme='night',onPick,effects=true,reduc
     const x=(own?i:4-i)*3-6,z=near*(area==='field'?2.4:5.3);
     const dropSite=latest.current.dropSites.find(s=>s.type==='zone'&&s.player===p&&s.area===area&&s.zone===i),hovered=!!dropSite&&siteKey(dropSite)===siteKey(latest.current.dropHover);
     const c=g.players[p][area][i],available=c&&g.legal.some((a:any)=>a.cardUid===c.uid);const zone=createZoneInlay(theme==='city',own,!!available,!!dropSite,hovered);zone.position.set(x,0,z);entities.add(zone);
-    if(c){cardMesh(c,x,z,own);if(shouldShowMonster(c,area))creature(c.id,x,z,false,c.uid);labelControl(c,x,z,own,area,i);}if(dropSite)zoneControl(x,z,dropSite);
+    if(c){cardMesh(c,x,z,own);if(shouldShowMonster(c,area))creature(c.id,x,z,false,c.uid);labelControl(c,x,z,own,area,i);}if(dropSite&&(hovered||dropSite.type==='zone'&&dropSite.uid))zoneControl(x,z,dropSite);
    }}
   }
   const fx:Array<ArenaEffect&{start:number}>=[];let cinema:{start:number,pos:THREE.Vector3}|null=null,oldSkip=latest.current.skip;

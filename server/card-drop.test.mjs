@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createGame,projectGame,instance,applyAction,autoPass} from './engine.mjs';
-import {handPlayActions,cardDropSites,actionsAtDrop,dropNeedsChoice,dragStillCurrent} from '../src/cardDrop.ts';
+import {handPlayActions,cardDropSites,actionsAtDrop,dropNeedsChoice,dragStillCurrent,automaticPlayActions,automaticPreviewSite,isPulledIntoPlay} from '../src/cardDrop.ts';
 
 function fixture(id){const g=createGame();g.turn=3;g.active=0;g.phase='main1';g.players.forEach(p=>{p.field.fill(null);p.spells.fill(null);p.hand=[];p.grave=[];p.normalUsed=false;});const c=instance(id);g.players[0].hand=[c];return {g,c};}
 const zone=(area,index=0,player=0,uid)=>({type:'zone',player,area,zone:index,uid});
@@ -56,4 +56,72 @@ test('paused, completed, stale, changed-game and non-hand drags are invalidated'
  const {g,c}=fixture('celtic_guardian'),view=projectGame(g,0),snapshot={id:view.id,version:view.version};assert.equal(dragStillCurrent(view,snapshot),true);
  for(const changed of [{...view,version:view.version+1},{...view,id:'other'},{...view,paused:true},{...view,result:{winner:1}}])assert.equal(dragStillCurrent(changed,snapshot),false);
  assert.deepEqual(handPlayActions({...view,paused:true},c.uid),[]);assert.deepEqual(handPlayActions({...view,result:{}},c.uid),[]);assert.deepEqual(handPlayActions(view,'not-in-hand'),[]);
+});
+
+test('pull-to-play auto-selects an empty server-legal slot without a precise zone hit',()=>{
+ const {g,c}=fixture('celtic_guardian');g.players[0].field[0]=instance('mystical_elf');const v=projectGame(g,0),site={type:'play'},actions=actionsAtDrop(v,c.uid,site);
+ assert.equal(actions.length,1);assert.equal(actions[0].zone,1);assert.equal(dropNeedsChoice(actions,site),false);
+ assert.deepEqual(automaticPreviewSite(v,actions),{type:'zone',player:0,area:'field',zone:1});
+ applyAction(g,0,actions[0]);autoPass(g);assert.equal(g.players[0].field[1].uid,c.uid);
+});
+test('automatic placement preserves defense and occupied-board legality',()=>{
+ const {g,c}=fixture('giant_soldier');g.players[0].field.fill(instance('mystical_elf'));
+ assert.deepEqual(automaticPlayActions(projectGame(g,0),c.uid),[]);g.players[0].field[4]=null;
+ const a=automaticPlayActions(projectGame(g,0),c.uid,'defense')[0];assert.equal(a.zone,4);assert.equal(a.position,'defense');
+ applyAction(g,0,a);autoPass(g);assert.equal(g.players[0].field[4].faceUp,false);
+});
+test('ordinary spell pull activates without a side-panel drop, and explicit set intent is preserved',()=>{
+ const {g,c}=fixture('fissure');g.players[1].field[0]={...instance('battle_ox'),faceUp:true};const v=projectGame(g,0);
+ const play=actionsAtDrop(v,c.uid,{type:'play'}),set=actionsAtDrop(v,c.uid,{type:'play',intent:'set'});
+ assert.equal(play.length,1);assert.equal(play[0].kind,'activate');assert.equal(set.length,1);assert.equal(set[0].kind,'set');assert.equal(set[0].zone,0);
+ assert.equal(dropNeedsChoice(play,{type:'play'}),false);applyAction(g,0,play[0]);autoPass(g);assert.equal(g.players[1].field[0],null);
+});
+test('trap pull automatically sets, unavailable spells can set, and a full back row rejects both',()=>{
+ for(const id of ['mirror_force','fissure']){const {g,c}=fixture(id);g.players[0].spells[0]=instance('trap_hole');
+  const a=automaticPlayActions(projectGame(g,0),c.uid)[0];assert.equal(a.kind,'set');assert.equal(a.zone,1);
+  g.players[0].spells.fill(instance('trap_hole'));assert.deepEqual(automaticPlayActions(projectGame(g,0),c.uid),[]);
+ }
+});
+test('automatic tribute placement preserves EVERY sacrifice choice on a full board',()=>{
+ const {g,c}=fixture('dark_magician');g.players[0].field=g.players[0].field.map(()=>instance('mystical_elf'));const v=projectGame(g,0),site={type:'play'},options=actionsAtDrop(v,c.uid,site);
+ assert.equal(options.length,10);assert.equal(dropNeedsChoice(options,site),true);
+ assert.equal(automaticPreviewSite(v,options),null);
+ const allChoices=new Set(v.legal.filter(a=>a.cardUid===c.uid&&a.position==='attack').map(a=>JSON.stringify(a.tributes)));
+ assert.deepEqual(new Set(options.map(a=>JSON.stringify(a.tributes))),allChoices);assert.equal(g.players[0].grave.length,0);
+ for(const a of options){assert.ok(a.tributes.includes(g.players[0].field[a.zone].uid));assert.ok(v.legal.includes(a));}
+ applyAction(g,0,options.at(-1));autoPass(g);assert.equal(g.players[0].grave.length,2);assert.ok(g.players[0].field.some(x=>x?.uid===c.uid));
+});
+test('tribute auto-placement prefers empty ground instead of hiding other sacrifice combinations',()=>{
+ const {g,c}=fixture('summoned_skull');g.players[0].field[0]=instance('mystical_elf');g.players[0].field[3]=instance('giant_soldier');const options=automaticPlayActions(projectGame(g,0),c.uid);
+ assert.equal(options.length,2);assert.ok(options.every(a=>a.zone===1));assert.deepEqual(new Set(options.flatMap(a=>a.tributes)),new Set(g.players[0].field.filter(Boolean).map(c=>c.uid)));
+});
+test('generic targeted spell pull never silently chooses a target; direct target drops still work',()=>{
+ const {g,c}=fixture('rush_recklessly');g.players[0].field[0]={...instance('celtic_guardian'),faceUp:true};g.players[1].field[2]={...instance('battle_ox'),faceUp:true};const v=projectGame(g,0),site={type:'play'},options=actionsAtDrop(v,c.uid,site);
+ assert.equal(options.length,2);assert.equal(dropNeedsChoice(options,site),true);assert.equal(g.players[0].hand.length,1);
+ const exact=zone('field',2,1,g.players[1].field[2].uid),direct=actionsAtDrop(v,c.uid,exact);assert.equal(direct.length,1);assert.equal(dropNeedsChoice(direct,exact),false);
+});
+test('revival auto-placement keeps all public graveyard choices and collapses only slots',()=>{
+ const {g,c}=fixture('monster_reborn');g.players[0].grave=[instance('giant_soldier')];g.players[1].grave=[instance('summoned_skull')];g.players[0].field[0]=instance('kuriboh');const v=projectGame(g,0),options=automaticPlayActions(v,c.uid);
+ assert.equal(options.length,2);assert.ok(options.every(a=>a.zone===1&&a.position==='attack'));assert.equal(dropNeedsChoice(options,{type:'play'}),true);assert.deepEqual(new Set(options.map(a=>a.targetUid)),new Set(g.players.flatMap(p=>p.grave.map(c=>c.uid))));
+});
+test('fusion and ritual auto-placement retain materials and require confirmation',()=>{
+ for(const id of ['polymerization','black_luster_ritual']){const {g,c}=fixture(id);
+  if(id==='polymerization'){g.players[0].hand.push(instance('gaia'),instance('curse_of_dragon'));g.players[0].extraDeck=[instance('gaia_dragon_champion')];}
+  else g.players[0].hand.push(instance('black_luster_soldier'),instance('blue_eyes'),instance('celtic_guardian'),instance('mystical_elf'));
+  const v=projectGame(g,0),options=automaticPlayActions(v,c.uid);assert.ok(options.length);assert.ok(options.every(a=>a.kind==='activate'&&a.zone===0));assert.equal(dropNeedsChoice(options,{type:'play'}),true);
+  const signatures=actions=>new Set(actions.map(({zone,...choice})=>JSON.stringify(choice)));
+  assert.deepEqual(signatures(options),signatures(v.legal.filter(a=>a.cardUid===c.uid&&a.kind==='activate'&&a.position==='attack')));assert.equal(g.players[0].grave.length,0);
+ }
+});
+test('pull gesture accepts empty ground, requires an upward threshold and cancels over hand/HUD/outside',()=>{
+ const area={left:120,top:144,right:1024,bottom:512},start={x:460,y:610};
+ assert.equal(isPulledIntoPlay({x:630,y:410},start,area,54),true);
+ for(const point of [{x:630,y:580},{x:630,y:70},{x:30,y:410},{x:1140,y:410},{x:630,y:610}])assert.equal(isPulledIntoPlay(point,start,area,54),false);
+ assert.equal(isPulledIntoPlay({x:460,y:500},{x:460,y:520},area,54),false);
+ const phoneArea={left:101,top:86,right:675,bottom:264};assert.equal(isPulledIntoPlay({x:320,y:235},{x:320,y:330},phoneArea,28),true);
+});
+test('auto-play never creates actions for paused, completed or non-hand cards',()=>{
+ const {g,c}=fixture('celtic_guardian'),v=projectGame(g,0);
+ for(const changed of [{...v,paused:true},{...v,result:{winner:1}}])assert.deepEqual(automaticPlayActions(changed,c.uid),[]);
+ assert.deepEqual(automaticPlayActions(v,'missing'),[]);
 });

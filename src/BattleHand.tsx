@@ -13,7 +13,7 @@ export default function BattleHand({cards,catalog,legal,selectedUid,dragUid,bind
  useLayoutEffect(()=>{if(selectedIndex>=0)setStart(previous=>selectedIndex<previous?selectedIndex:selectedIndex>=previous+layout.capacity?selectedIndex-layout.capacity+1:previous);},[selectedIndex,layout.capacity]);
  const offset=Math.min(start,Math.max(0,cards.length-layout.capacity));
  const page=cards.slice(offset,offset+layout.capacity),paged=cards.length>layout.capacity;
- return <div ref={ref} className={'hand-strip hand-fan '+(reduced?'reduced-motion':'')} aria-label="手牌：向上拖动出牌，轻点查看详情，空格键提起" style={{'--fan-card-height':`${layout.cardHeight}px`,'--fan-card-width':`${layout.cardWidth}px`} as CSSProperties}>
+ return <div ref={ref} className={'hand-strip hand-fan '+(reduced?'reduced-motion':'')+(dragUid?' is-playing':'')} aria-label="手牌：向上拖出后松手出牌，自动落位；轻点查看详情，空格提起，回车出牌" style={{'--fan-card-height':`${layout.cardHeight}px`,'--fan-card-width':`${layout.cardWidth}px`} as CSSProperties}>
   {page.map((card,index)=>{
    const definition=catalog[card.id],pose=layout.cards[index],active=legal.some(a=>a.cardUid===card.uid),selected=card.uid===selectedUid;
    return <button key={card.uid} className={`mini-card hand-fan-card ${definition?.kind||''} ${active?'legal':''} ${selected?'is-selected':''} ${card.uid===dragUid?'is-dragging':''}`} {...bindings(card.uid)} onClick={()=>onSelect(card.uid)} aria-label={`${definition?.name||'未知卡牌'}，手牌 ${offset+index+1} / ${cards.length}`} aria-pressed={selected} style={{'--fan-x':`${pose.x}px`,'--fan-angle':`${pose.angle}deg`,'--fan-rise':`${pose.rise}px`,'--fan-layer':pose.z} as CSSProperties}>
