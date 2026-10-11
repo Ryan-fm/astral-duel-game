@@ -1,0 +1,10 @@
+/* Camera framing uses the same viewport in both scenes and leaves the hand untouched. */
+.in-game.city-scene .arena-canvas,.in-game.city-scene:has(.battle-inspector) .arena-canvas{inset:0}
+.in-game .arena-canvas[data-camera-view="tactical"] canvas{cursor:default}
+.duel-app.in-game .battle-tools .camera-toggle[aria-pressed="true"]{color:#b7f3ff;border-color:#84dcea99;background:#12374ee8}
+.duel-app.in-game .opponent-hand{left:auto;right:3%;width:170px;top:17%;height:26px;justify-content:flex-end}
+.duel-app.in-game .opponent-hand img{height:26px}
+.duel-app.in-game .opponent-hand>span{top:29px;justify-content:flex-end}
+.in-game .arena-canvas[data-camera-view="tactical"] .field-marker[data-area="spells"] .marker-tether{display:none}
+.in-game .arena-canvas[data-camera-view="tactical"] .field-marker.is-opponent[data-area="spells"] .marker-surface{margin-top:4px}
+@media(max-height:560px){.duel-app.in-game .opponent-hand{top:21%;width:130px;height:21px}.duel-app.in-game .opponent-hand img{height:21px}.duel-app.in-game .opponent-hand>span{top:23px}}
