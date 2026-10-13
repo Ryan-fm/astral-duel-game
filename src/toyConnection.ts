@@ -21,7 +21,7 @@ export async function createToyConnection(api?:ToyAPI){
  if(api||(!preview&&inToyContext())){
   storage={...storage,mode:'cloud',status:'loading',blocked:true,message:'正在读取 B站云存档'};
   try{
-   toy||=await loadToySDK();storage.sdkReady=true;cloud=new ToyCloudSave(toy);loaded=await call(()=>cloud!.load());if(loaded?.customDeck)validateCustom(loaded,loaded.customDeck);if(loaded?.customExtra)validateExtra(loaded,loaded.customExtra);empty=!loaded;
+   toy||=await loadToySDK();storage.sdkReady=true;cloud=new ToyCloudSave(toy);loaded=await call(()=>cloud!.load());if(loaded?.customDeck)validateCustom(loaded,loaded.customDeck,{allowLegacyRestrictions:true});if(loaded?.customExtra)validateExtra(loaded,loaded.customExtra);empty=!loaded;
    storage={...storage,status:'ready',blocked:false,message:'B站云存档已连接',legacyAvailable:empty&&!!legacy};
   }catch(e:any){storage={...storage,status:'load-error',message:e.message||platformMessage(e),blocked:true};}
  }
@@ -46,7 +46,7 @@ export async function createToyConnection(api?:ToyAPI){
     if(!toy)throw Error('请在 B站 Toy 页面连接账号；本地试玩不访问你的 B站存档');
     // Invoke before any await: first-time profile authorization requires a user gesture.
     let user;try{user=await toy.getUserProfile();}catch(e:any){throw Error(platformMessage(e));}
-    cloud||=new ToyCloudSave(toy);const restored=await call(()=>cloud!.load());if(restored?.customDeck)validateCustom(restored,restored.customDeck);if(restored?.customExtra)validateExtra(restored,restored.customExtra);empty=!restored;
+    cloud||=new ToyCloudSave(toy);const restored=await call(()=>cloud!.load());if(restored?.customDeck)validateCustom(restored,restored.customDeck,{allowLegacyRestrictions:true});if(restored?.customExtra)validateExtra(restored,restored.customExtra);empty=!restored;
     change({mode:'cloud',status:'ready',blocked:false,message:'B站云存档已连接',user:{nickname:user.nickname,avatar:user.avatar},legacyAvailable:empty&&!!legacy});
     if(restored)ctx.replace({...restored,customExtra:restored.customExtra??null});else {ctx.replace({name:user.nickname});if(!legacy)await ctx.save();}
     return {};
@@ -55,7 +55,7 @@ export async function createToyConnection(api?:ToyAPI){
     if(ctx.game||!cloud||storage.blocked||!empty||!legacy)throw Error('只有空的 B站云存档可以导入旧进度，现有云存档不会被覆盖');
     // Validate using the same cloud reader format and deck validator in the engine.
     if(!Array.isArray(legacy.completed)||!Array.isArray(legacy.cosmetics)||!Number.isSafeInteger(legacy.tickets)||legacy.tickets<0)throw Error('旧进度格式异常，未导入');
-    if(legacy.customDeck)validateCustom(legacy,legacy.customDeck);if(legacy.customExtra)validateExtra(legacy,legacy.customExtra);ctx.replace(legacy);await ctx.save();return {};
+    if(legacy.customDeck)validateCustom(legacy,legacy.customDeck,{allowLegacyRestrictions:true});if(legacy.customExtra)validateExtra(legacy,legacy.customExtra);ctx.replace(legacy);await ctx.save();return {};
    }
    if(m.type==='cloud-sync'){
     if(!cloud||storage.blocked)throw Error('请先连接 B站云存档');await ctx.save();await submit(ctx.profile);return {};

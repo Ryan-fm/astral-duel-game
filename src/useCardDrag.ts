@@ -1,6 +1,8 @@
 import {useEffect,useRef,useState,type PointerEvent as ReactPointerEvent,type RefObject} from 'react';
 import {actionsAtDrop,automaticPreviewSite,cardDropSites,dragStillCurrent,dropNeedsChoice,isPulledIntoPlay,type ArenaDropApi,type CardDrag,type DropPoint,type DropSite,type PlayArea} from './cardDrop';
 
+import {cards} from './cardRegistry';
+
 type Session={uid:string,cardId:string,id:string,version:number,position:string,intent:'play'|'set',origin:DropPoint,start:DropPoint,height:number,pointerId:number,element:HTMLButtonElement,active:boolean,keyboard?:boolean,index?:number};
 export function useCardDrag({game,position,intent='play',intentUid=null,busy,connected,arena,onStart,onDrop,onCancel}:{game:any,position:string,intent?:'play'|'set',intentUid?:string|null,busy:boolean,connected:boolean,arena:RefObject<ArenaDropApi|null>,onStart:()=>void,onDrop:(uid:string,actions:any[],site:DropSite,version:number)=>void,onCancel:(text:string)=>void}){
  const [drag,setDrag]=useState<CardDrag|null>(null),session=useRef<Session|null>(null),timer=useRef<ReturnType<typeof setTimeout>|null>(null),suppressClick=useRef<string|null>(null);
@@ -42,7 +44,7 @@ export function useCardDrag({game,position,intent='play',intentUid=null,busy,con
  function begin(uid:string,element:HTMLButtonElement,start:DropPoint,pointerId:number,keyboard=false){
   const l=latest.current,card=l.game?.players[l.game.you].hand.find((c:any)=>c.uid===uid);if(!card)return null;
   stopTimer();setDrag(null);suppressClick.current=null;const rect=element.getBoundingClientRect();
-  const s:Session={uid,cardId:card.id,id:l.game.id,version:l.game.version,position:l.position,intent:!l.intentUid||l.intentUid===uid?l.intent:'play',origin:{x:rect.left+rect.width/2,y:rect.top+rect.height*.82},start,height:element.offsetHeight,pointerId,element,active:keyboard,keyboard,index:0};session.current=s;return s;
+  const s:Session={uid,cardId:card.id,id:l.game.id,version:l.game.version,position:l.position,intent:cards[card.id]?.kind==='monster'?'play':!l.intentUid||l.intentUid===uid?l.intent:'play',origin:{x:rect.left+rect.width/2,y:rect.top+rect.height*.82},start,height:element.offsetHeight,pointerId,element,active:keyboard,keyboard,index:0};session.current=s;return s;
  }
  function pointerDown(uid:string,event:ReactPointerEvent<HTMLButtonElement>){const l=latest.current;if(event.button!==0||!event.isPrimary||l.busy||!l.connected||!l.game||l.game.paused||l.game.result||session.current)return;
   begin(uid,event.currentTarget,{x:event.clientX,y:event.clientY},event.pointerId);event.currentTarget.setPointerCapture(event.pointerId);
@@ -56,7 +58,7 @@ export function useCardDrag({game,position,intent='play',intentUid=null,busy,con
   const active=s.active;release({x:event.clientX,y:event.clientY});if(active)event.preventDefault();
   if(event.currentTarget.hasPointerCapture(event.pointerId))event.currentTarget.releasePointerCapture(event.pointerId);
  }
- function keyboardSites(s:Session):DropSite[]{return [{type:'play',intent:s.intent},...cardDropSites(latest.current.game,s.uid,s.position)];}
+ function keyboardSites(s:Session):DropSite[]{const sites=cardDropSites(latest.current.game,s.uid,s.position).filter(site=>s.intent!=='set'||site.type==='zone'&&site.area==='spells'&&!site.uid);return [{type:'play',intent:s.intent},...sites];}
  function keyboardStart(uid:string,element:HTMLButtonElement){const l=latest.current;if(l.busy||!l.connected||!cardDropSites(l.game,uid,l.position).length)return;
   const rect=element.getBoundingClientRect(),s=begin(uid,element,{x:rect.left+rect.width/2,y:rect.bottom},-1,true);if(!s)return;suppressClick.current=uid;l.onStart();
   requestAnimationFrame(()=>{if(session.current!==s)return;const area=areaFor(s);move({x:(area.left+area.right)/2,y:(area.top+area.bottom)/2},keyboardSites(s)[0]);});
@@ -76,7 +78,7 @@ export function useCardDrag({game,position,intent='play',intentUid=null,busy,con
   return()=>{window.removeEventListener('blur',blur);window.removeEventListener('keydown',key);document.removeEventListener('visibilitychange',visibility);stopTimer();session.current=null;};
  },[]);
  const live=drag&&!drag.returning&&!drag.launching,options=live?actionsAtDrop(game,drag.uid,drag.site||{type:'play',intent:session.current?.intent},session.current?.position||position):[];
- const preview=automaticPreviewSite(game,options),targets=live?cardDropSites(game,drag.uid,position).filter(s=>s.type==='zone'&&s.uid):[];
+ const preview=automaticPreviewSite(game,options),targets=live&&drag.intent!=='set'?cardDropSites(game,drag.uid,position).filter(s=>s.type==='zone'&&s.uid):[];
  return {drag,sites:preview?[preview,...targets]:targets,hoverSite:drag?.valid?(drag.site?.type==='play'?preview:drag.site):null,bindings:(uid:string)=>({
   onPointerDown:(e:ReactPointerEvent<HTMLButtonElement>)=>pointerDown(uid,e),onPointerMove:pointerMove,onPointerUp:pointerUp,
   onPointerCancel:()=>cancel(),onLostPointerCapture:()=>{if(session.current?.uid===uid)cancel();},

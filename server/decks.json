@@ -24,11 +24,11 @@
       },
       {
         "card_id": "mystical_elf",
-        "count": 2
+        "count": 3
       },
       {
         "card_id": "giant_soldier",
-        "count": 2
+        "count": 3
       },
       {
         "card_id": "kuriboh",
@@ -52,18 +52,22 @@
       },
       {
         "card_id": "mirror_force",
-        "count": 2
+        "count": 1
       },
       {
         "card_id": "trap_hole",
-        "count": 3
+        "count": 2
       },
       {
         "card_id": "negate_attack",
-        "count": 3
+        "count": 2
       },
       {
         "card_id": "magic_cylinder",
+        "count": 1
+      },
+      {
+        "card_id": "masaki",
         "count": 3
       }
     ]
@@ -81,7 +85,7 @@
       },
       {
         "card_id": "summoned_skull",
-        "count": 2
+        "count": 3
       },
       {
         "card_id": "mystical_elf",
@@ -93,7 +97,7 @@
       },
       {
         "card_id": "celtic_guardian",
-        "count": 2
+        "count": 3
       },
       {
         "card_id": "luster_dragon",
@@ -101,7 +105,7 @@
       },
       {
         "card_id": "kuriboh",
-        "count": 2
+        "count": 3
       },
       {
         "card_id": "monster_reborn",
@@ -121,18 +125,22 @@
       },
       {
         "card_id": "mirror_force",
-        "count": 3
+        "count": 1
       },
       {
         "card_id": "trap_hole",
-        "count": 3
+        "count": 2
       },
       {
         "card_id": "negate_attack",
-        "count": 3
+        "count": 2
       },
       {
         "card_id": "magic_cylinder",
+        "count": 1
+      },
+      {
+        "card_id": "battle_ox",
         "count": 3
       }
     ]
@@ -170,7 +178,7 @@
       },
       {
         "card_id": "summoned_skull",
-        "count": 2
+        "count": 3
       },
       {
         "card_id": "monster_reborn",
@@ -182,7 +190,7 @@
       },
       {
         "card_id": "mst",
-        "count": 1
+        "count": 3
       },
       {
         "card_id": "rush_recklessly",
@@ -190,18 +198,22 @@
       },
       {
         "card_id": "mirror_force",
-        "count": 3
+        "count": 1
       },
       {
         "card_id": "trap_hole",
-        "count": 3
+        "count": 2
       },
       {
         "card_id": "negate_attack",
-        "count": 3
+        "count": 2
       },
       {
         "card_id": "magic_cylinder",
+        "count": 1
+      },
+      {
+        "card_id": "curse_of_dragon",
         "count": 3
       }
     ]
@@ -219,7 +231,7 @@
       },
       {
         "card_id": "red_eyes",
-        "count": 2
+        "count": 3
       },
       {
         "card_id": "summoned_skull",
@@ -247,7 +259,7 @@
       },
       {
         "card_id": "kuriboh",
-        "count": 2
+        "count": 3
       },
       {
         "card_id": "monster_reborn",
@@ -267,7 +279,7 @@
       },
       {
         "card_id": "mirror_force",
-        "count": 2
+        "count": 1
       },
       {
         "card_id": "trap_hole",
@@ -279,7 +291,7 @@
       },
       {
         "card_id": "magic_cylinder",
-        "count": 2
+        "count": 1
       }
     ]
   },
@@ -308,11 +320,11 @@
       },
       {
         "card_id": "red_eyes",
-        "count": 2
+        "count": 3
       },
       {
         "card_id": "summoned_skull",
-        "count": 2
+        "count": 3
       },
       {
         "card_id": "celtic_guardian",
@@ -344,7 +356,7 @@
       },
       {
         "card_id": "mirror_force",
-        "count": 2
+        "count": 1
       },
       {
         "card_id": "trap_hole",
@@ -356,7 +368,7 @@
       },
       {
         "card_id": "magic_cylinder",
-        "count": 2
+        "count": 1
       }
     ],
     "extra": [
@@ -412,7 +424,7 @@
       },
       {
         "card_id": "giant_soldier",
-        "count": 2
+        "count": 3
       },
       {
         "card_id": "kuriboh",
@@ -436,7 +448,7 @@
       },
       {
         "card_id": "mirror_force",
-        "count": 2
+        "count": 1
       },
       {
         "card_id": "negate_attack",

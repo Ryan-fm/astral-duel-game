@@ -5,12 +5,12 @@ export const CLOUD_KEYS=[PREFIX,...['a','b'].flatMap(slot=>Array.from({length:PA
 const bytes=(text:string)=>new TextEncoder().encode(text).length;
 async function hash(text:string){return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text))),n=>n.toString(16).padStart(2,'0')).join('');}
 export function saveSnapshot(p:any){
- return {name:p.name,wins:p.wins,losses:p.losses,recent:p.recent?.slice(-20)||[],cosmetics:p.cosmetics,completed:p.completed,appearance:p.appearance,collection:p.collection,tickets:p.tickets,dust:p.dust,pity:p.pity,drawHistory:p.drawHistory?.slice(0,5)||[],claimedDate:p.claimedDate,customDeck:p.customDeck,customExtra:p.customExtra??null,challengeBest:p.challengeBest||{},rankEnabled:p.rankEnabled===true};
+ return {name:p.name,wins:p.wins,losses:p.losses,recent:p.recent?.slice(-20)||[],cosmetics:p.cosmetics,completed:p.completed,appearance:p.appearance,collection:p.collection,tickets:p.tickets,rewardPacks:p.rewardPacks??0,dust:p.dust,pity:p.pity,drawHistory:p.drawHistory?.slice(0,5)||[],claimedDate:p.claimedDate,customDeck:p.customDeck,customExtra:p.customExtra??null,challengeBest:p.challengeBest||{},rankEnabled:p.rankEnabled===true};
 }
 function validate(p:any){
  if(!p||typeof p!=='object'||Array.isArray(p)||typeof p.name!=='string'||!Array.isArray(p.completed)||!Array.isArray(p.cosmetics)||!p.collection||typeof p.collection!=='object'||Array.isArray(p.collection)||!Number.isSafeInteger(p.tickets)||p.tickets<0||p.customDeck!==null&&p.customDeck!==undefined&&(!Array.isArray(p.customDeck)||p.customDeck.length!==40||p.customDeck.some((id:any)=>typeof id!=='string')))throw Error('云存档格式异常，未覆盖原有存档');
  if(p.customExtra!=null&&(!Array.isArray(p.customExtra)||p.customExtra.length>15||p.customExtra.some((id:any)=>typeof id!=='string')))throw Error('云存档额外卡组格式异常');
- return p;
+ if(p.rewardPacks!==undefined&&(!Number.isSafeInteger(p.rewardPacks)||p.rewardPacks<0))throw Error('云存档卡包数量异常');return p;
 }
 export function splitSave(text:string){
  const result:string[]=[];let part='';for(const ch of text){if(bytes(part+ch)>900){result.push(part);part='';}part+=ch;}if(part)result.push(part);

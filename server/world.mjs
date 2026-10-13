@@ -2,8 +2,11 @@ import {randomBytes,randomInt,createHash} from 'node:crypto';
 import {SCENARIOS, RULES_VERSION, createGame, applyAction, autoPass, projectGame, chooseAi, tickGame, finish, DECKS } from './engine.mjs';
 import {connectionOutcome} from './connection.mjs';
 import {recordChallenge,challengeScore,rankProfiles} from './ranking.mjs';
-import {initCollection,collectionView,validateCustom,validateExtra,pull,claimDaily} from './gacha.mjs';
+import {initCollection,collectionView,validateCustom,validateExtra,pull,openRewardPack,claimDaily} from './gacha.mjs';
 
+
+import {awardDuelRewards} from './duelRewards.mjs';
+import {assertDeckLimits} from './deckLimits.mjs';
 
 export const PRESENCE_MS=20000;
 export function createWorld(world,now=Date.now()){
@@ -20,7 +23,7 @@ function viewRoom(p){const room=rooms.get(p.roomCode);return room?{code:room.cod
 function settle(item){if(!item.g.result||item.settled)return;item.settled=true;const {winner}=item.g.result;
  for(let i=0;i<item.members.length;i++){const p=profiles.get(item.members[i]);if(!p)continue;recordChallenge(p,item.g,i);
   if(item.g.mode==='match'&&winner!==null){if(i===winner)p.wins++;else p.losses++;p.recent.push(i===winner?1:0);p.recent=p.recent.slice(-20);if(p.wins+p.losses>=3&&!p.cosmetics.includes('blue_back'))p.cosmetics.push('blue_back');}
-  if(i===winner&&item.g.scenario){initCollection(p);if(!p.completed.includes(item.g.scenario)){p.completed.push(item.g.scenario);p.tickets+=item.g.scenario.startsWith('C')?5:3;}const reward={C01:'blue_back',C02:'ice',C03:'violet'}[item.g.scenario];if(reward&&!p.cosmetics.includes(reward))p.cosmetics.push(reward);if(['T01','T02','T03'].every(s=>p.completed.includes(s))&&!p.cosmetics.includes('intro_back'))p.cosmetics.push('intro_back');}
+  awardDuelRewards(p,item.g,i);
  }
 }
 function broadcast(item){settle(item);}
@@ -46,7 +49,7 @@ function findMatch(){const all=[...queues.values()];for(let i=0;i<all.length;i++
   const room=newRoom([a.token,b.token],'match',[a.deck,b.deck]);return findMatch();
  }}
 }
-function validateDeck(id,p){if(id==='custom'){if(!p?.customDeck)throw new Error('请先保存一套 40 张自定义卡组');validateCustom(p,p.customDeck);return id;}if(!DECKS.some(d=>d.id===id))throw new Error('未知卡组');return id;}
+function validateDeck(id,p){if(id==='custom'){if(!p?.customDeck)throw new Error('请先保存一套 40 张自定义卡组');validateCustom(p,p.customDeck);return id;}const preset=DECKS.find(d=>d.id===id);if(!preset)throw new Error('未知卡组');assertDeckLimits(preset.cards.flatMap(c=>Array(c.count).fill(c.card_id)),{});return id;}
 function deckCards(p,id){validateDeck(id,p);return id==='custom'?[...p.customDeck]:DECKS.find(d=>d.id===id).cards.flatMap(c=>Array(c.count).fill(c.card_id));}
 function deckExtra(p,id){return id==='custom'?validateExtra(p,p.customExtra||[]):[...(DECKS.find(d=>d.id===id)?.extra||[])];}
 
@@ -98,6 +101,7 @@ function deckExtra(p,id){return id==='custom'?validateExtra(p,p.customExtra||[])
    if(m.type==='leaderboard'){ranking=rankProfiles(profiles.values(),p,m.board===2?2:1);}
    else if(m.type==='profile'){p.name=String(m.name||'决斗者').trim().slice(0,16)||'决斗者';}
    else if(m.type==='draw'){if(p.gameId||p.queue||p.roomCode)throw new Error('请先返回大厅再召唤');drawResponse=pull(p,m.count,m.requestId);}
+   else if(m.type==='open-pack'){if(p.gameId)throw Error('请先返回大厅再开启卡包');drawResponse=openRewardPack(p,m.requestId);}
    else if(m.type==='daily'){claimDaily(p);}
    else if(m.type==='deck-save'){if(p.gameId||p.queue||p.roomCode)throw new Error('请先返回大厅再编辑卡组');const main=validateCustom(p,m.cards),extra=validateExtra(p,m.extra??p.customExtra??[]);p.customDeck=main;p.customExtra=extra;}
    else if(m.type==='cosmetic'){const allowed={back:['default','blue_back','intro_back'],summon:['default','violet'],arena:['night','city','ice']};if(!allowed[m.slot]?.includes(m.value)||(m.value!=='default'&&!(m.slot==='arena'&&['night','city'].includes(m.value))&&!p.cosmetics.includes(m.value)))throw new Error('外观尚未解锁');p.appearance={...profileView(p).appearance,[m.slot]:m.value};}

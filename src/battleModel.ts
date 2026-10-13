@@ -27,6 +27,7 @@ export function unavailableReason(game:any,card:any,catalog:Record<string,any>){
  if(!game)return '查看卡牌详情';
  if(game.result)return '本局已结束';if(game.paused)return '练习已暂停，请先继续决斗';
  const loc=findVisibleCard(game,card?.uid),d=catalog[card?.id];
+ if(loc&&loc.player===game.you&&loc.area==='spells'&&!card.faceUp&&d?.kind==='spell'&&d.quick&&card.placedTurn>=game.turn)return '速攻魔法盖放当回合不能发动；从下回合起可在合法时机使用';
  if(game.window)return game.window.responder!==game.you?'等待对方连锁响应':'此卡不满足当前连锁的发动条件';
  if(game.active!==game.you)return '对手正在行动，等待你的回合或响应机会';
  if(!loc||loc.player!==game.you)return '对方卡牌只能查看；先选我方怪兽再选择攻击目标';

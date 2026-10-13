@@ -5,7 +5,7 @@ import {specialSpellActions,resolveSpecialSpell,canRevive} from './classicSummon
 export const CARDS = {...JSON.parse(readFileSync(new URL('../src/cards.json', import.meta.url))),...JSON.parse(readFileSync(new URL('./hidden-cards.json', import.meta.url)))};
 export const DECKS = JSON.parse(readFileSync(new URL('./decks.json', import.meta.url)));
 export const SCENARIOS = JSON.parse(readFileSync(new URL('./scenarios.json', import.meta.url)));
-export const RULES_VERSION = 'classic-dm-v3';
+export const RULES_VERSION = 'classic-dm-v4';
 const cnPhase = { main1:'主要阶段 1', battle:'战斗阶段', main2:'主要阶段 2' };
 export const attackValue = c => CARDS[c.id].atk + (c.bonus || 0);
 const monster = c => c && CARDS[c.id]?.kind === 'monster';
@@ -205,7 +205,7 @@ export function projectGame(g,p){
  const visible=(c,owner)=>!c?null:owner===p||c.faceUp?{...c}:({uid:c.uid,hidden:true,faceUp:false,position:c.position});
  const players=g.players.map((v,owner)=>({name:v.name,deckId:v.deckId,appearance:v.appearance||{back:'default',summon:'default'},lp:v.lp,handCount:v.hand.length,deckCount:v.deck.length,hand:owner===p?v.hand.map(c=>({...c})):[],extraCount:v.extraDeck.length,extraDeck:owner===p?v.extraDeck.map(c=>({...c})):[],grave:v.grave.map(c=>({...c})),field:v.field.map(c=>visible(c,owner)),spells:v.spells.map(c=>visible(c,owner)),normalUsed:v.normalUsed}));
  const exposedIds=new Set(players.flatMap(v=>[...v.hand,...v.extraDeck,...v.field,...v.spells,...v.grave]).filter(Boolean).map(c=>c.id).filter(Boolean));const cardCatalog=Object.fromEntries([...exposedIds].filter(id=>CARDS[id]?.hiddenPool).map(id=>[id,CARDS[id]]));
- return {cardCatalog,id:g.id,mode:g.mode,scenario:g.scenario,rulesVersion:g.rulesVersion,version:g.version,you:p,active:g.active,turn:g.turn,phase:g.phase,deadline:g.deadline,players,window:g.window?{...g.window}:null,pending:g.pending?{kind:g.pending.kind,player:g.pending.player,uid:g.pending.uid,targetUid:g.pending.targetUid,chain:g.pending.chain.map(c=>({id:c.id,player:c.player})),amount:g.pending.amount}:null,log:g.log,events:g.events,result:g.result,legal:legalActions(g,p),serverNow:Date.now()};
+ return {cardCatalog,id:g.id,mode:g.mode,scenario:g.scenario,rulesVersion:g.rulesVersion,version:g.version,you:p,active:g.active,turn:g.turn,phase:g.phase,deadline:g.deadline,players,window:g.window?{...g.window}:null,pending:g.pending?{kind:g.pending.kind,player:g.pending.player,uid:g.pending.uid,targetUid:g.pending.targetUid,chain:g.pending.chain.map(c=>({id:c.id,player:c.player})),amount:g.pending.amount}:null,log:g.log,events:g.events,result:g.result?((({rewards,...result})=>({...result,reward:rewards?.[p]||null}))(g.result)):null,legal:legalActions(g,p),serverNow:Date.now()};
 }
 function setupScenario(g,id,now){
  for(const p of g.players){p.hand=[];p.field=Array(5).fill(null);p.spells=Array(5).fill(null);p.grave=[];p.deck=p.deck.filter(c=>!['mirror_force'].includes(c.id));}

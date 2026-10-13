@@ -1,8 +1,10 @@
 import {createGame,applyAction,autoPass,projectGame,chooseAi,DECKS,SCENARIOS} from '../server/engine.mjs';
-import {initCollection,collectionView,validateCustom,validateExtra,pull,claimDaily} from '../server/gacha.mjs';
+import {initCollection,collectionView,validateCustom,validateExtra,pull,openRewardPack,claimDaily} from '../server/gacha.mjs';
 import type {GameConnection} from './gameConnection';
 import {recordChallenge,challengeScore,rankProfiles} from '../server/ranking.mjs';
 export type OfflineOptions={initialProfile?:any,persist?:(profile:any)=>Promise<void>,storageState?:()=>any,subscribe?:(notify:()=>void)=>()=>void,onSettled?:(profile:any,game:any)=>Promise<void>,extra?:(m:any,context:{profile:any,game:any,replace:(p:any)=>void,save:()=>Promise<void>})=>Promise<any>};
+import {awardDuelRewards} from '../server/duelRewards.mjs';
+import {assertDeckLimits} from '../server/deckLimits.mjs';
 const KEY='astral-duel-toy-save-v1';
 export function createOfflineConnection(storage:Pick<Storage,'getItem'|'setItem'>=localStorage,options:OfflineOptions={}):GameConnection{
  const listeners=new Map<string,Array<(...args:any[])=>void>>();let connected=true,game:any=null,paused=false,settled=false,difficulty='normal',nextAI=0,gameArena='night';
@@ -11,11 +13,11 @@ export function createOfflineConnection(storage:Pick<Storage,'getItem'|'setItem'
  profile={name:'秘藏决斗者',wins:0,losses:0,recent:[],cosmetics:['night'],completed:[],appearance:{back:'default',summon:'default',arena:'night'},...(profile||{})};initCollection(profile);
  const memo=new Map<string,any>(),inflight=new Map<string,Promise<any>>();const emit=(event:string,...args:any[])=>{for(const l of listeners.get(event)||[])l(...args);};
  async function save(){if(options.persist){await options.persist(profile);return;}try{storage.setItem(KEY,JSON.stringify(profile));}catch{throw new Error('无法保存本地进度，请允许此网站使用浏览器存储后重试');}}
- function deck(id:string){if(id==='custom')return validateCustom(profile,profile.customDeck);const d=DECKS.find((d:any)=>d.id===id);if(!d)throw new Error('未知卡组');return d.cards.flatMap((c:any)=>Array(c.count).fill(c.card_id));}
+ function deck(id:string){if(id==='custom')return validateCustom(profile,profile.customDeck);const d=DECKS.find((d:any)=>d.id===id);if(!d)throw new Error('未知卡组');const cards=d.cards.flatMap((c:any)=>Array(c.count).fill(c.card_id));assertDeckLimits(cards,{});return cards;}
  function extraDeck(id:string){return id==='custom'?validateExtra(profile,profile.customExtra||[]):[...(DECKS.find((d:any)=>d.id===id)?.extra||[])];}
  function settle(){
   if(!game?.result||settled)return;settled=true;let changed=recordChallenge(profile,game,0);
-  if(game.result.winner===0&&game.scenario){const id=game.scenario;if(!profile.completed.includes(id)){profile.completed.push(id);profile.tickets+=id.startsWith('C')?5:3;changed=true;}const reward:any={C01:'blue_back',C02:'ice',C03:'violet'};if(reward[id]&&!profile.cosmetics.includes(reward[id]))profile.cosmetics.push(reward[id]);if(['T01','T02','T03'].every(id=>profile.completed.includes(id))&&!profile.cosmetics.includes('intro_back'))profile.cosmetics.push('intro_back');}
+  const reward=awardDuelRewards(profile,game,0);changed ||= !!(reward?.packs||reward?.tickets||reward?.firstClear||reward?.cosmetics.length);
   if(changed){const ended=game;settling=save().then(()=>options.onSettled?.(profile,ended)).catch(e=>emit('notice',e.message||'结算进度尚未保存，请在大厅重试同步')).finally(()=>{settling=null;if(connected)update();});}
  }
  function update(){settle();emit('state',{serverNow:Date.now(),profile:{...profile,...collectionView(profile),challengeScore:challengeScore(profile)},storage:options.storageState?.()||{mode:'local',status:'ready',message:'本机存档'},queue:null,room:null,game:game?{...projectGame(game,0),paused,difficulty,arena:gameArena,disconnected:false}:null});}
@@ -29,6 +31,7 @@ export function createOfflineConnection(storage:Pick<Storage,'getItem'|'setItem'
    else if(m.type==='pause'){if(!game||game.result)throw new Error('仅进行中的人机局支持暂停');paused=!paused;}
    else if(m.type==='leave'){game=null;paused=false;}
    else if(m.type==='draw'){if(game)throw new Error('请先返回大厅再召唤');draw=pull(profile,m.count,m.requestId);await save();}
+   else if(m.type==='open-pack'){if(game)throw Error('请先返回大厅再开启卡包');draw=openRewardPack(profile,m.requestId);await save();}
    else if(m.type==='daily'){claimDaily(profile);await save();}
    else if(m.type==='deck-save'){if(game)throw new Error('请先返回大厅再编辑卡组');const main=validateCustom(profile,m.cards),extra=validateExtra(profile,m.extra??profile.customExtra??[]);profile.customDeck=main;profile.customExtra=extra;await save();}
    else if(m.type==='profile'){profile.name=String(m.name||'决斗者').trim().slice(0,16)||'决斗者';await save();}

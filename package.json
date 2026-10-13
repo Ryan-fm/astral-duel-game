@@ -15,7 +15,7 @@
     "dev:game": "node server/index.mjs",
     "build:game": "npm run check:runtime && tsc && vite build --config game.vite.config.ts && node scripts/prepare-game-build.mjs",
     "start:game": "NODE_ENV=production node server/index.mjs",
-    "test:game": "node --test server/engine.test.mjs server/network.test.mjs server/gacha.test.mjs server/offline.test.mjs server/battle-ui.test.mjs server/card-drop.test.mjs server/monster-visibility.test.mjs server/music.test.mjs server/environment.test.mjs server/camera.test.mjs server/cliff-assets.test.mjs server/landscape.test.mjs server/platform.test.mjs server/voice.test.mjs server/dm.test.mjs server/distributed.test.mjs server/online-client.test.mjs",
+    "test:game": "node --test server/engine.test.mjs server/network.test.mjs server/gacha.test.mjs server/offline.test.mjs server/battle-ui.test.mjs server/card-drop.test.mjs server/monster-visibility.test.mjs server/music.test.mjs server/environment.test.mjs server/camera.test.mjs server/cliff-assets.test.mjs server/landscape.test.mjs server/platform.test.mjs server/voice.test.mjs server/dm.test.mjs server/distributed.test.mjs server/online-client.test.mjs server/usability.test.mjs server/deck-workshop.test.mjs",
     "build:toy": "npm run check:runtime && tsc && vite build --config toy.vite.config.ts && node scripts/prepare-toy-build.mjs",
     "build:solo": "npm run check:runtime && tsc && VITE_DUEL_ONLINE_ENABLED=0 vite build --config solo.vite.config.ts && node scripts/prepare-game-build.mjs solo",
     "build:toy:solo": "VITE_DUEL_ONLINE_ENABLED=0 npm run build:toy",

@@ -3,12 +3,12 @@ import {ArrowRight,ArrowLeft,X,Sword,Lightning,Eye,Clock,Check,Shield,Warning} f
 import {attackPreview,battleGuidance,unavailableReason,findVisibleCard} from './battleModel';
 import {currentChainCard} from './activationFeed';
 import './BattleControls.css';
+import ActionChoiceGroup from './ActionChoiceGroup';
 
-const keyNames:Record<string,string>={position:'表示',zone:'区域',tributes:'祭品',targetUid:'目标',fusionId:'融合怪兽',ritualUid:'仪式怪兽',materialUids:'融合素材'};
 export function BattleInspector({game,card,catalog,effectText,kinds,kind,names,selections,action,onKind,onChoice,onExecute,onClose,onZoom,busy,dragToPlay=false,dropConfirmed=false}:{game:any,card:any,catalog:Record<string,any>,effectText?:string,kinds:string[],kind:string,names:Record<string,string>,selections:any[],action:any,onKind:(kind:string)=>void,onChoice:(index:number,value:string)=>void,onExecute:(a:any)=>void,onClose:()=>void,onZoom:()=>void,busy:boolean,dragToPlay?:boolean,dropConfirmed?:boolean}){
  const d=catalog[card?.id],preview=attackPreview(game,action,catalog);
  const label=(key:string,raw:string)=>{
-  const value=JSON.parse(raw);
+  if(!raw)return '请选择';const value=JSON.parse(raw);
   if(key==='position')return value==='attack'?'攻击表示':kind==='summon'?'盖放守备':'守备表示';
   if(key==='fusionId')return catalog[value]?.name||value;
   if(key==='zone')return `${value+1}`;
@@ -16,18 +16,21 @@ export function BattleInspector({game,card,catalog,effectText,kinds,kind,names,s
   if(['tributes','materialUids'].includes(key))return value.length?value.map(name).join(' + ')+(key==='tributes'&&action?.ritualUid?`（总等级 ${value.reduce((s:number,uid:string)=>s+(catalog[findVisibleCard(game,uid)?.card.id]?.level||0),0)}）`:''):'无需祭品';
   return value===null?'直接攻击对手':name(value);
  };
- const visibleSelections=selections.filter(s=>!(dragToPlay&&s.key==='zone')&&(!dragToPlay||dropConfirmed||!['tributes','targetUid','fusionId','ritualUid','materialUids'].includes(s.key))&&(s.key!=='tributes'||JSON.parse(s.value).length));
+ const materialSelection=selections.find(s=>['tributes','materialUids'].includes(s.key)&&s.required),selectedMaterials=JSON.parse(materialSelection?.value||'[]') as string[],materialLevels=selectedMaterials.reduce((sum,uid)=>sum+(catalog[findVisibleCard(game,uid)?.card.id]?.level||0),0);
+ const nextChoice=selections.find(s=>s.enabled&&s.required&&!s.complete),choicePrompt:Record<string,string>={targetUid:'请选择目标',tributes:'请选择足够的祭品',materialUids:'请选择融合素材',fusionId:'请选择融合怪兽',ritualUid:'请选择仪式怪兽'};
+ const visibleSelections=selections.filter(s=>!(dragToPlay&&s.key==='zone')&&(!dragToPlay||dropConfirmed||!['tributes','targetUid','fusionId','ritualUid','materialUids'].includes(s.key))&&(s.key!=='tributes'||s.options.some((v:string)=>JSON.parse(v).length)));
  return <aside className="battle-inspector" aria-label="卡牌操作面板">
   <div className="inspector-heading"><span>已选卡牌</span><button className="icon-btn" aria-label="收起卡牌操作" onClick={onClose}><X/></button></div>
   <div className="inspector-card"><button onClick={onZoom} aria-label="放大卡面与中文说明"><img src={d?.face||'/game-assets/card-back.png'} alt={d?.name||'未知盖牌'}/><span>放大说明</span></button><div><small>{d?.kind==='monster'?'怪兽':d?.kind==='spell'?'魔法':d?.kind==='trap'?'陷阱':'隐藏卡牌'}</small><h2>{d?.name||'未知盖牌'}</h2>{d?.kind==='monster'&&<strong>ATK {d.atk+(card?.bonus||0)}<br/>DEF {d.def}<span className="inspector-level"> · 等级 {d.level}</span></strong>}</div></div>
-  <div className="inspector-scroll">{dropConfirmed&&<div className="drop-locked-note"><Check size={15}/>已拖出卡牌 · 确认目标或素材</div>}{effectText&&<details className="card-effect" key={card?.uid} open><summary>卡牌效果</summary><p className="effect-copy">{effectText}</p></details>}{!d&&<p className="effect-copy">盖牌身份尚未公开</p>}
+  <div className="inspector-scroll">{dropConfirmed&&<div className="drop-locked-note"><Check size={15}/>已拖出卡牌 · 确认目标或素材</div>}{effectText&&<details className="card-effect" key={card?.uid} open><summary>卡牌效果</summary><p className="effect-copy">{effectText}</p></details>}{d?.kind==='spell'&&kind==='set'&&<p className="rule-reminder">{d.quick?'速攻魔法可盖放，但盖放当回合不能发动；下回合起可在合法响应时机使用。':'魔法可以盖放。在主要阶段点选自己的盖牌可发动。'}</p>}{!d&&<p className="effect-copy">盖牌身份尚未公开</p>}
    {kinds.length>0?<>{kinds.length>1&&<div className="inspector-actions">{kinds.map(k=><button key={k} className={kind===k?'selected':''} onClick={()=>onKind(k)}>{names[k]}</button>)}</div>}
-   {visibleSelections.map((s:any)=>{const index=selections.indexOf(s);return <div className={'choice-group choice-'+s.key} key={s.key}><div><span>{keyNames[s.key]}</span>{s.key==='targetUid'&&s.options.length>1&&<small>也可直接点场上目标</small>}{s.key==='zone'&&<small>已选 {JSON.parse(s.value)+1} 号</small>}</div><div className="choice-buttons">{s.options.length===1&&s.key!=='zone'?<p className="fixed-choice">{label(s.key,s.value)}</p>:s.options.map((v:string)=><button key={v} className={s.value===v?'selected':''} aria-pressed={s.value===v} onClick={()=>onChoice(index,v)}>{label(s.key,v)}</button>)}</div></div>;})}
+   {visibleSelections.map((s:any)=><ActionChoiceGroup key={s.key} selection={s} index={selections.indexOf(s)} game={game} catalog={catalog} label={label} onChoice={onChoice}/>)}
    {preview&&<div className={'damage-preview '+preview.tone} title={preview.note}><Sword size={16}/><div><b>{preview.text}</b><small>{preview.note}</small></div></div>}
    </>:<div className="unavailable-reason"><Warning size={17}/>{unavailableReason(game,card,catalog)}</div>}
   </div>
   {kinds.length>0&&dragToPlay&&!dropConfirmed&&<div className="drag-placement-note">{kind==='set'?'向上拖出，松手盖放':'向上拖出，松手出牌'} · 自动落位</div>}
-  {kinds.length>0&&(!dragToPlay||dropConfirmed)&&<button className="primary-btn execute-card" aria-label={kind==='summon'?'确认召唤':undefined} disabled={!action||busy||game.paused||!!game.result} onClick={()=>onExecute(action)}>{action?.fusionId?'确认融合召唤':action?.ritualUid?'确认仪式召唤':kind==='attack'?'确认攻击':kind==='summon'?JSON.parse(selections.find(s=>s.key==='position')?.value||'"attack"')==='defense'?'确认盖放':action?.tributes?.length?`解放 ${action.tributes.length} 只 · 召唤`:'确认召唤':names[kind]} <Lightning/></button>}
+  {materialSelection&&(!dragToPlay||dropConfirmed)&&<p className="selection-progress" aria-live="polite">{materialSelection.key==='tributes'?'祭品':'素材'} {selectedMaterials.length} 张{selections.some(s=>s.key==='ritualUid')?` · 等级合计 ${materialLevels}`:''} · {materialSelection.complete?'已满足条件':'待选择'}</p>}
+  {kinds.length>0&&(!dragToPlay||dropConfirmed)&&<button className="primary-btn execute-card" aria-label={kind==='summon'?'确认召唤':undefined} disabled={!action||busy||game.paused||!!game.result} onClick={()=>onExecute(action)}>{nextChoice?choicePrompt[nextChoice.key]:action?.fusionId?'确认融合召唤':action?.ritualUid?'确认仪式召唤':kind==='attack'?'确认攻击':kind==='summon'?JSON.parse(selections.find(s=>s.key==='position')?.value||'"attack"')==='defense'?'确认盖放':action?.tributes?.length?`解放 ${action.tributes.length} 只 · 召唤`:'确认召唤':names[kind]} <Lightning/></button>}
  </aside>;
 }
 export function BattleResponse({game,catalog,response,busy,onSelect,onExecute,onRead}:{game:any,catalog:Record<string,any>,response:number|null,busy:boolean,onSelect:(uid:string)=>void,onExecute:(a:any)=>void,onRead:(id:string)=>void}){
@@ -39,7 +42,7 @@ export function BattleResponse({game,catalog,response,busy,onSelect,onExecute,on
   <div className="response-context"><Lightning size={21}/><div><b>{mine?'你的响应机会':'等待对方响应'}</b><small>{trigger} · 连锁 {game.pending?.chain.length||0}{response!==null&&<span className={response<=5?'urgent':''}><Clock size={12}/> {response}s</span>}</small></div></div>
   {chainSource&&<button className={'response-source '+chainSource.card.kind} onClick={()=>onRead(chainSource.card.id)} aria-label={`查看${chainSource.card.name}的卡面和中文说明`}><img src={chainSource.card.face} alt=""/><span><small>{chainSource.player===game.you?'我方':'对方'}发动 · {chainSource.card.kind==='spell'?'魔法':'陷阱'}</small><b>{chainSource.card.name}</b></span><Eye size={18}/></button>}
   {game.pending?.chain.length>1&&<div className="chain-pills">{game.pending.chain.map((c:any,i:number)=><button key={i} onClick={()=>catalog[c.id]&&onRead(c.id)}>{i+1} · {catalog[c.id]?.name||'卡牌效果'}</button>)}</div>}
-  {mine&&<div className="response-options"><div className="response-action-list">{ids.map(uid=>{const card=findVisibleCard(game,uid)?.card,d=catalog[card?.id],options=acts.filter((a:any)=>a.cardUid===uid);return <button key={uid} disabled={busy||game.paused} onClick={()=>options.length===1?onExecute(options[0]):onSelect(uid)}><img src={d?.face} alt=""/><span>发动 {d?.name||'效果'}</span><ArrowRight size={15}/></button>;})}</div><button className="pass-response" disabled={busy||game.paused} onClick={()=>onExecute({kind:'pass'})}>不响应 <ArrowRight size={15}/></button></div>}
+  {mine&&<div className="response-options"><div className="response-action-list">{ids.map(uid=>{const card=findVisibleCard(game,uid)?.card,d=catalog[card?.id],options=acts.filter((a:any)=>a.cardUid===uid);return <button key={uid} disabled={busy||game.paused} onClick={()=>options.length===1&&!(d?.kind==='spell'&&'targetUid' in options[0])?onExecute(options[0]):onSelect(uid)}><img src={d?.face} alt=""/><span>发动 {d?.name||'效果'}</span><ArrowRight size={15}/></button>;})}</div><button className="pass-response" disabled={busy||game.paused} onClick={()=>onExecute({kind:'pass'})}>不响应 <ArrowRight size={15}/></button></div>}
  </section>;
 }
 export function BattlePhaseDock({game,phase,busy,onExecute}:{game:any,phase:any,busy:boolean,onExecute:(a:any)=>void}){
