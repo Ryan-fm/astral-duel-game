@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-26",
+  "branch": "codex/arena-graveyard-fx-20261026",
+  "remoteCharacterCheckpoint": "48406430d923c69a315def242dd2cc65aaa500e3",
+  "gameTests": {
+    "passed": 189,
+    "failed": 0
+  },
+  "finalTargetedTests": {
+    "passed": 13,
+    "failed": 0,
+    "scope": "public pile transitions, actual GX fusion, effect resources, camera framing"
+  },
+  "build": "npm run build:game passed; existing large bundle advisory remains",
+  "browser": {
+    "desktop": [
+      1280,
+      720
+    ],
+    "mobile": [
+      844,
+      390
+    ],
+    "primaryControlHeightPx": 44,
+    "horizontalOverflow": false,
+    "flows": [
+      "Open real Graveyard station",
+      "Switch players and Graveyard/banished tabs",
+      "Choose archive card",
+      "Open full Chinese card reader",
+      "Drag Miracle Fusion upward",
+      "Deliberately choose Flame Wingman and both grave materials",
+      "Observe used spell move to Graveyard and materials to banished zone",
+      "Verify new pile counts 1 grave / 2 banished"
+    ],
+    "notes": "Development hot reload re-entered the entry screen and interrupted the practice connection during iteration; final static build and pure camera/movement tests passed. No production service was changed."
+  },
+  "publication": "new scene iteration is local; no Toy update or deployment",
+  "screenshots": [
+    "battlefield.jpg",
+    "desktop.jpg",
+    "mobile-844x390.jpg"
+  ]
+}

@@ -3,7 +3,7 @@ import {siteKey,type DropSite,type ArenaDropApi} from './cardDrop';
 import * as THREE from 'three';
 import {HDRLoader} from 'three/addons/loaders/HDRLoader.js';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {summonEffect,attackEffect,disposeEffect,type ArenaEffect} from './arenaEffects';
+import {summonEffect,attackEffect,publicPileEffect,disposeEffect,type ArenaEffect} from './arenaEffects';
 import {monsterPresentation,shouldShowMonster} from './battleModel';
 import {fieldMarker,markerGlyph,packFieldMarkers} from './fieldMarkers';
 import {cards} from './cardRegistry';
@@ -13,9 +13,11 @@ import {createCityArena} from './cityArena';
 import {createZoneInlay} from './arenaStage';
 import {createArenaRendering,type ArenaQuality} from './arenaRendering';
 import {frameTacticalCamera,canOrbit,type ArenaView} from './arenaCamera';
+import {publicPileMoves,publicPilePosition,type PublicPile} from './graveyardModel';
+import {createPublicPile} from './graveyardScene';
 const CARD:Record<string,any>=cards;
-export default function Arena({game,deck,theme='night',onPick,effects=true,reduced=false,skip=0,heroId='celtic_guardian',active=true,selectedUid=null,targetUids=[],targetUid=null,tributeUids=[],dropApi,dropSites=[],dropHover=null,dragging=false,quality='auto',view='tactical',cameraReset=0,cameraLocked=false}:{game:any,deck:string,theme?:string,onPick:(uid:string)=>void,effects?:boolean,reduced?:boolean,skip?:number,heroId?:string,active?:boolean,selectedUid?:string|null,targetUids?:string[],targetUid?:string|null,tributeUids?:string[],dropApi?:RefObject<ArenaDropApi|null>,dropSites?:DropSite[],dropHover?:DropSite|null,dragging?:boolean,quality?:ArenaQuality,view?:ArenaView,cameraReset?:number,cameraLocked?:boolean}){
- const host=useRef<HTMLDivElement>(null),latest=useRef({game,deck,onPick,effects,reduced,skip,heroId,active,selectedUid,targetUids,targetUid,tributeUids,dropSites,dropHover,dragging,quality,view,cameraReset,cameraLocked});latest.current={game,deck,onPick,effects,reduced,skip,heroId,active,selectedUid,targetUids,targetUid,tributeUids,dropSites,dropHover,dragging,quality,view,cameraReset,cameraLocked};
+export default function Arena({game,deck,theme='night',onPick,effects=true,reduced=false,skip=0,heroId='celtic_guardian',active=true,selectedUid=null,targetUids=[],targetUid=null,tributeUids=[],dropApi,dropSites=[],dropHover=null,dragging=false,onOpenPile,quality='auto',view='tactical',cameraReset=0,cameraLocked=false}:{game:any,deck:string,theme?:string,onPick:(uid:string)=>void,effects?:boolean,reduced?:boolean,skip?:number,heroId?:string,active?:boolean,selectedUid?:string|null,targetUids?:string[],targetUid?:string|null,tributeUids?:string[],dropApi?:RefObject<ArenaDropApi|null>,dropSites?:DropSite[],dropHover?:DropSite|null,dragging?:boolean,onOpenPile?:(player:number,area:PublicPile)=>void,quality?:ArenaQuality,view?:ArenaView,cameraReset?:number,cameraLocked?:boolean}){
+ const host=useRef<HTMLDivElement>(null),latest=useRef({game,deck,onPick,effects,reduced,skip,heroId,active,selectedUid,targetUids,targetUid,tributeUids,dropSites,dropHover,dragging,quality,view,cameraReset,cameraLocked,onOpenPile});latest.current={game,deck,onPick,effects,reduced,skip,heroId,active,selectedUid,targetUids,targetUid,tributeUids,dropSites,dropHover,dragging,quality,view,cameraReset,cameraLocked,onOpenPile};
  const [error,setError]=useState(false);
  useEffect(()=>{
   if(!host.current)return;const el=host.current;let renderer:THREE.WebGLRenderer;
@@ -32,7 +34,7 @@ export default function Arena({game,deck,theme='night',onPick,effects=true,reduc
    if(!alive){hdr.dispose();return;}skyTexture=hdr;hdr.mapping=THREE.EquirectangularReflectionMapping;
    const generator=new THREE.PMREMGenerator(renderer);skyEnv=generator.fromEquirectangular(hdr);generator.dispose();scene.background=hdr;scene.backgroundIntensity=.52;scene.backgroundRotation.set(-.2,.65,0);scene.environment=skyEnv.texture;scene.environmentIntensity=.38;scene.environmentRotation.set(-.2,.65,0);
   });
-  const entities=new THREE.Group();scene.add(entities);const transient=new THREE.Group();scene.add(transient);const rendering=spatial?createArenaRendering(renderer,scene,camera,[entities,transient]):null;let version='',frame=0;const seen=new Set<string>();let lastTime=performance.now();
+  const entities=new THREE.Group();scene.add(entities);const transient=new THREE.Group();scene.add(transient);const rendering=spatial?createArenaRendering(renderer,scene,camera,[entities,transient]):null;let version='',frame=0,previousGame:any=null;const seen=new Set<string>();let lastTime=performance.now();
   const births=new Map<string,number>();const pickables:THREE.Object3D[]=[];const slots=new Map<string,THREE.Vector3>();
   function disposeGroup(group:THREE.Group){for(const obj of [...group.children]){group.remove(obj);obj.traverse((o:any)=>{o.geometry?.dispose();if(o.material){for(const m of Array.isArray(o.material)?o.material:[o.material])m.dispose();}});}}
   function cardMesh(c:any,x:number,z:number,own:boolean){const stock=new THREE.Mesh(new THREE.BoxGeometry(1.53,.04,2.21),new THREE.MeshStandardMaterial({color:0xd4cab7,roughness:.8}));stock.position.set(x,.05,z);if(c.position==='defense')stock.rotation.y=Math.PI/2;stock.castShadow=true;stock.receiveShadow=true;entities.add(stock);const url=c.id&& (own||c.faceUp)?CARD[c.id].face:'/game-assets/card-back.png';const mat=new THREE.MeshStandardMaterial({map:tex(url),roughness:.65,metalness:0,side:THREE.DoubleSide,color:!c.id||(!own&&!c.faceUp)?(latest.current.game?.players[1-latest.current.game.you]?.appearance?.back==='blue_back'?0x72eaff:latest.current.game?.players[1-latest.current.game.you]?.appearance?.back==='intro_back'?0xffe1a8:0xffffff):0xffffff});const mesh=new THREE.Mesh(new THREE.PlaneGeometry(1.5,2.18),mat);mesh.rotation.x=-Math.PI/2;mesh.position.set(x,.075,z);if(c.position==='defense')mesh.rotation.z=Math.PI/2;mesh.receiveShadow=true;mesh.userData.uid=c.uid;pickables.push(mesh);entities.add(mesh);slots.set(c.uid,mesh.position.clone());return mesh;}
@@ -67,6 +69,12 @@ export default function Arena({game,deck,theme='night',onPick,effects=true,reduc
    if(!g){creature(latest.current.heroId,-3,-.5,true);return;}
    // Physical stacks at the margins give the scene scale without exposing hidden cards.
    for(const own of [true,false]){const near=own?1:-1;for(let i=0;i<4;i++){const stack=new THREE.Mesh(new THREE.BoxGeometry(1.45,.055,2.1),new THREE.MeshStandardMaterial({color:theme==='city'?0x203344:0x65513c,metalness:.38,roughness:.5}));stack.position.set(8.65*near,.055+i*.065,5.35*near);stack.rotation.y=near*.08;entities.add(stack);}const back=new THREE.Mesh(new THREE.PlaneGeometry(1.4,2.04),new THREE.MeshBasicMaterial({map:tex('/game-assets/card-back.png'),toneMapped:false}));back.rotation.x=-Math.PI/2;back.rotation.z=-near*.08;back.position.set(8.65*near,.31,5.35*near);entities.add(back);}
+   for(let player=0;player<2;player++)for(const area of ['grave','banished'] as const){
+    const pile=g.players[player][area]||[],top=pile.at(-1),own=player===g.you,pos=publicPilePosition(own,area);
+    entities.add(createPublicPile({own,area,cards:pile,face:top?.id&&CARD[top.id]?tex(CARD[top.id].face):undefined,city:theme==='city',maps:spatial?stoneMaps('sandstone_cracks'):undefined}));
+    const node=document.createElement('button');node.className='pile-anchor '+area+(own?' is-own':' is-opponent');node.dataset.pile=area;node.dataset.player=String(player);node.setAttribute('aria-label',`${own?'我方':'对方'}${area==='grave'?'墓地':'除外区'} ${pile.length} 张`);
+    const title=document.createElement('span');title.textContent=area==='grave'?'墓地':'除外';const count=document.createElement('strong');count.textContent=String(pile.length);node.append(title,count);node.onclick=()=>latest.current.onOpenPile?.(player,area);labelLayer.append(node);labels.push({node,anchor:new THREE.Vector3(pos.x,.25,pos.z+1.4)});
+   }
    for(let p=0;p<2;p++){const own=p===g.you,near=own?1:-1;for(const area of ['field','spells'])for(let i=0;i<5;i++){
     const x=(own?i:4-i)*3-6,z=near*(area==='field'?2.4:5.3);
     const dropSite=latest.current.dropSites.find(s=>s.type==='zone'&&s.player===p&&s.area===area&&s.zone===i),hovered=!!dropSite&&siteKey(dropSite)===siteKey(latest.current.dropHover);
@@ -112,9 +120,17 @@ export default function Arena({game,deck,theme='night',onPick,effects=true,reduc
   };
   renderer.domElement.addEventListener('pointerdown',down);renderer.domElement.addEventListener('pointerup',up);renderer.domElement.addEventListener('pointermove',move);renderer.domElement.addEventListener('pointercancel',cancel);renderer.domElement.style.touchAction='none';
   renderer.domElement.addEventListener('webglcontextlost',()=>setError(true));
-  function loop(now:number){if(!alive)return;if(!latest.current.active){lastTime=now;frame=requestAnimationFrame(loop);return;}const g=latest.current.game,next=g?g.id+':'+g.version+':'+latest.current.view+':'+latest.current.selectedUid+':'+latest.current.targetUid+':'+latest.current.targetUids.join(',')+':'+latest.current.tributeUids.join(',')+':'+JSON.stringify(latest.current.dropSites)+':'+siteKey(latest.current.dropHover):latest.current.deck+latest.current.heroId;if(next!==version){version=next;const previousSlots=new Map([...slots].map(([uid,p])=>[uid,p.clone()]));rebuild();for(const e of g?.events||[]){const key=e.eventId||e.id+':'+e.uid;if(!seen.has(key)){seen.add(key);animateEvent(e,now,previousSlots);}}}
+  function loop(now:number){if(!alive)return;if(!latest.current.active){lastTime=now;frame=requestAnimationFrame(loop);return;}const g=latest.current.game,next=g?g.id+':'+g.version+':'+latest.current.view+':'+latest.current.selectedUid+':'+latest.current.targetUid+':'+latest.current.targetUids.join(',')+':'+latest.current.tributeUids.join(',')+':'+JSON.stringify(latest.current.dropSites)+':'+siteKey(latest.current.dropHover):latest.current.deck+latest.current.heroId;if(next!==version){version=next;const previousSlots=new Map([...slots].map(([uid,p])=>[uid,p.clone()]));rebuild();
+    if(previousGame?.id!==g?.id){seen.clear();births.clear();for(const f of fx){transient.remove(f.group);disposeEffect(f.group);}fx.length=0;for(const e of g?.events||[])seen.add(e.eventId||e.id+':'+e.uid);}
+    if(latest.current.effects&&!latest.current.reduced){const movements=publicPileMoves(previousGame,g).slice(-8);movements.forEach((move,i)=>{
+     const def=CARD[move.id];if(!def)return;const dest=publicPilePosition(move.player===g.you,move.area);
+     const origin=move.fromArea==='grave'||move.fromArea==='banished'?publicPilePosition(move.fromPlayer===g.you,move.fromArea as PublicPile):{x:0,y:.2,z:move.fromPlayer===g.you?7:-7};
+     const source=previousSlots.get(move.uid)||new THREE.Vector3(origin.x,origin.y,origin.z);
+     const effect=publicPileEffect(source,new THREE.Vector3(dest.x,dest.y,dest.z),tex(def.face),move.area==='banished');transient.add(effect.group);effect.group.visible=false;fx.push({...effect,start:now+i*80});
+    });}
+    previousGame=g;for(const e of g?.events||[]){const key=e.eventId||e.id+':'+e.uid;if(!seen.has(key)){seen.add(key);animateEvent(e,now,previousSlots);}}}
    const delta=Math.min((now-lastTime)/1000,.2);lastTime=now;if(!latest.current.effects||latest.current.reduced||oldSkip!==latest.current.skip){for(const f of fx){transient.remove(f.group);disposeEffect(f.group);}fx.length=0;entities.traverse((o:any)=>{if(o.isSprite&&o.userData.baseScale){o.scale.copy(o.userData.baseScale);o.material.opacity=1;}});births.clear();cinema=null;oldSkip=latest.current.skip;}
-   for(let i=fx.length-1;i>=0;i--){const f=fx[i],t=(now-f.start)/f.duration;if(t>=1){transient.remove(f.group);disposeEffect(f.group);fx.splice(i,1);}else f.update(Math.max(0,t));}
+   for(let i=fx.length-1;i>=0;i--){const f=fx[i],t=(now-f.start)/f.duration;if(t>=1){transient.remove(f.group);disposeEffect(f.group);fx.splice(i,1);}else{f.group.visible=t>=0;if(t>=0)f.update(t);}}
    entities.traverse((object:any)=>{if(!object.isSprite||!object.userData.uid)return;const born=births.get(object.userData.uid);if(!born)return;const t=latest.current.effects&&!latest.current.reduced?Math.min(1,(now-born)/1100):1;object.scale.copy(object.userData.baseScale).multiplyScalar(.25+.75*(1-Math.pow(1-t,3)));object.material.opacity=Math.min(1,t*1.7);if(t>=1)births.delete(object.userData.uid);});
    if(oldView!==latest.current.view||oldCameraReset!==latest.current.cameraReset||oldGame!==g?.id){angle=0;cinema=null;pointerDown=null;cameraDirty=true;oldView=latest.current.view;oldCameraReset=latest.current.cameraReset;oldGame=g?.id;}
    let blend=0;if(cinema){const t=(now-cinema.start)/3000;if(t>=1||latest.current.view==='tactical'||latest.current.cameraLocked||latest.current.selectedUid||latest.current.dragging||g?.window)cinema=null;else blend=Math.sin(t*Math.PI)*.8;}

@@ -29,3 +29,23 @@ export function attackEffect(start:THREE.Vector3,end:THREE.Vector3):ArenaEffect{
  return {group,duration:1000,update(t){const flight=Math.min(1,t/.4);orb.position.lerpVectors(a,b,flight);orb.material.opacity=t<.5?.95:Math.max(0,1-t)*1.5;beam.material.opacity=t<.45?Math.sin(t/.45*Math.PI)*.8:Math.max(0,(.7-t)*.5);const impact=Math.max(0,(t-.36)/.64);shock.scale.setScalar(.3+impact*3);shock.material.opacity=Math.sin(impact*Math.PI)*.9;}};
 }
 export function disposeEffect(group:THREE.Group){group.traverse((object:any)=>{object.geometry?.dispose();for(const material of object.material?(Array.isArray(object.material)?object.material:[object.material]):[])material.dispose();});}
+
+/** A public card travels into its owner's pile; presentation never delays game resolution. */
+export function publicPileEffect(start:THREE.Vector3,end:THREE.Vector3,face:THREE.Texture,banished=false):ArenaEffect{
+ const group=new THREE.Group(),color=banished?0xefc779:0xa9b6ff;
+ const card=new THREE.Group();group.add(card);
+ const stock=new THREE.Mesh(new THREE.BoxGeometry(1.5,.035,2.18),new THREE.MeshStandardMaterial({color:0xbec3cc,roughness:.6}));card.add(stock);
+ const front=new THREE.Mesh(new THREE.PlaneGeometry(1.48,2.16),new THREE.MeshBasicMaterial({map:face,transparent:true,opacity:1,side:THREE.DoubleSide,toneMapped:false}));front.rotation.x=-Math.PI/2;front.position.y=.025;card.add(front);
+ const portal=new THREE.Mesh(new THREE.RingGeometry(.33,.48,48),glow(color,0));portal.rotation.x=-Math.PI/2;portal.position.copy(end).setY(.13);group.add(portal);
+ const sparkGeometry=new THREE.BufferGeometry(),positions=new Float32Array(24*3);sparkGeometry.setAttribute('position',new THREE.BufferAttribute(positions,3));
+ const sparks=new THREE.Points(sparkGeometry,new THREE.PointsMaterial({color,size:.045,transparent:true,opacity:0,depthWrite:false,blending:THREE.AdditiveBlending}));group.add(sparks);
+ const from=start.clone().setY(.16),to=end.clone().setY(.2),control=from.clone().lerp(to,.48).add(new THREE.Vector3(0,2.2,0));
+ return {group,duration:1250,update(t){
+  const fly=Math.min(1,t/.79),u=fly*fly*(3-2*fly);card.position.copy(from).multiplyScalar((1-u)**2).addScaledVector(control,2*(1-u)*u).addScaledVector(to,u*u);
+  card.rotation.set(Math.sin(u*Math.PI)*.25,u*Math.PI*.45,Math.sin(u*Math.PI)*.11);card.scale.setScalar(1-.65*Math.max(0,(fly-.65)/.35));
+  const fade=Math.max(0,1-(t-.73)/.23);front.material.opacity=fade;stock.visible=t<.91;
+  portal.material.opacity=Math.sin(Math.min(1,t/.9)*Math.PI)*.8;portal.scale.setScalar(.7+Math.sin(t*Math.PI)*.8);
+  for(let i=0;i<24;i++){const a=i*2.39996+t*1.7,r=.4+(i%5)*.07;positions[i*3]=to.x+Math.cos(a)*r;positions[i*3+1]=.2+((i/24+t*.65)%1)*.8;positions[i*3+2]=to.z+Math.sin(a)*r;}
+  sparkGeometry.attributes.position.needsUpdate=true;sparks.material.opacity=Math.sin(t*Math.PI)*.65;
+ }};
+}
