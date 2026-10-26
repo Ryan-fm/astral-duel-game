@@ -1,4 +1,5 @@
 import * as T from 'three';
+import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 
 /** Ground-bound inlays. No opaque stage: the environment's own floor remains visible. */
 export function createArenaStage(city:boolean){
@@ -33,20 +34,37 @@ export function createArenaStage(city:boolean){
 }
 
 export function createZoneInlay(city:boolean,own:boolean,legal:boolean,drop:boolean,hover:boolean){
- const group=new T.Group(),color=hover?0xffdc92:drop?0x97fff4:legal?0xbfefff:own?(city?0x89cbdf:0x8fcfdc):(city?0xb9a9db:0xbaaddf);
+ const group=new T.Group(),color=new T.Color(hover?0xffdc92:drop?0x97fff4:legal?0xbfefff:own?(city?0x89cbdf:0x8fcfdc):(city?0xb9a9db:0xbaaddf));
  const material=new T.MeshBasicMaterial({color,transparent:true,opacity:hover?.26:drop?.13:legal?.07:city?.038:.045,depthWrite:false,toneMapped:false,side:T.DoubleSide});
  const plane=new T.Mesh(new T.PlaneGeometry(2.18,2.5),material);plane.rotation.x=-Math.PI/2;plane.position.y=.008;group.add(plane);
- const points:T.Vector3[]=[],pt=(x:number,z:number)=>new T.Vector3(x,.012,z),segment=(x:number,z:number,x2:number,z2:number)=>points.push(pt(x,z),pt(x2,z2));
- const w=1.09,h=1.25;
- // Inset frame and heavier corner brackets read as stone cuts / metal sockets.
- for(const sx of [-1,1])for(const sz of [-1,1]){
-  segment(sx*w,sz*(h-.55),sx*w,sz*h);segment(sx*w,sz*h,sx*(w-.48),sz*h);
-  segment(sx*(w-.085),sz*(h-.38),sx*(w-.085),sz*(h-.085));segment(sx*(w-.085),sz*(h-.085),sx*(w-.34),sz*(h-.085));
+ // Per-vertex alpha packs corners, shadow cuts, perimeter and engraving into one draw.
+ const positions:number[]=[],colors:number[]=[],w=1.09,h=1.25;
+ function segment(x:number,z:number,x2:number,z2:number,alpha:number,c=color,y=.012){
+  positions.push(x,y,z,x2,y,z2);for(let i=0;i<2;i++)colors.push(c.r,c.g,c.b,alpha);
  }
- for(const s of [-1,1]){segment(-.45,s*h,.45,s*h);segment(s*w,-.6,s*w,.6);}
- const geometry=new T.BufferGeometry().setFromPoints(points),edge=new T.LineSegments(geometry,new T.LineBasicMaterial({color,transparent:true,opacity:hover||drop?1:legal?.9:city?.58:.65,depthWrite:false,toneMapped:false}));const recess=new T.LineSegments(geometry.clone(),new T.LineBasicMaterial({color:0x151621,transparent:true,opacity:.48,depthWrite:false,toneMapped:false}));recess.position.z=.035;recess.position.y=-.004;group.add(recess);group.add(edge);
- // The fine holographic perimeter evokes anime duels while the painted stone stays visible.
- const outline=new T.LineLoop(new T.BufferGeometry().setFromPoints([pt(-w,-h),pt(w,-h),pt(w,h),pt(-w,h)]),new T.LineBasicMaterial({color,transparent:true,opacity:hover||drop?.8:city?.22:.32,depthWrite:false,toneMapped:false}));group.add(outline);
- const diamond=new T.LineLoop(new T.BufferGeometry().setFromPoints([pt(0,-.4),pt(.24,0),pt(0,.4),pt(-.24,0)]),new T.LineBasicMaterial({color,transparent:true,opacity:drop?.65:.2,depthWrite:false,toneMapped:false}));group.add(diamond);
+ const strong=hover||drop?1:legal?.9:city?.58:.65,dim=hover||drop?.8:city?.22:.32;
+ for(const sx of [-1,1])for(const sz of [-1,1]){
+  segment(sx*w,sz*(h-.55),sx*w,sz*h,strong);segment(sx*w,sz*h,sx*(w-.48),sz*h,strong);
+  segment(sx*(w-.085),sz*(h-.38),sx*(w-.085),sz*(h-.085),strong*.8);segment(sx*(w-.085),sz*(h-.085),sx*(w-.34),sz*(h-.085),strong*.8);
+ }
+ for(const side of [-1,1]){segment(-w,side*h,w,side*h,dim);segment(side*w,-h,side*w,h,dim);segment(-.45,side*h,.45,side*h,strong);segment(side*w,-.6,side*w,.6,strong);}
+ const diamond=[[0,-.4],[.24,0],[0,.4],[-.24,0]];
+ for(let i=0;i<4;i++)segment(...diamond[i] as [number,number],...diamond[(i+1)%4] as [number,number],drop?.65:.2);
+ const geometry=new T.BufferGeometry();geometry.setAttribute('position',new T.Float32BufferAttribute(positions,3));geometry.setAttribute('color',new T.Float32BufferAttribute(colors,4));
+ group.add(new T.LineSegments(geometry,new T.LineBasicMaterial({vertexColors:true,transparent:true,depthWrite:false,toneMapped:false})));
  return group;
+}
+
+/** All twenty legal sockets keep individual signals but cost only two world draws. */
+export function batchZoneInlays(zones:T.Group[]){
+ const group=new T.Group(),planes:T.BufferGeometry[]=[],lines:T.BufferGeometry[]=[];group.name='batched-card-sockets';
+ for(const zone of zones){zone.updateMatrix();for(const child of [...zone.children]){
+  if(!(child instanceof T.Mesh||child instanceof T.LineSegments)||Array.isArray(child.material))continue;
+  child.updateMatrix();const geometry=child.geometry.index?child.geometry.toNonIndexed():child.geometry.clone();geometry.applyMatrix4(child.matrix).applyMatrix4(zone.matrix);
+  if(child instanceof T.Mesh){const material=child.material as T.MeshBasicMaterial,color=material.color,values=new Float32Array(geometry.getAttribute('position').count*4);for(let i=0;i<values.length;i+=4)values.set([color.r,color.g,color.b,material.opacity],i);geometry.setAttribute('color',new T.BufferAttribute(values,4));planes.push(geometry);}else lines.push(geometry);
+  child.geometry.dispose();child.material.dispose();zone.remove(child);
+ }}
+ if(planes.length){const mesh=new T.Mesh(mergeGeometries(planes)!,new T.MeshBasicMaterial({vertexColors:true,transparent:true,side:T.DoubleSide,depthWrite:false,toneMapped:false}));mesh.renderOrder=-10;group.add(mesh);}
+ if(lines.length){const mesh=new T.LineSegments(mergeGeometries(lines)!,new T.LineBasicMaterial({vertexColors:true,transparent:true,depthWrite:false,toneMapped:false}));mesh.renderOrder=-9;group.add(mesh);}
+ [...planes,...lines].forEach(geometry=>geometry.dispose());return group;
 }

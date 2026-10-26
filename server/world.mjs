@@ -68,6 +68,9 @@ function deckExtra(p,id){return id==='custom'?validateExtra(p,p.customExtra||[])
   for(const p of profiles.values())if(p.queue&&!p.socket.connected&&p.disconnectedAt&&now-p.disconnectedAt>=60000)clearQueue(p);
   for(const item of games.values()){
    if(item.g.result||item.paused)continue;
+   // Solo practice has no opponent waiting. Hold the exact board while its
+   // player is away; online matches still reconcile their absolute deadlines.
+   if(item.members[1]==='AI'&&!profiles.get(item.members[0])?.socket.connected)continue;
    // Resolve expired events in chronological order, including while every
    // function was asleep. Waking up never resets a response or turn clock.
    for(let n=0;n<64&&!item.g.result;n++){

@@ -26,6 +26,17 @@ test('cold-start reconciliation uses the original disconnect deadline and settle
  const g=Object.values(w.games)[0];assert.equal(g.g.result.winner,1);assert.equal(w.profiles[a].losses,1);assert.equal(w.profiles[b].wins,1);
  step(w,now+90000);assert.equal(w.profiles[a].losses,1);assert.equal(w.profiles[b].wins,1);
 });
+test('solo AI practice holds across disconnect/lease expiry and resumes without a forfeit',()=>{
+ for(const explicit of [true,false]){
+  const w=emptyWorld(),now=Date.now(),token=step(w,now,m=>m.connect(null,'solo'));
+  const started=step(w,now,m=>m.command(token,'solo',{type:'practice',deck:'blue_eyes_starter',requestId:'solo-start'}));assert.equal(started.ok,true);
+  const item=Object.values(w.games)[0];item.g.active=1;const before=JSON.stringify(item.g),tickets=w.profiles[token].tickets;
+  if(explicit)step(w,now,m=>m.disconnect(token,'solo'));
+  step(w,now+120000);assert.equal(JSON.stringify(Object.values(w.games)[0].g),before,'no AI action or disconnect verdict while away');assert.equal(w.profiles[token].tickets,tickets);
+  step(w,now+120010,m=>m.connect(token,'resume'));assert.equal(Object.values(w.games)[0].g.result,null);
+  step(w,now+120800);assert.ok(Object.values(w.games)[0].g.version>JSON.parse(before).version,'AI resumes after reconnect');assert.equal(w.profiles[token].wins,0);assert.equal(w.profiles[token].losses,0);
+ }
+});
 test('failed operations roll back membership and cannot erase the original room',()=>{
  const w=emptyWorld(),now=Date.now(),a=step(w,now,m=>m.connect(null,'a'));
  step(w,now,m=>m.command(a,'a',{type:'create-room',deck:'blue_eyes_starter',requestId:'room'}));const room=w.profiles[a].roomCode;

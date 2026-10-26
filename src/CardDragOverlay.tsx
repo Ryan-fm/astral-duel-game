@@ -21,12 +21,14 @@ export function CardDragGuide({drag,game,catalog,position,onPosition,intent,onIn
  const live=drag&&!drag.returning&&!drag.launching,action=live?actionsAtDrop(game,drag.uid,drag.site,position)[0]:null;
  const canPlay=live&&actionsAtDrop(game,drag.uid,{type:'play',intent:drag.intent},position).length>0;
  const d=drag?.cardId?catalog[drag.cardId]:null;
+ const hand=game.players[game.you].hand,canSetSpell=legal.some((a:any)=>a.kind==='set'&&hand.some((card:any)=>card.uid===a.cardUid&&catalog[card.id]?.kind==='spell'));
+ const canPlaceMonster=legal.some((a:any)=>['summon','specialSummon'].includes(a.kind)&&hand.some((card:any)=>card.uid===a.cardUid&&catalog[card.id]?.kind==='monster'));
  return <>
   {live&&canPlay&&drag.area&&<div className={'card-play-area '+(drag.valid?'is-ready':'')} aria-hidden="true" style={{left:drag.area.left,top:drag.area.top,width:drag.area.right-drag.area.left,height:drag.area.bottom-drag.area.top}}><span>{drag.valid?<Check size={16}/>:<ArrowUp size={16}/>}<b>{drag.valid?drag.keyboard?'回车出牌':'松手出牌':'拖出到这里'}</b><small>自动落位</small></span></div>}
-  <aside className={'card-drag-guide '+(live?'dragging':'')} aria-label="拖拽出牌指引">
+  <aside className={'card-drag-guide '+(live?'dragging':'is-resting')} aria-label="拖拽出牌指引">
    <div className="drag-guide-heading"><Hand size={18}/><b>{live?d?.name||'拖拽出牌':'拖出手牌'}</b></div>
-   {!live&&legal.some((a:any)=>a.kind==='set')&&<div className="drag-intent-toggle" aria-label="魔法出牌方式"><button aria-pressed={intent==='play'} className={intent==='play'?'selected':''} onClick={()=>onIntent('play')}>发动魔法</button><button aria-pressed={intent==='set'} className={intent==='set'?'selected':''} onClick={()=>onIntent('set')}>盖放魔陷</button></div>}
-   {live?<p role="status">{drag.keyboard?'回车出牌 · Esc 收回':drag.valid?action?.kind==='set'?'松手盖放 · 收回取消':'松手出牌 · 收回取消':canPlay?'向上拖出 · 无需对准卡位':'当前不能出牌'}</p>:<div className="drag-position-toggle" aria-label="拖拽召唤表示"><button aria-pressed={position==='attack'} className={position==='attack'?'selected':''} onClick={()=>onPosition('attack')}><Sword size={16}/>攻击</button><button aria-pressed={position==='defense'} className={position==='defense'?'selected':''} onClick={()=>onPosition('defense')}><Shield size={16}/>守备</button></div>}
+   {live?<p role="status">{drag.keyboard?'回车出牌 · Esc 收回':drag.valid?action?.kind==='set'?'松手盖放 · 收回取消':'松手出牌 · 收回取消':canPlay?'向上拖出 · 无需对准卡位':'当前不能出牌'}</p>:canPlaceMonster&&<div className="drag-position-toggle" aria-label="拖拽召唤表示"><button aria-pressed={position==='attack'} className={position==='attack'?'selected':''} onClick={()=>onPosition('attack')}><Sword size={16}/>攻击</button><button aria-pressed={position==='defense'} className={position==='defense'?'selected':''} onClick={()=>onPosition('defense')}><Shield size={16}/>守备</button></div>}
+   {!live&&canSetSpell&&<div className="drag-intent-toggle" aria-label="魔法出牌方式"><button aria-pressed={intent==='play'} className={intent==='play'?'selected':''} onClick={()=>onIntent('play')}>发动魔法</button><button aria-pressed={intent==='set'} className={intent==='set'?'selected':''} onClick={()=>onIntent('set')}>盖放魔法</button></div>}
   </aside>
  </>;
 }

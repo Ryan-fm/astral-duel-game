@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {createGame,projectGame,legalActions,applyAction,autoPass,CARDS,instance,DECKS,chooseAi} from './engine.mjs';
 import {attackPreview,unavailableReason,battleGuidance,findVisibleCard,monsterPresentation,duelResultReason} from '../src/battleModel.ts';
 import {ACTIVATION_HOLD_MS,emptyActivationFeed,collectActivations,advanceActivation,currentChainCard,restoreActivationFeed} from '../src/activationFeed.ts';
-import {fieldMarker,packFieldMarkers} from '../src/fieldMarkers.ts';
+import {fieldMarker,packFieldMarkers,packPileMarkers} from '../src/fieldMarkers.ts';
 import {handFanLayout} from '../src/handFan.ts';
 const attackingGame=()=>{const g=createGame({scenario:'T02'});g.players[0].field[0].id='blue_eyes';g.players[1].field[0].id='battle_ox';return g;};
 test('hand fan keeps complete card proportions, symmetric spread and accessible exposed portions',()=>{
@@ -158,4 +158,12 @@ test('restoring an activation feed keeps history and shows only the live chain s
  assert.equal(restored.active.id,'mirror_force');assert.deepEqual(restored.queue,[]);assert.deepEqual(restored.history.map(e=>e.id),['mirror_force','fissure']);
  const settled=restoreActivationFeed({...game,pending:null},CARDS);assert.equal(settled.active,null);assert.equal(settled.history.length,2);
  assert.equal(collectActivations(restored,game,CARDS),restored);
+});
+
+test('public pile controls remain separate and outside compressed battle columns',()=>{
+ for(const [w,h] of [[844,390],[1280,720],[667,375]]){
+  const items=[{id:'ownG',own:true,x:w*.28,y:h*.66},{id:'ownB',own:true,x:w*.25,y:h*.76},{id:'opG',own:false,x:w*.69,y:h*.57},{id:'opB',own:false,x:w*.67,y:h*.52}],packed=packPileMarkers(items,w,h);
+  for(const own of [true,false]){const positions=items.filter(m=>m.own===own).map(m=>packed.get(m.id));assert.ok(Math.abs(positions[0].y-positions[1].y)>=50);for(const pos of positions){assert.ok(pos.x>=44&&pos.x<=w-44);assert.ok(pos.y>=100&&pos.y<=h-70);}}
+  assert.ok(packed.get('opG').x>w*.69);assert.ok(packed.get('ownG').x<w*.25);
+ }
 });

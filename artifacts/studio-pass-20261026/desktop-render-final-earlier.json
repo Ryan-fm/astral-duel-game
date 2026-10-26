@@ -1,0 +1,16 @@
+{
+  "calls": 162,
+  "dpr": 1,
+  "frameMs": 16.66,
+  "geometries": 116,
+  "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+  "height": 720,
+  "lines": 762,
+  "materials": 91,
+  "post": "SSAO + output",
+  "softwareRendered": false,
+  "textures": 35,
+  "triangles": 577508,
+  "width": 1280,
+  "worstFrameMs": 17.6
+}

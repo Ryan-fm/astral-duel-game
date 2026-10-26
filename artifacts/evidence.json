@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "runId": "studio-pass-20261026",
+  "captureMethod": "CUA real input; manual state observations, no injected test hooks",
+  "captures": [
+    {
+      "mode": "desktop",
+      "state": null,
+      "observedState": "active-play",
+      "report": "artifacts/studio-pass-20261026/desktop-active-play.json"
+    },
+    {
+      "mode": "mobile",
+      "state": null,
+      "observedState": "active-play",
+      "report": "artifacts/studio-pass-20261026/mobile-active-play.json"
+    }
+  ],
+  "artifacts": [
+    "artifacts/studio-pass-20261026/desktop-lobby.jpg",
+    "artifacts/studio-pass-20261026/mobile-lobby.jpg",
+    "artifacts/studio-pass-20261026/desktop-journey.jpg",
+    "artifacts/studio-pass-20261026/mobile-journey.jpg",
+    "artifacts/studio-pass-20261026/desktop-result.jpg",
+    "artifacts/studio-pass-20261026/mobile-tools.jpg",
+    "artifacts/studio-pass-20261026/desktop-render-baseline.json",
+    "artifacts/studio-pass-20261026/desktop-render-final.json",
+    "artifacts/studio-pass-20261026/mobile-render-baseline.json",
+    "artifacts/studio-pass-20261026/mobile-render-final.json",
+    "artifacts/studio-pass-20261026/mobile-result.jpg",
+    "artifacts/studio-pass-20261026/mobile-city.jpg",
+    "artifacts/studio-pass-20261026/mobile-response.jpg",
+    "artifacts/studio-pass-20261026/mobile-pvp.jpg",
+    "artifacts/studio-pass-20261026/mobile-room.jpg",
+    "artifacts/studio-pass-20261026/desktop-practice.jpg",
+    "artifacts/studio-pass-20261026/desktop-fusion-choice.jpg",
+    "artifacts/studio-pass-20261026/chain-graveyard-final.mp4",
+    "artifacts/studio-pass-20261026/desktop-render-final-tactical.json",
+    "artifacts/studio-pass-20261026/mobile-render-final-tactical.json",
+    "artifacts/studio-pass-20261026/rule-tests.txt",
+    "artifacts/final-evidence.md",
+    "artifacts/studio-pass-20261026/desktop-lobby-dragon.jpg"
+  ]
+}

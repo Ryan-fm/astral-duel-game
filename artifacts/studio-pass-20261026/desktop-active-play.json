@@ -1,0 +1,74 @@
+{
+  "runId": "studio-pass-20261026",
+  "mode": "desktop",
+  "captureMethod": "CUA real input; normal user page; manual DOM/visual observation",
+  "state": null,
+  "appliedState": null,
+  "observedState": "active-play",
+  "scenario": "T07 before playing Miracle Fusion",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "screenshot": "desktop-active-play.jpg",
+  "metrics": {
+    "colorBuckets": 569,
+    "colorEntropyBits": 5.22,
+    "edgeDensity": 0.441,
+    "luminance": {
+      "mean": 65.8,
+      "p5": 29.9,
+      "p95": 140.6,
+      "contrast": 110.7
+    },
+    "dominantColorShare": 0.253,
+    "nonBackgroundShare": 0.747
+  },
+  "metricScope": "Composited screenshot includes HUD; not raw WebGL canvas. Statistics do not establish visual quality alone.",
+  "renderBudget": {
+    "calls": {
+      "actual": 152,
+      "budget": 300,
+      "overBudget": false
+    },
+    "triangles": {
+      "actual": 415002,
+      "budget": 750000,
+      "overBudget": false
+    },
+    "geometries": {
+      "actual": 111,
+      "budget": 300,
+      "overBudget": false
+    },
+    "textures": {
+      "actual": 35,
+      "budget": 60,
+      "overBudget": false
+    }
+  },
+  "renderer": {
+    "calls": 152,
+    "dpr": 1,
+    "frameMs": 16.68,
+    "geometries": 111,
+    "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+    "height": 720,
+    "lines": 762,
+    "materials": 91,
+    "post": "SSAO + output",
+    "softwareRendered": false,
+    "textures": 35,
+    "triangles": 415002,
+    "width": 1280,
+    "worstFrameMs": 17.7,
+    "camera": "tactical",
+    "scenario": "T07"
+  },
+  "limitations": [
+    "No named-state or seed hooks were invoked; state is an observed actual server game.",
+    "Frame times are from Apple M4 hardware on a local desktop, including the mobile viewport; not physical phone performance.",
+    "Representative pre-action view is not a full-field or effect-stress benchmark.",
+    "Budget excludes texture-byte memory, which was not measured."
+  ]
+}

@@ -223,5 +223,6 @@ export function createKingdomEnvironment(maps:KingdomMaps){
  }
  const fire=new T.InstancedMesh(new T.ConeGeometry(.17,.55,12),flameMat,flamePositions.length),flameDummy=new T.Object3D();fire.name='courtyard-braziers';group.add(fire);
  const geometries=new Set<T.BufferGeometry>();group.traverse(o=>{if(o instanceof T.Mesh)geometries.add(o.geometry);});
- return {group,update(time:number,motion:boolean){seaTime.value=motion?time*.0007:0;leafTime.value=motion?time*.0008:0;flamePositions.forEach((p,i)=>{flameDummy.position.copy(p);flameDummy.scale.set(1,motion?1+Math.sin(time*.008+i)*.12:1,1);flameDummy.updateMatrix();fire.setMatrixAt(i,flameDummy.matrix);});fire.instanceMatrix.needsUpdate=true;},dispose(){geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());textures.forEach(t=>t.dispose());}};
+ let disposed=false;
+ return {group,update(time:number,motion:boolean){seaTime.value=motion?time*.0007:0;leafTime.value=motion?time*.0008:0;flamePositions.forEach((p,i)=>{flameDummy.position.copy(p);flameDummy.scale.set(1,motion?1+Math.sin(time*.008+i)*.12:1,1);flameDummy.updateMatrix();fire.setMatrixAt(i,flameDummy.matrix);});fire.instanceMatrix.needsUpdate=true;},dispose(){if(disposed)return;disposed=true;group.traverse(object=>{if(object instanceof T.InstancedMesh)object.dispose();});geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());textures.forEach(t=>t.dispose());}};
 }

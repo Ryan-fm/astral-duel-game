@@ -1,0 +1,18 @@
+{
+  "calls": 152,
+  "dpr": 1,
+  "frameMs": 16.68,
+  "geometries": 111,
+  "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+  "height": 720,
+  "lines": 762,
+  "materials": 91,
+  "post": "SSAO + output",
+  "softwareRendered": false,
+  "textures": 35,
+  "triangles": 415002,
+  "width": 1280,
+  "worstFrameMs": 17.7,
+  "camera": "tactical",
+  "scenario": "T07"
+}

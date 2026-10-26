@@ -23,6 +23,22 @@ export function packFieldMarkers(markers:Array<{id:string,x:number,width:number}
  return new Map(placed.map(m=>[m.id,m.x]));
 }
 
+/** Pull paired public-pile controls outside the playable columns, with separate 44px targets. */
+export function packPileMarkers(markers:Array<{id:string,x:number,y:number,own:boolean}>,width:number,height:number){
+ const result=new Map<string,{x:number,y:number}>(),half=44,gap=50;
+ for(const own of [true,false]){
+  const group=markers.filter(m=>m.own===own).sort((a,b)=>a.y-b.y);if(!group.length)continue;
+  const edge=own?Math.min(...group.map(m=>m.x))-40:Math.max(...group.map(m=>m.x))+40;
+  const x=Math.max(half+70,Math.min(width-half-12,edge));
+  const low=height<=560?112:150,high=height*(height<=560?.57:.66);
+  const positions=group.map(m=>Math.max(low,Math.min(high,m.y)));
+  for(let i=1;i<positions.length;i++)positions[i]=Math.max(positions[i],positions[i-1]+gap);
+  if(positions.at(-1)!>high){positions[positions.length-1]=high;for(let i=positions.length-2;i>=0;i--)positions[i]=Math.min(positions[i],positions[i+1]-gap);}
+  group.forEach((m,i)=>result.set(m.id,{x,y:positions[i]}));
+ }
+ return result;
+}
+
 const glyphs:Record<string,string>={
  sealed:'M6 3h11a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm3 4h5v10H9V7Zm-1 6 3.5-3 3.5 3-3.5 3-3.5-3Z',
  sword:'m15 3 6 0 0 6-10 10-6-6L15 3Zm1 5L8 16M3 17l4 4M5 19l-2 2',

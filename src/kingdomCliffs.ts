@@ -11,7 +11,7 @@ function disposeModel(root:T.Object3D){
  geometry.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());textures.forEach(t=>t.dispose());
 }
 /** Photogrammetry cliff copies share resources. A late load must never resurrect a disposed arena. */
-export function createKingdomCliffs(load:LoadCliff=(url,ready,failed)=>{new GLTFLoader().load(url,ready,undefined,failed);}){
+export function createKingdomCliffs(load:LoadCliff=(url,ready,failed)=>{new GLTFLoader().load(url,ready,undefined,failed);},onUpdate:()=>void=()=>{}){
  const group=new T.Group();group.name='scanned-island-cliffs';let alive=true,model:T.Object3D|null=null;
  const fallback=new T.Group(),fallbackMaterial=new T.MeshStandardMaterial({color:0x77786c,roughness:1});
  for(const c of CLIFF_LAYOUT){const mesh=new T.Mesh(new T.IcosahedronGeometry(1,2),fallbackMaterial);mesh.position.set(c.x,c.y+4,c.z);mesh.scale.set(c.sx*2,c.sy*2,c.sz*2);fallback.add(mesh);}group.add(fallback);
@@ -22,6 +22,7 @@ export function createKingdomCliffs(load:LoadCliff=(url,ready,failed)=>{new GLTF
    const cliff=model.clone(true);cliff.scale.set(c.sx,c.sy,c.sz);cliff.rotation.y=c.rotation;cliff.position.set(c.x,c.y,c.z);group.add(cliff);
   }
   fallback.visible=false;
+  onUpdate();
  },()=>{/* Retain a world-space island foundation if a local asset fails to load. */});
  return {group,dispose(){if(!alive)return;alive=false;group.clear();fallback.traverse((o:any)=>o.geometry?.dispose());fallbackMaterial.dispose();if(model)disposeModel(model);}};
 }

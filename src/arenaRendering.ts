@@ -19,9 +19,9 @@ export function createArenaRendering(renderer:T.WebGLRenderer,scene:T.Scene,came
  const drawContact=contact.render.bind(contact);
  contact.render=(...args)=>{const visible=exclude.map(object=>object.visible);exclude.forEach(object=>object.visible=false);try{drawContact(...args);}finally{exclude.forEach((object,i)=>object.visible=visible[i]);}};
  composer.addPass(beauty);composer.addPass(contact);composer.addPass(output);
- let width=1,height=1,quality:ArenaQuality='auto',slowFrames=0,automaticLow=false;
+ let width=1,height=1,quality:ArenaQuality='auto',slowFrames=0,automaticLow=false,detailed=false;
  function resize(w:number,h:number){
-  width=w;height=h;composer.setSize(w,h);
+  width=w;height=h;composer.setPixelRatio(renderer.getPixelRatio());composer.setSize(w,h);
   // AO is evaluated at half resolution. UI/card art retain the full render resolution.
   contact.setSize(Math.max(1,Math.round(w*.5)),Math.max(1,Math.round(h*.5)));
  }
@@ -30,9 +30,10 @@ export function createArenaRendering(renderer:T.WebGLRenderer,scene:T.Scene,came
   render(delta:number,next:ArenaQuality){
    if(next!==quality){quality=next;slowFrames=0;automaticLow=false;}
    if(quality==='auto'&&delta<.2){slowFrames=delta>.042?slowFrames+1:Math.max(0,slowFrames-1);if(slowFrames>45)automaticLow=true;}
-   const detailed=quality==='high'||quality==='auto'&&Math.min(width,height)>=500&&!automaticLow;
+   detailed=quality==='high'||quality==='auto'&&Math.min(width,height)>=500&&!automaticLow;
    if(detailed)composer.render(delta);else renderer.render(scene,camera);
   },
+  detailed:()=>detailed,
   dispose(){contact.dispose();output.dispose();composer.dispose();}
  };
 }
