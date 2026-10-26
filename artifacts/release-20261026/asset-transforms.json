@@ -1,0 +1,179 @@
+{
+  "format": "toy-webp-transport-v1",
+  "encoder": "libwebp cwebp, quality 95 / alpha 100, original dimensions",
+  "sourceAssetsUnchanged": true,
+  "cardFacesUnchanged": true,
+  "scannedModelUnchanged": true,
+  "beforeBytes": 57533033,
+  "afterBytes": 38485293,
+  "conversions": [
+    {
+      "source": "game-assets/arena.png",
+      "output": "game-assets/arena.webp",
+      "inputBytes": 2329453,
+      "outputBytes": 393142,
+      "inputSha256": "54903d55d2f3d0d325f27d8fae7e91bc872f0978e9b44862f279bd76b4fb5211",
+      "outputSha256": "1f88f3d401b29cf49f7634ae671a84c8da55cfb577aaab8df174b006ba713127"
+    },
+    {
+      "source": "game-assets/blue-eyes.png",
+      "output": "game-assets/blue-eyes.webp",
+      "inputBytes": 2038457,
+      "outputBytes": 331634,
+      "inputSha256": "9b85771d43819bb5ba50b47b9e71a9655f9c11f5f89cc5861f8f462daf9f6fff",
+      "outputSha256": "768020364e7d4a8bcfb28197518e7b0bb7a5ffddc61922b53e0c4e8ee41060f1"
+    },
+    {
+      "source": "game-assets/card-back.png",
+      "output": "game-assets/card-back.webp",
+      "inputBytes": 2613403,
+      "outputBytes": 484128,
+      "inputSha256": "aadf6e79357cbaf25a07b78812d85032f9e6ad4d9178522ee6c75e7a08dab1ab",
+      "outputSha256": "860c54c6755d36c5951dc061f47de1d644f00a1a18c177ec2e6aedba077beae7"
+    },
+    {
+      "source": "game-assets/dark-magician.png",
+      "output": "game-assets/dark-magician.webp",
+      "inputBytes": 2082619,
+      "outputBytes": 304370,
+      "inputSha256": "cf70d718736fe275dbd8009af6a4ff7c59528b54ed488335c5060a4a47759691",
+      "outputSha256": "6f770135874bd184cbab1964ed23cc9d5b00e9fe9287917daedf131c85c6d821"
+    },
+    {
+      "source": "game-assets/duel-hud-frame.png",
+      "output": "game-assets/duel-hud-frame.webp",
+      "inputBytes": 389869,
+      "outputBytes": 54194,
+      "inputSha256": "9413a3ede37b889d5ccc09b98f38b5406dd8f09b66478fba5a223a18a206ca51",
+      "outputSha256": "b771432a04f564aa5da8b3712412760d4934ee0a5c578c4c0fc5fde7d0093adf"
+    },
+    {
+      "source": "game-assets/duelist-player.png",
+      "output": "game-assets/duelist-player.webp",
+      "inputBytes": 421790,
+      "outputBytes": 94642,
+      "inputSha256": "095c674e1573479b467cff73a669be0fbcab98535afb8e942f60568426a35a0c",
+      "outputSha256": "e52047f2841ffa189d8f32bb03d8e640a059b42e76a21fc082018929d3396d44"
+    },
+    {
+      "source": "game-assets/duelist-rival.png",
+      "output": "game-assets/duelist-rival.webp",
+      "inputBytes": 460128,
+      "outputBytes": 86370,
+      "inputSha256": "3967265b89fd1fc8f46d3d79228ee8a3159160d17ef80aab63ba8fa08164cefb",
+      "outputSha256": "d75ed345cded1c9c0cc1c64dece1979c809df63c381e433603231454000ede97"
+    },
+    {
+      "source": "game-assets/pbr/leafy_grass_arm.jpg",
+      "output": "game-assets/pbr/leafy_grass_arm.webp",
+      "inputBytes": 1010081,
+      "outputBytes": 473018,
+      "inputSha256": "95432451cb2693794459fe7ea339ea9ffdb5959c40373740f80a4aa1703f089d",
+      "outputSha256": "c17ba5e4d222a422251d8f62cf47661b08c69cea91e9799fa5654d5f1024e153"
+    },
+    {
+      "source": "game-assets/pbr/leafy_grass_diff.jpg",
+      "output": "game-assets/pbr/leafy_grass_diff.webp",
+      "inputBytes": 1195394,
+      "outputBytes": 619558,
+      "inputSha256": "cfa40bc9d9417d1852db8753a8d5917f110c40101179f63543c382e39bc05e4a",
+      "outputSha256": "91a7484f30668fdfb39cb66100c736b4762e2116682bfc423ae81e77a338f972"
+    },
+    {
+      "source": "game-assets/pbr/leafy_grass_nor_gl.jpg",
+      "output": "game-assets/pbr/leafy_grass_nor_gl.webp",
+      "inputBytes": 1466049,
+      "outputBytes": 729328,
+      "inputSha256": "832328216adc0a7e1f70a31d5ee48c9ab7f2152d83816122736cf42ac4b2ebd6",
+      "outputSha256": "8325e4e3aa04de187714c92621bd4ad5e350cfb98d0e42bc14868033dd9028ae"
+    },
+    {
+      "source": "game-assets/pbr/monastery_stone_floor_arm.jpg",
+      "output": "game-assets/pbr/monastery_stone_floor_arm.webp",
+      "inputBytes": 645382,
+      "outputBytes": 215762,
+      "inputSha256": "66674e9eac9ac60e2124890f63fde95b967f9e1c6f5ee3b07df77cdb9e024457",
+      "outputSha256": "38cb13e4028f1e251da3773ebddc5ba421b3a557c5560d857a8d0e09543de31f"
+    },
+    {
+      "source": "game-assets/pbr/monastery_stone_floor_diff.jpg",
+      "output": "game-assets/pbr/monastery_stone_floor_diff.webp",
+      "inputBytes": 3021140,
+      "outputBytes": 1459466,
+      "inputSha256": "aa12137fff1728bbbfe98b30480e33a34cba3b5c096575702c1d66939214e14a",
+      "outputSha256": "901b83c59c63d8079eb3157f3544c504928ef7361556c973974fbff74b4458ca"
+    },
+    {
+      "source": "game-assets/pbr/monastery_stone_floor_nor_gl.jpg",
+      "output": "game-assets/pbr/monastery_stone_floor_nor_gl.webp",
+      "inputBytes": 4248820,
+      "outputBytes": 2033768,
+      "inputSha256": "8f3e131a9d6d9c3a95c872173393830f7c1de389cd60d4878b2211058d706d2c",
+      "outputSha256": "d059945b9c591453f02b3b4d38f0b071849603f94baf862a04f823530a11a3ee"
+    },
+    {
+      "source": "game-assets/pbr/pine_bark_diff.jpg",
+      "output": "game-assets/pbr/pine_bark_diff.webp",
+      "inputBytes": 725265,
+      "outputBytes": 376450,
+      "inputSha256": "5c76836b01c3536fa0e24207b67bf4f3315b53ebe2b4ecc6f08dfcf3f8d74929",
+      "outputSha256": "8e06f52d5bc48494bc15a234287ebf1ff7b1f08da5c33b73509aaa34eedb3e92"
+    },
+    {
+      "source": "game-assets/pbr/pine_twig_alpha.png",
+      "output": "game-assets/pbr/pine_twig_alpha.webp",
+      "inputBytes": 351928,
+      "outputBytes": 68170,
+      "inputSha256": "6f91aa99f2c27108d6f817f874954aa7df8bfbb4dea2673e9322555a6ae79d99",
+      "outputSha256": "134b0deab043b7d71dfea3f436763057ed3e7b2dcdae302eb0858190acd91127"
+    },
+    {
+      "source": "game-assets/pbr/pine_twig_diff.jpg",
+      "output": "game-assets/pbr/pine_twig_diff.webp",
+      "inputBytes": 510932,
+      "outputBytes": 217632,
+      "inputSha256": "e649f0f9bc74d1af5f1a45eaf2fe7a29adaaddfab251f746b983da301e4b80e1",
+      "outputSha256": "cb42ba42544a171ac6d6d523a6ee0bb1f63681749e9f89413d4fed9328f01f6d"
+    },
+    {
+      "source": "game-assets/pbr/sandstone_cracks_arm.jpg",
+      "output": "game-assets/pbr/sandstone_cracks_arm.webp",
+      "inputBytes": 222344,
+      "outputBytes": 310374,
+      "inputSha256": "94697b622aeb94acb38b474c96dce2e548a1b4c706f84a340764142e17a0e697",
+      "outputSha256": "3d4a9b4a0328d0742dd07e85a0c1ac3a78f46a36ad5a3f56b24bb6cc6d88e470"
+    },
+    {
+      "source": "game-assets/pbr/sandstone_cracks_diff.jpg",
+      "output": "game-assets/pbr/sandstone_cracks_diff.webp",
+      "inputBytes": 696657,
+      "outputBytes": 545764,
+      "inputSha256": "cf381bbcf60aac570ce895719025a2b7adae7c03369b3d545b4f52f94e57e0e9",
+      "outputSha256": "f01849873fbb58a8898aceaa8f242740a683d34f537a95670ded3f49c9d12927"
+    },
+    {
+      "source": "game-assets/pbr/sandstone_cracks_nor_gl.jpg",
+      "output": "game-assets/pbr/sandstone_cracks_nor_gl.webp",
+      "inputBytes": 1307622,
+      "outputBytes": 650128,
+      "inputSha256": "cb983540cae33979e79862fe27b4ec23a5d41c627230d3730e9d5ff6671859f9",
+      "outputSha256": "10815c069eb10770dc176fafd207888795d41d9dc29578e2ce6a6a919d85e01e"
+    },
+    {
+      "source": "game-assets/summon-circle.png",
+      "output": "game-assets/summon-circle.webp",
+      "inputBytes": 995669,
+      "outputBytes": 300744,
+      "inputSha256": "785f3ca6a737d14b72f0e0019139c0ea240defd792dbb5f56112231191d46070",
+      "outputSha256": "825b5aea61407f2108bd1ba322469c3f1ac343435cc152b759053892d92ceb24"
+    },
+    {
+      "source": "game-assets/summon-sanctum.png",
+      "output": "game-assets/summon-sanctum.webp",
+      "inputBytes": 2541641,
+      "outputBytes": 478220,
+      "inputSha256": "a25e4b65d2e6ffed896fe6de750d29971b0a0df31ff054af328e152227f35176",
+      "outputSha256": "6545d1f51bf36ecdff5ece9116e757aa24ea3732462c8bfa0a7386ef6932ecfa"
+    }
+  ]
+}

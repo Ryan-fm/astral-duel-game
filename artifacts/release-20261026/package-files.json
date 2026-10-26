@@ -1,0 +1,847 @@
+{
+  "format": "toy-package-files-v1",
+  "gameContentSource": "06ed31e",
+  "onlineEnabled": false,
+  "files": [
+    {
+      "path": "asset-transforms.json",
+      "bytes": 7811,
+      "sha256": "3b0021bf9cc1a672362a2e76dd7fab8af4e3839237243b52d52102fbd7e66781"
+    },
+    {
+      "path": "assets/game-ByI-PsJZ.js",
+      "bytes": 1328297,
+      "sha256": "aa0f6bb8d950adfa4c760b9b18331c0d43cd5b8a435ede44a169e99a2d161a49"
+    },
+    {
+      "path": "assets/game-Cu9c1oso.css",
+      "bytes": 209996,
+      "sha256": "4f0f18d9942a533b0eba537b5741af198de7cea48a88e9d2eccba8e3787ef6c3"
+    },
+    {
+      "path": "assets/roboto-latin-900-italic-BENCS7Df.woff2",
+      "bytes": 23616,
+      "sha256": "daeaf53a3887e551d8212d225dd1ca63b3a9eadda0290dc4a8814e1d439840ad"
+    },
+    {
+      "path": "assets/roboto-latin-900-italic-DNjw4RGV.woff",
+      "bytes": 23536,
+      "sha256": "ade3bee292a60c2e0d46c81fe4d3b7118b417211e7499da25158272781bf13a4"
+    },
+    {
+      "path": "assets/toyConnection-7xumDDK2.js",
+      "bytes": 76434,
+      "sha256": "78ddb5196fd7d59d3d08245a99300fede89aceee0ca70c28f91d509a561aac55"
+    },
+    {
+      "path": "game-assets/arena.webp",
+      "bytes": 393142,
+      "sha256": "1f88f3d401b29cf49f7634ae671a84c8da55cfb577aaab8df174b006ba713127"
+    },
+    {
+      "path": "game-assets/blue-eyes.webp",
+      "bytes": 331634,
+      "sha256": "768020364e7d4a8bcfb28197518e7b0bb7a5ffddc61922b53e0c4e8ee41060f1"
+    },
+    {
+      "path": "game-assets/card-back.webp",
+      "bytes": 484128,
+      "sha256": "860c54c6755d36c5951dc061f47de1d644f00a1a18c177ec2e6aedba077beae7"
+    },
+    {
+      "path": "game-assets/cards/alexandrite_dragon.jpg",
+      "bytes": 125741,
+      "sha256": "1b2adcb51fdb298f7ea20e3d8f1b4320e2832e1fabc7648813ef40c9b847a50c"
+    },
+    {
+      "path": "game-assets/cards/armored_lizard.jpg",
+      "bytes": 132451,
+      "sha256": "839cd6e513ebe6aed0774182b1b411fb1959d618aaf0793ae8ff634244b99f61"
+    },
+    {
+      "path": "game-assets/cards/b_skull_dragon.jpg",
+      "bytes": 105105,
+      "sha256": "3a8421039425bb3a89e0b4ff5231e071b620bc7b436dfa8fd98afc7a2f9b949b"
+    },
+    {
+      "path": "game-assets/cards/battle_ox.jpg",
+      "bytes": 117361,
+      "sha256": "2daec0e8128152d65a5f998e0d9f1ce2b158fc108afc9e653cc20bf36c30b48b"
+    },
+    {
+      "path": "game-assets/cards/black_luster_ritual.jpg",
+      "bytes": 118888,
+      "sha256": "302a1802570e4eefdbde8a430fb0791cea6551a99610108805dcd7be0aa3b23d"
+    },
+    {
+      "path": "game-assets/cards/black_luster_soldier.jpg",
+      "bytes": 122901,
+      "sha256": "c91927ed5ea04694109df64bbed7b3d77dd0e6d4c36f34c111c84041b3cd25ff"
+    },
+    {
+      "path": "game-assets/cards/black_magic_ritual.jpg",
+      "bytes": 93918,
+      "sha256": "f62241ad9154b736f55ace235cd13aeacb432bcebc2c9da0f46b530025bb80d9"
+    },
+    {
+      "path": "game-assets/cards/blue_eyes.jpg",
+      "bytes": 162800,
+      "sha256": "16a731fa4307c3bf5eee6985e9198570ef3d5e920676447debdf47bc9f3d88b6"
+    },
+    {
+      "path": "game-assets/cards/celtic_guardian.jpg",
+      "bytes": 118462,
+      "sha256": "344d22059ce3dd807bd20bf5ee28f201516f2f60ca31be944fe987ca7157e983"
+    },
+    {
+      "path": "game-assets/cards/curse_of_dragon.jpg",
+      "bytes": 94250,
+      "sha256": "c14d8db8e1812a0de5becc128b0685142dd1f2f61e9673f6951722acab1447c0"
+    },
+    {
+      "path": "game-assets/cards/cyber_dragon.jpg",
+      "bytes": 95722,
+      "sha256": "439dae7945b62411c55ccf59f82d8f56049387f49db4c9f2e4420b1482de784c"
+    },
+    {
+      "path": "game-assets/cards/cyber_end_dragon.jpg",
+      "bytes": 121553,
+      "sha256": "83b291d315df071aa127ce440ac4c6916d05f4df790e126fad54fe243eb1a951"
+    },
+    {
+      "path": "game-assets/cards/cyber_tech_alligator.jpg",
+      "bytes": 108052,
+      "sha256": "4f953dd5822fd9e011dd71f41012267e2a25a2ef163ea70c3bfe8959bcb0fded"
+    },
+    {
+      "path": "game-assets/cards/cyber_twin_dragon.jpg",
+      "bytes": 137966,
+      "sha256": "e8cc6344be7bae39e884f8be8f6b64d153292fb2335f69449136efd6cee55600"
+    },
+    {
+      "path": "game-assets/cards/dark_magician.jpg",
+      "bytes": 133569,
+      "sha256": "cffad3a9a824b3d9538dacc23a447a9ba5047079ab84533e9ec8328544df245c"
+    },
+    {
+      "path": "game-assets/cards/dragon_zombie.jpg",
+      "bytes": 119978,
+      "sha256": "7d04adadeab71d6c87fa2b5193309cc874510c049a55af39a68dc2c288219469"
+    },
+    {
+      "path": "game-assets/cards/emergency_call.jpg",
+      "bytes": 80982,
+      "sha256": "f3ef9ba46547c991da75ebcb3d724510b32da90bb3490bd1e9c956c610befc47"
+    },
+    {
+      "path": "game-assets/cards/fissure.jpg",
+      "bytes": 124148,
+      "sha256": "d29bc71c6d4e8cea6c6aa553c9a5326d007b46ea98c4e4266785ffa74cc4e512"
+    },
+    {
+      "path": "game-assets/cards/flame_manipulator.jpg",
+      "bytes": 103149,
+      "sha256": "8c030c2b1069c5d1f4ce9d1a94d65874cc0c46fc45bb5d462ab27bc8b324850d"
+    },
+    {
+      "path": "game-assets/cards/flame_swordsman.jpg",
+      "bytes": 138035,
+      "sha256": "8860bc363be9e2c109de7d70fedd951057c8b4a9ca0bf813d00c2240bd98d192"
+    },
+    {
+      "path": "game-assets/cards/full/alexandrite_dragon.jpg",
+      "bytes": 168688,
+      "sha256": "3ede2d14ce9a065869530b49e0469507a2cd1f7f18b265ba5ea689c3f9808d52"
+    },
+    {
+      "path": "game-assets/cards/full/armored_lizard.jpg",
+      "bytes": 144217,
+      "sha256": "a77a8b800bc955ecc43fd8df699d629eccb082e3b89e427e2951bf0d2933e8d9"
+    },
+    {
+      "path": "game-assets/cards/full/b_skull_dragon.jpg",
+      "bytes": 139384,
+      "sha256": "4b6470f0302eb1d3441ce8d6b7eead01caea2fc2c8d4fcd40ca5f62b1d32f066"
+    },
+    {
+      "path": "game-assets/cards/full/battle_ox.jpg",
+      "bytes": 139746,
+      "sha256": "4bfb935d3fb5a75c5621472eb9144b90746d0daae5c32614910d2afed52dc1b4"
+    },
+    {
+      "path": "game-assets/cards/full/black_luster_ritual.jpg",
+      "bytes": 138637,
+      "sha256": "191dcd9531ffd2093e8e79d5591fe726cc99235f2af3ee8f57d4d0fd23b54bab"
+    },
+    {
+      "path": "game-assets/cards/full/black_luster_soldier.jpg",
+      "bytes": 146222,
+      "sha256": "e6b1b15d97432382146571839f59ab1532e558d11656727172481fec87a68a65"
+    },
+    {
+      "path": "game-assets/cards/full/black_magic_ritual.jpg",
+      "bytes": 129316,
+      "sha256": "0cf9d20fc2816f6467bb7a4f6c42c1d6a26dd13301d4c13f752591292e96db61"
+    },
+    {
+      "path": "game-assets/cards/full/blue_eyes.jpg",
+      "bytes": 178118,
+      "sha256": "f290bb1d5184c76d94c7cd34587159dd34c5ce64601f1aa33e4e12fb0db7c2fe"
+    },
+    {
+      "path": "game-assets/cards/full/celtic_guardian.jpg",
+      "bytes": 145087,
+      "sha256": "6d74e9cd7465f0ffed8728b4fbf1c3c4bcc5f7fda75a2744da2ec55540ca9525"
+    },
+    {
+      "path": "game-assets/cards/full/curse_of_dragon.jpg",
+      "bytes": 130643,
+      "sha256": "aabf2b05866a90c5b0adc7748c3308edeb0801970ae05df68b8ec90df2cbb44e"
+    },
+    {
+      "path": "game-assets/cards/full/cyber_dragon.jpg",
+      "bytes": 135886,
+      "sha256": "101689270cac9c6421e5ede6b08bf17b6ae37934c0c32537a549d3e2b4eb26c8"
+    },
+    {
+      "path": "game-assets/cards/full/cyber_end_dragon.jpg",
+      "bytes": 164030,
+      "sha256": "a815e2e0cff96efb5c3c7d006dac6d3916196775500fce53e224417e39ec83c0"
+    },
+    {
+      "path": "game-assets/cards/full/cyber_tech_alligator.jpg",
+      "bytes": 144299,
+      "sha256": "2448c4871daff649635df4fedc9a859f0418535f847c98bcb8578c9a42a215d7"
+    },
+    {
+      "path": "game-assets/cards/full/cyber_twin_dragon.jpg",
+      "bytes": 167444,
+      "sha256": "090816bbcdf4e881fceadf05c3a0d131363b1c07238f861b067a424af61b81ef"
+    },
+    {
+      "path": "game-assets/cards/full/dark_magician.jpg",
+      "bytes": 152791,
+      "sha256": "704d9bd6a620f24084b761555fc9543d3308d3383088106423f72a216dc34764"
+    },
+    {
+      "path": "game-assets/cards/full/dragon_zombie.jpg",
+      "bytes": 138378,
+      "sha256": "d761c7183fa14cc6d560ced5ea2988d2e1c1d74b347202266de290110e237d97"
+    },
+    {
+      "path": "game-assets/cards/full/emergency_call.jpg",
+      "bytes": 110150,
+      "sha256": "330db2354edf8699d0e87af333a2608475c65493dcbf5f1d593b4305084a2c60"
+    },
+    {
+      "path": "game-assets/cards/full/fissure.jpg",
+      "bytes": 136629,
+      "sha256": "5c86cda9a7646930c46e52e206bb5d59710fb22d842a50a89445440282ef2422"
+    },
+    {
+      "path": "game-assets/cards/full/flame_manipulator.jpg",
+      "bytes": 132829,
+      "sha256": "7250af9b252b2a7476446af18afe5004d8d140f57bffab9e4cde54b5f1d7c012"
+    },
+    {
+      "path": "game-assets/cards/full/flame_swordsman.jpg",
+      "bytes": 146339,
+      "sha256": "71e0368891b72ef4cd84e227267ac8a7e8e874c5fb9247db691b9d3372f54a0f"
+    },
+    {
+      "path": "game-assets/cards/full/fusion_sage.jpg",
+      "bytes": 133297,
+      "sha256": "b3de5bceac69c47bde4aea60aabf4bda8b344e809780955a10ecee4e13004989"
+    },
+    {
+      "path": "game-assets/cards/full/gaia.jpg",
+      "bytes": 156350,
+      "sha256": "0bcfbfbf147e6d1221ee136c17da3eb58a193d6604d16cda1c031c7e768f3b40"
+    },
+    {
+      "path": "game-assets/cards/full/gaia_dragon_champion.jpg",
+      "bytes": 139081,
+      "sha256": "f15d7553bd55ae5b3da6c17aac76467d209c78abea5a0c55ad5270fdd33417da"
+    },
+    {
+      "path": "game-assets/cards/full/gemini_elf.jpg",
+      "bytes": 138866,
+      "sha256": "602a8834d1d4f711fe4ccbafbe062c8bb0bb114febb0c8ede83b9b2561465122"
+    },
+    {
+      "path": "game-assets/cards/full/giant_soldier.jpg",
+      "bytes": 144763,
+      "sha256": "313acadb19e7506640c7ac4c8137d78eb6d50fa0f6b75af4af240081f5fd4146"
+    },
+    {
+      "path": "game-assets/cards/full/giga_tech_wolf.jpg",
+      "bytes": 132511,
+      "sha256": "da989166da54aa83aaf754eebed262132683d9d9e189a3b4be6b447528ee6f40"
+    },
+    {
+      "path": "game-assets/cards/full/harpie_lady.jpg",
+      "bytes": 134431,
+      "sha256": "def881cbf45e9d5663fbbc398d92dbb7f56ebc71848065739d3446880054962e"
+    },
+    {
+      "path": "game-assets/cards/full/hero_avian.jpg",
+      "bytes": 160989,
+      "sha256": "c7372cebd5be5e29b40edcc7fff099c48f3957cfe82031a565601459685e1781"
+    },
+    {
+      "path": "game-assets/cards/full/hero_bladedge.jpg",
+      "bytes": 148416,
+      "sha256": "62000ea824afea7253a78f898b3c53743bc2d8595d6f9e7595f61a6f6e6bdd9a"
+    },
+    {
+      "path": "game-assets/cards/full/hero_burstinatrix.jpg",
+      "bytes": 143492,
+      "sha256": "fe342ff9c03290898c3a3a3bf0c9b641fdd1c358e4f9786c37ae50ab165ab2c0"
+    },
+    {
+      "path": "game-assets/cards/full/hero_clayman.jpg",
+      "bytes": 131677,
+      "sha256": "4c54dea9b28d10fe9a3b0cfc39c62b92a1cded5cc9302c15badf42130341a521"
+    },
+    {
+      "path": "game-assets/cards/full/hero_flame_wingman.jpg",
+      "bytes": 172924,
+      "sha256": "f09d5dc87ce9737f7608990990f0c587c2f2e5a91dbe0c476e0e9edb8c3b38d5"
+    },
+    {
+      "path": "game-assets/cards/full/hero_neos.jpg",
+      "bytes": 153043,
+      "sha256": "b0b96fbdded09f889c4a97bd24925aee3738ba11c36ea57ff335f21e8606c8db"
+    },
+    {
+      "path": "game-assets/cards/full/hero_sparkman.jpg",
+      "bytes": 155053,
+      "sha256": "ba06e28f7f6f15d665ebe2325687bfe808c867fa5988431b5d88ef2a08f0b1d9"
+    },
+    {
+      "path": "game-assets/cards/full/hero_thunder_giant.jpg",
+      "bytes": 177622,
+      "sha256": "8c60a7632c7e0c00d93ae456d1ee788815a4aedfbd971d0511f3dec522807985"
+    },
+    {
+      "path": "game-assets/cards/full/hyozanryu.jpg",
+      "bytes": 140191,
+      "sha256": "fc0200a9c48e04164ac35e92e3eb4fdde9167603e9b9fd3c8f857909d394cbd6"
+    },
+    {
+      "path": "game-assets/cards/full/kuriboh.jpg",
+      "bytes": 133635,
+      "sha256": "fd843ab92b825ebe9b5b7473b49fa6f7ef7a8042624314fdf656595c26bf55fe"
+    },
+    {
+      "path": "game-assets/cards/full/la_jinn.jpg",
+      "bytes": 127686,
+      "sha256": "eb0162b18c93f6c44010395df6cf742feed638775a2ab67a37856ea24ef36984"
+    },
+    {
+      "path": "game-assets/cards/full/luster_dragon.jpg",
+      "bytes": 153198,
+      "sha256": "6ed8d4f19e529fa2eb340ff0098524710c1cfd0ee6983b987f01764929946390"
+    },
+    {
+      "path": "game-assets/cards/full/magic_cylinder.jpg",
+      "bytes": 136541,
+      "sha256": "d7f2794722228cad87e00c497090c6c754e287e4aead9d2f62bee0b2cb2f3fce"
+    },
+    {
+      "path": "game-assets/cards/full/magician_black_chaos.jpg",
+      "bytes": 152158,
+      "sha256": "c794f7f8b2848d175d40b1dfc6b494fd6277dd82274277bb6f0967c04d9617d8"
+    },
+    {
+      "path": "game-assets/cards/full/masaki.jpg",
+      "bytes": 132380,
+      "sha256": "28ed4016044328e1d128fcac8424e414ed5d47cd03e0b0b175447438d03aca48"
+    },
+    {
+      "path": "game-assets/cards/full/meteor_black_dragon.jpg",
+      "bytes": 154039,
+      "sha256": "d7407ed87484dd2033571cf5498170e1159238e9e7b09a1f96d48e6bdcebdef6"
+    },
+    {
+      "path": "game-assets/cards/full/meteor_dragon.jpg",
+      "bytes": 140204,
+      "sha256": "32892a4902c43b1b72cd0dbc9c13d6b147b8606c73aab0df85564f1918729ea5"
+    },
+    {
+      "path": "game-assets/cards/full/miracle_fusion.jpg",
+      "bytes": 136960,
+      "sha256": "31230a3822252068db7710b3f27a7f7f299187170ee703999b374f257a3169dd"
+    },
+    {
+      "path": "game-assets/cards/full/mirror_force.jpg",
+      "bytes": 97912,
+      "sha256": "1e1a8c8383feaa9a12138c73d7cdf01ad6bda751483c6cf92d918e04efbf54b9"
+    },
+    {
+      "path": "game-assets/cards/full/monster_reborn.jpg",
+      "bytes": 133793,
+      "sha256": "ad081f70bd6a7189be53b0f2a742e82859f55ccfc11c69b47ebcf9a915929a72"
+    },
+    {
+      "path": "game-assets/cards/full/mst.jpg",
+      "bytes": 136476,
+      "sha256": "cff20f0437fd05223125875cdf9174566eeb8829d8ffdc536c77629bd6f91f37"
+    },
+    {
+      "path": "game-assets/cards/full/mystical_elf.jpg",
+      "bytes": 109887,
+      "sha256": "63041ce4e780deac593d61fa8aa6846339da3434be45f4cce4c70c1d6d908a61"
+    },
+    {
+      "path": "game-assets/cards/full/negate_attack.jpg",
+      "bytes": 119828,
+      "sha256": "784214ba18bb9a3b6fe9b289d4b5835cc5eb3a4be733181a726541d67db952a5"
+    },
+    {
+      "path": "game-assets/cards/full/oversoul.jpg",
+      "bytes": 115445,
+      "sha256": "9de292739cd5f144cc233186f7e63ea4f5d39ba7412a0e913e1746950febe89c"
+    },
+    {
+      "path": "game-assets/cards/full/polymerization.jpg",
+      "bytes": 120955,
+      "sha256": "95fca02307b59cb16c7cf136c86bcfa906a55eec1b15661f7026974761386894"
+    },
+    {
+      "path": "game-assets/cards/full/red_eyes.jpg",
+      "bytes": 163217,
+      "sha256": "e409c4159f81c91ba3f5a4c390a49bbd855b7571cc90d9117358681df6e68625"
+    },
+    {
+      "path": "game-assets/cards/full/rush_recklessly.jpg",
+      "bytes": 109586,
+      "sha256": "3778ef7141170c35270aabbff187c65528f574ffb3683423dff4b5a2aa2e5f5f"
+    },
+    {
+      "path": "game-assets/cards/full/saggi.jpg",
+      "bytes": 140261,
+      "sha256": "d589b24f64c881c5ce60ee4afaa5f79ddad4ea5734d3dab762e74e1eedb6aee1"
+    },
+    {
+      "path": "game-assets/cards/full/seiyaryu.jpg",
+      "bytes": 117532,
+      "sha256": "98dca72e99fb2b6ed2901010d573671f095760a366a0fdd0dbe2560e3e58d843"
+    },
+    {
+      "path": "game-assets/cards/full/seven_colored_fish.jpg",
+      "bytes": 128082,
+      "sha256": "4334b1482015b4beb7d68335e61747a83aba20a35bbfeb0931d7937b6af10b54"
+    },
+    {
+      "path": "game-assets/cards/full/silver_fang.jpg",
+      "bytes": 126412,
+      "sha256": "32997905024d1f81289e6260c492f872a12aa357f711569fe36ea253869e24c5"
+    },
+    {
+      "path": "game-assets/cards/full/summoned_skull.jpg",
+      "bytes": 147473,
+      "sha256": "4b2b80526afd8a4bab2f5fc356ad9728a696da3dd1743392accaf5d4e07a2f37"
+    },
+    {
+      "path": "game-assets/cards/full/trap_hole.jpg",
+      "bytes": 105413,
+      "sha256": "e2fa966203a67d04090f31ebe9b4a48c9f548a5bf978935d3afcefe94864241b"
+    },
+    {
+      "path": "game-assets/cards/full/tri_horned_dragon.jpg",
+      "bytes": 136215,
+      "sha256": "3279f8ac89cf61ee55d56dda0756aeeb6819b6f63e892a2e68158921d223350d"
+    },
+    {
+      "path": "game-assets/cards/full/zoa.jpg",
+      "bytes": 146089,
+      "sha256": "84f909ffa11fca95f04b6feb6ab2c7dee89f5be03641850c749005d3c2ad3d51"
+    },
+    {
+      "path": "game-assets/cards/fusion_sage.jpg",
+      "bytes": 132146,
+      "sha256": "7c0e4d86c5ed523580462a732979a629a2673856b41c3259a36baf2cc357a7e3"
+    },
+    {
+      "path": "game-assets/cards/gaia.jpg",
+      "bytes": 132043,
+      "sha256": "7e191cb849dfacc4cef12cd133649b89bfa2c01d80042d2211f091ae4eb9a93f"
+    },
+    {
+      "path": "game-assets/cards/gaia_dragon_champion.jpg",
+      "bytes": 116025,
+      "sha256": "ee51c6e1c8cd620d5705895b231b8ca322d0bf4a9d3d10d130f978a10db0a2aa"
+    },
+    {
+      "path": "game-assets/cards/gemini_elf.jpg",
+      "bytes": 129483,
+      "sha256": "718c662c2402bedef1ddcf9190232c3338ddf3878e7b702af9fb67eccf61d991"
+    },
+    {
+      "path": "game-assets/cards/giant_soldier.jpg",
+      "bytes": 111288,
+      "sha256": "4f1378e1c7a189de7a93219b5edcfb36206c38f229af9060bfe46c388a7d7dc9"
+    },
+    {
+      "path": "game-assets/cards/giga_tech_wolf.jpg",
+      "bytes": 98170,
+      "sha256": "351cfad8d32c581dab19923e921c1c3fc3539e48f6819b63ae6159d062d2c3e3"
+    },
+    {
+      "path": "game-assets/cards/harpie_lady.jpg",
+      "bytes": 106263,
+      "sha256": "e673eef5ff75c8624325acdfdf69edcc1b84a8865e82db3293e99d2e08ba1ab2"
+    },
+    {
+      "path": "game-assets/cards/hero_avian.jpg",
+      "bytes": 132339,
+      "sha256": "f64327ddfd6e58be7809486da9a19d0fa358141b41b2d104993461def83c971b"
+    },
+    {
+      "path": "game-assets/cards/hero_bladedge.jpg",
+      "bytes": 116539,
+      "sha256": "e8a92458b658b0967e398920dba84cf9b20d67f95df2a2c70d0f94a8cac8be0a"
+    },
+    {
+      "path": "game-assets/cards/hero_burstinatrix.jpg",
+      "bytes": 116042,
+      "sha256": "66c60bd92ae4413477272fcea3945cf107856a72c1237bdbefbb3cd0596403ca"
+    },
+    {
+      "path": "game-assets/cards/hero_clayman.jpg",
+      "bytes": 82369,
+      "sha256": "2cc2df5b2459430928181640ccbbb27b5299c198468949200202bc6655c19c58"
+    },
+    {
+      "path": "game-assets/cards/hero_flame_wingman.jpg",
+      "bytes": 131781,
+      "sha256": "a793b7bb95041067b2096348511cae561d025ecc5efb8e0909c9c5f5d120cbd8"
+    },
+    {
+      "path": "game-assets/cards/hero_neos.jpg",
+      "bytes": 116679,
+      "sha256": "da3174234a14dd5716d57f7966048146d64e1eb85be7f0960a02f0f687f341b1"
+    },
+    {
+      "path": "game-assets/cards/hero_sparkman.jpg",
+      "bytes": 132364,
+      "sha256": "3c44daf550b8a0573b6f06570544c4b3c04f6083b3a630571b12960900576fae"
+    },
+    {
+      "path": "game-assets/cards/hero_thunder_giant.jpg",
+      "bytes": 150043,
+      "sha256": "c6100a9753343caed8bc643e35938203333f072ea0efcd4e9b237adfc612bcfc"
+    },
+    {
+      "path": "game-assets/cards/hyozanryu.jpg",
+      "bytes": 118227,
+      "sha256": "bf647137d12506855a127cfa7fc105f351e4abdd9232219a6b20db181468ba46"
+    },
+    {
+      "path": "game-assets/cards/kuriboh.jpg",
+      "bytes": 77398,
+      "sha256": "d0dddae76273d682be6e09e523bd5561d9ba56a63d8e7de92d6495fd6cace67f"
+    },
+    {
+      "path": "game-assets/cards/la_jinn.jpg",
+      "bytes": 98527,
+      "sha256": "64185c1dcbb5446ddfdfe2b5e6e23f98109f91f6889a369ad78f68380f717374"
+    },
+    {
+      "path": "game-assets/cards/luster_dragon.jpg",
+      "bytes": 140090,
+      "sha256": "eb1ef1db2c96a59474cf8110dedd0e7f5680eb934c120723fd9410813ecb33f9"
+    },
+    {
+      "path": "game-assets/cards/magic_cylinder.jpg",
+      "bytes": 120994,
+      "sha256": "1053bb717047a90d8fc13c8410614b80818093954d27f449e629e9a037197697"
+    },
+    {
+      "path": "game-assets/cards/magician_black_chaos.jpg",
+      "bytes": 143848,
+      "sha256": "845c79a7cb60df9995ae7151d1fc26df8d6d090901c428868b0abe124ee78af5"
+    },
+    {
+      "path": "game-assets/cards/masaki.jpg",
+      "bytes": 102122,
+      "sha256": "908b5add6800dae569c18a5a94dd33dd44ded10adc255eeb2c032c36f5120f07"
+    },
+    {
+      "path": "game-assets/cards/meteor_black_dragon.jpg",
+      "bytes": 150976,
+      "sha256": "754495f5b271c43a6d4e53df06b559c483d3c8bc1e0ef9d29f866700019082af"
+    },
+    {
+      "path": "game-assets/cards/meteor_dragon.jpg",
+      "bytes": 188682,
+      "sha256": "293137f9111c7937fc9d75a474a23179177e5df789c290eb9c810b933c9a2128"
+    },
+    {
+      "path": "game-assets/cards/miracle_fusion.jpg",
+      "bytes": 113229,
+      "sha256": "e82f0986f82f072f762f52d07b4519dbdfda1f103c5e86821152b1ec2e3e6695"
+    },
+    {
+      "path": "game-assets/cards/mirror_force.jpg",
+      "bytes": 54170,
+      "sha256": "131f801c9ca1acacae02555e485484c834ae38f32a882aff7e722c00d22f71ca"
+    },
+    {
+      "path": "game-assets/cards/monster_reborn.jpg",
+      "bytes": 124087,
+      "sha256": "f569b70c7caa67f79227070b247efecd8c04ba084e5b3ee5a7964caff527b584"
+    },
+    {
+      "path": "game-assets/cards/mst.jpg",
+      "bytes": 123044,
+      "sha256": "bf89a3e0b87867e97e867b6d98f0f02e301115b49c5661aa95be34d1e8e7046f"
+    },
+    {
+      "path": "game-assets/cards/mystical_elf.jpg",
+      "bytes": 63708,
+      "sha256": "8c8af1fe5a9442fa57115e5ac4b8244c71242c00974e171d4c630b2034d586c2"
+    },
+    {
+      "path": "game-assets/cards/negate_attack.jpg",
+      "bytes": 94435,
+      "sha256": "d313a1a085ff31ba7ff202f57a338d6d917cda693ccf1b72e7b32376357d2ee4"
+    },
+    {
+      "path": "game-assets/cards/oversoul.jpg",
+      "bytes": 85524,
+      "sha256": "b6002ef13480be427eb78fc467b04622c33201b5a5f5e7fdbe17b5ded78df775"
+    },
+    {
+      "path": "game-assets/cards/polymerization.jpg",
+      "bytes": 98235,
+      "sha256": "1711c6d633f2b3547a9ff8308c2ff8b3b53876d4cdfbacbb6b9f938fb8887f04"
+    },
+    {
+      "path": "game-assets/cards/red_eyes.jpg",
+      "bytes": 145963,
+      "sha256": "c670871ee8686e6f1b0d240d1fe341a7007d35cbd24098bb4dcf19048a48e2e1"
+    },
+    {
+      "path": "game-assets/cards/rush_recklessly.jpg",
+      "bytes": 73107,
+      "sha256": "06697a0404ad0040cc821471883290f2cca809daf025c697019e55c495b6777b"
+    },
+    {
+      "path": "game-assets/cards/saggi.jpg",
+      "bytes": 113039,
+      "sha256": "c87e6d421f62ebe46c30e887dc1b37066f84b561a5a79ccb38e7c73e431650a5"
+    },
+    {
+      "path": "game-assets/cards/seiyaryu.jpg",
+      "bytes": 79397,
+      "sha256": "9d3803497b1330519c26b83269d0ef4c36d77814318ba2dbc018e485a06e0cd1"
+    },
+    {
+      "path": "game-assets/cards/seven_colored_fish.jpg",
+      "bytes": 103303,
+      "sha256": "57ae062e18ed2fc697fb296b52f6e43fea579fafa61b621d85727aed07b94982"
+    },
+    {
+      "path": "game-assets/cards/silver_fang.jpg",
+      "bytes": 90621,
+      "sha256": "a1c34d46c759ddb4aa4a807353ffe0e2ad0dc75f75572b4a5291c2d652c55b1e"
+    },
+    {
+      "path": "game-assets/cards/summoned_skull.jpg",
+      "bytes": 99088,
+      "sha256": "01fc1a056c8a68d0577c36c9571a2d419ea41f6e27151f3edce3c6c32a5d3b56"
+    },
+    {
+      "path": "game-assets/cards/trap_hole.jpg",
+      "bytes": 67005,
+      "sha256": "5a44675292aa02461ea023ad7fef580be73f373cb8efe9f0bfcb0cd1c4987ea0"
+    },
+    {
+      "path": "game-assets/cards/tri_horned_dragon.jpg",
+      "bytes": 110454,
+      "sha256": "739d729d1610c7c4a8ba68480847cb7644b35d52e3580ccb8f1cd13be1ba9aad"
+    },
+    {
+      "path": "game-assets/cards/zoa.jpg",
+      "bytes": 140406,
+      "sha256": "78eeac86049c7d152e2d3fe4fe00ee0942cd3c82bce39562818c80ab22bfef4b"
+    },
+    {
+      "path": "game-assets/city-arena-refined.jpg",
+      "bytes": 710416,
+      "sha256": "65cd047d1e4d13cd1a4b1d9c16d4d88763e7252944fe5fb17294fdf2f504d07e"
+    },
+    {
+      "path": "game-assets/dark-magician.webp",
+      "bytes": 304370,
+      "sha256": "6f770135874bd184cbab1964ed23cc9d5b00e9fe9287917daedf131c85c6d821"
+    },
+    {
+      "path": "game-assets/duel-hud-frame.webp",
+      "bytes": 54194,
+      "sha256": "b771432a04f564aa5da8b3712412760d4934ee0a5c578c4c0fc5fde7d0093adf"
+    },
+    {
+      "path": "game-assets/duelist-player.webp",
+      "bytes": 94642,
+      "sha256": "e52047f2841ffa189d8f32bb03d8e640a059b42e76a21fc082018929d3396d44"
+    },
+    {
+      "path": "game-assets/duelist-rival.webp",
+      "bytes": 86370,
+      "sha256": "d75ed345cded1c9c0cc1c64dece1979c809df63c381e433603231454000ede97"
+    },
+    {
+      "path": "game-assets/entry-blue-eyes.jpg",
+      "bytes": 279077,
+      "sha256": "af4c0fc3f654806c1a9c1e74e28e950d385411f52d29b0575716c80b4a2c10fc"
+    },
+    {
+      "path": "game-assets/kingdom-ruins-anime.jpg",
+      "bytes": 806142,
+      "sha256": "88eb32102a9353d19ad1f03138ab2096c29aab7ed728b15a272ac32c3f69218e"
+    },
+    {
+      "path": "game-assets/music/battle.mp3",
+      "bytes": 1161448,
+      "sha256": "923f0441eadfad6fa75cecdf7d337880b47445f3edda1db2b64238332b8104a2"
+    },
+    {
+      "path": "game-assets/music/danger.mp3",
+      "bytes": 1161448,
+      "sha256": "5e49c26c7c41b85f2adb0e3a8c8054d834b6c1b576d44ae64e1ba1d819bedd7f"
+    },
+    {
+      "path": "game-assets/music/lobby.mp3",
+      "bytes": 1159880,
+      "sha256": "c82079214a437f9c290ad9b6885df17370589dac114ddcb3a12ef234360e2a43"
+    },
+    {
+      "path": "game-assets/music/summon.mp3",
+      "bytes": 1159880,
+      "sha256": "b0650e2f6057adee6a9d7b54208b05c13887e7c529be616e21e595ff9fcd2925"
+    },
+    {
+      "path": "game-assets/pbr/SOURCES.md",
+      "bytes": 1690,
+      "sha256": "979dfb1859c0e5fac74399002aafe272866145e38cb0e2573cdb3f923c205e84"
+    },
+    {
+      "path": "game-assets/pbr/kloppenheim_06_puresky_1k.hdr",
+      "bytes": 1173154,
+      "sha256": "206c67e3a1b992282821cf06662bdd69bbb4915c1c4444a66338a40d6a7d4e34"
+    },
+    {
+      "path": "game-assets/pbr/leafy_grass_arm.webp",
+      "bytes": 473018,
+      "sha256": "c17ba5e4d222a422251d8f62cf47661b08c69cea91e9799fa5654d5f1024e153"
+    },
+    {
+      "path": "game-assets/pbr/leafy_grass_diff.webp",
+      "bytes": 619558,
+      "sha256": "91a7484f30668fdfb39cb66100c736b4762e2116682bfc423ae81e77a338f972"
+    },
+    {
+      "path": "game-assets/pbr/leafy_grass_nor_gl.webp",
+      "bytes": 729328,
+      "sha256": "8325e4e3aa04de187714c92621bd4ad5e350cfb98d0e42bc14868033dd9028ae"
+    },
+    {
+      "path": "game-assets/pbr/monastery_stone_floor_arm.webp",
+      "bytes": 215762,
+      "sha256": "38cb13e4028f1e251da3773ebddc5ba421b3a557c5560d857a8d0e09543de31f"
+    },
+    {
+      "path": "game-assets/pbr/monastery_stone_floor_diff.webp",
+      "bytes": 1459466,
+      "sha256": "901b83c59c63d8079eb3157f3544c504928ef7361556c973974fbff74b4458ca"
+    },
+    {
+      "path": "game-assets/pbr/monastery_stone_floor_nor_gl.webp",
+      "bytes": 2033768,
+      "sha256": "d059945b9c591453f02b3b4d38f0b071849603f94baf862a04f823530a11a3ee"
+    },
+    {
+      "path": "game-assets/pbr/pine_bark_diff.webp",
+      "bytes": 376450,
+      "sha256": "8e06f52d5bc48494bc15a234287ebf1ff7b1f08da5c33b73509aaa34eedb3e92"
+    },
+    {
+      "path": "game-assets/pbr/pine_twig_alpha.webp",
+      "bytes": 68170,
+      "sha256": "134b0deab043b7d71dfea3f436763057ed3e7b2dcdae302eb0858190acd91127"
+    },
+    {
+      "path": "game-assets/pbr/pine_twig_diff.webp",
+      "bytes": 217632,
+      "sha256": "cb42ba42544a171ac6d6d523a6ee0bb1f63681749e9f89413d4fed9328f01f6d"
+    },
+    {
+      "path": "game-assets/pbr/rock_face_01/rock_face_01.bin",
+      "bytes": 476436,
+      "sha256": "873eac0319333e92bc96ddeedf8ebf69dc3c68ff1dfe32d8c14ddc165cdb20ac"
+    },
+    {
+      "path": "game-assets/pbr/rock_face_01/rock_face_01_1k.json",
+      "bytes": 2793,
+      "sha256": "96c332c01d173a2431115f3bac29be101fba341e5500e2a08e384f4edd17299e"
+    },
+    {
+      "path": "game-assets/pbr/rock_face_01/textures/rock_face_01_arm_1k.jpg",
+      "bytes": 693610,
+      "sha256": "59128c79d207a50a69a38002986135ade3b19642d26158cec141eca41578c9ca"
+    },
+    {
+      "path": "game-assets/pbr/rock_face_01/textures/rock_face_01_diff_1k.jpg",
+      "bytes": 853749,
+      "sha256": "41bd26ed2db1332b1ebb4b1326fd8af4d21f0f0eb57b8ea385033115c722cfdb"
+    },
+    {
+      "path": "game-assets/pbr/rock_face_01/textures/rock_face_01_nor_gl_1k.jpg",
+      "bytes": 1023400,
+      "sha256": "9a9d85b9a01f4e24fc9ceec8baf96c019f552bca69591ff544c7a725e28b1d97"
+    },
+    {
+      "path": "game-assets/pbr/sandstone_cracks_arm.webp",
+      "bytes": 310374,
+      "sha256": "3d4a9b4a0328d0742dd07e85a0c1ac3a78f46a36ad5a3f56b24bb6cc6d88e470"
+    },
+    {
+      "path": "game-assets/pbr/sandstone_cracks_diff.webp",
+      "bytes": 545764,
+      "sha256": "f01849873fbb58a8898aceaa8f242740a683d34f537a95670ded3f49c9d12927"
+    },
+    {
+      "path": "game-assets/pbr/sandstone_cracks_nor_gl.webp",
+      "bytes": 650128,
+      "sha256": "10815c069eb10770dc176fafd207888795d41d9dc29578e2ce6a6a919d85e01e"
+    },
+    {
+      "path": "game-assets/summon-circle.webp",
+      "bytes": 300744,
+      "sha256": "825b5aea61407f2108bd1ba322469c3f1ac343435cc152b759053892d92ceb24"
+    },
+    {
+      "path": "game-assets/summon-sanctum.webp",
+      "bytes": 478220,
+      "sha256": "6545d1f51bf36ecdff5ece9116e757aa24ea3732462c8bfa0a7386ef6932ecfa"
+    },
+    {
+      "path": "index.html",
+      "bytes": 451,
+      "sha256": "c02a8e047b5ab4e287dbc73896f5a0ff40335efcdd97d540ed7357876d4bfb61"
+    },
+    {
+      "path": "legal/ASSET-NOTICES.txt",
+      "bytes": 2200,
+      "sha256": "2abea0a460660bd38ee0e5ab502f26cfc6e4482129cce162e6c4e0e4b9796ea1"
+    },
+    {
+      "path": "legal/THIRD-PARTY-NOTICES.txt",
+      "bytes": 179578,
+      "sha256": "8f8d5166cb1a6fe14af4f13ef5f8dcb958253d9d1881c69183011b2c63acb170"
+    }
+  ]
+}

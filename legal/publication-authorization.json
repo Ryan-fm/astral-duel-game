@@ -13,13 +13,15 @@
   "note": "User publication authorization supersedes local review hold; unresolved third-party rights remain recorded. Toy final review submission follows its preview-confirmation workflow.",
   "previousReviewedAssetManifestSha256": "eb66bd5d10460379709b24bd00b80c4eeec4b2e15be32f1628aa2b84a3b35927",
   "latestAuthorization": {
-    "date": "2026-10-15",
-    "request": "更新toy",
+    "date": "2026-10-26",
+    "request": "更新 PR／Toy",
     "scope": [
-      "Existing Toy GX package preview and update"
+      "Existing Toy replacement package preview and requested update",
+      "Game source branch push",
+      "Existing catalogue follow-up pull request"
     ],
     "toyId": 42086522945536,
-    "version": "GX first wave",
+    "version": "Game Studio / Three.js whole-game experience update",
     "onlineEnabled": false,
     "vercelDeploymentAuthorized": false,
     "claimsIpClearance": false

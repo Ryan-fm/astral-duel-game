@@ -25,7 +25,8 @@
     "release:toy": "npm run check:rights && npm run build:toy",
     "release:game": "npm run check:rights && npm run build:game",
     "release:prototype:game": "node scripts/check-prototype-publication.mjs && npm run build:game",
-    "release:prototype:toy": "node scripts/check-prototype-publication.mjs && npm run build:toy"
+    "release:prototype:toy": "node scripts/check-prototype-publication.mjs && npm run build:toy",
+    "package:toy": "node scripts/optimize-toy-package.mjs"
   },
   "dependencies": {
     "@fontsource/roboto": "5.2.10",

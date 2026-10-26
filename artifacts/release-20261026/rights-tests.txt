@@ -1,0 +1,13 @@
+✔ release check allows only an unchanged registered package with resolved review policy (2.023166ms)
+✔ new, changed and removed packaged assets invalidate the reviewed inventory (1.284667ms)
+✔ attribution or a permissive code notice cannot clear unlicensed card imagery (1.1995ms)
+✔ current game inventory covers all public assets and explicitly blocks public release (48.402333ms)
+✔ prototype authorization does not clear rights and expires on asset or policy changes (5.324209ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 112.020292
