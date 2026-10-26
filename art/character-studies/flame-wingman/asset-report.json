@@ -1,0 +1,41 @@
+{
+  "asset_id": "hero_flame_wingman",
+  "stage": "visual design maquette — review before game integration",
+  "blender": "5.1.0",
+  "triangles": 61272,
+  "mesh_components": 274,
+  "bones": 25,
+  "materials": 14,
+  "animations": {
+    "idle": {
+      "frames": 61,
+      "duration": 2.0
+    },
+    "summon": {
+      "frames": 91,
+      "duration": 3.0
+    },
+    "attack": {
+      "frames": 49,
+      "duration": 1.6
+    },
+    "guard": {
+      "frames": 61,
+      "duration": 2.0
+    },
+    "hit": {
+      "frames": 25,
+      "duration": 0.8
+    },
+    "defeat": {
+      "frames": 76,
+      "duration": 2.5
+    }
+  },
+  "source": "source/flame-wingman-v001.blend",
+  "runtime": "models/flame-wingman-v001.glb",
+  "note": "Geometry and PBR material sample, no baked production atlases or mobile optimization. No live game replacement.",
+  "runtime_meshes": 1,
+  "runtime_material_groups": 14,
+  "runtime_bytes": 1904176
+}

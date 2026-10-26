@@ -1,0 +1,27 @@
+{
+  "file": "flame-wingman-v001.glb",
+  "passed": true,
+  "bytes": 1904176,
+  "sha256": "05eb7fcfbf95b7d506083717d4d74ed4c60693c00c136f16a005ea1b5b3e5ef9",
+  "runtime_meshes": 1,
+  "material_groups": 14,
+  "triangles": 61272,
+  "exported_vertices": 31820,
+  "skin_joints": 25,
+  "clips_seconds": {
+    "idle": 2.0,
+    "summon": 3.0,
+    "attack": 1.6,
+    "guard": 2.0,
+    "hit": 0.8,
+    "defeat": 2.5
+  },
+  "checks": [
+    "self-contained GLB 2.0",
+    "finite geometry and animation accessors",
+    "triangle indices in bounds",
+    "normalized vertex skin weights",
+    "six named non-empty animation clips",
+    "one shared skinned mesh"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "asset_id": "blue_eyes",
+  "revision": "v007",
+  "stage": "portable PBR material and silhouette work in progress",
+  "triangles": 179492,
+  "mesh_components": 208,
+  "bones": 31,
+  "materials": 9,
+  "animations": {
+    "idle": {
+      "frames": 121,
+      "duration": 4.0
+    },
+    "summon": {
+      "frames": 109,
+      "duration": 3.6
+    },
+    "attack": {
+      "frames": 97,
+      "duration": 3.2
+    },
+    "guard": {
+      "frames": 97,
+      "duration": 3.2
+    },
+    "hit": {
+      "frames": 37,
+      "duration": 1.2
+    },
+    "defeat": {
+      "frames": 109,
+      "duration": 3.6
+    }
+  },
+  "animation_events": {
+    "summon": {
+      "ring": [
+        0,
+        2.3
+      ],
+      "roar": [
+        1.1,
+        2.4
+      ]
+    },
+    "attack": {
+      "charge": [
+        0.25,
+        1.2
+      ],
+      "breath": [
+        1.2,
+        2.2
+      ]
+    },
+    "hit": {
+      "flash": [
+        0.08,
+        0.28
+      ]
+    },
+    "defeat": {
+      "dissolve": [
+        2.4,
+        3.6
+      ]
+    }
+  },
+  "source": "source/blue-eyes-v007.blend",
+  "runtime": "models/blue-eyes-v007.glb",
+  "color": "Portable vertex-painted blue wing gradient; silver-blue body; steel-blue ventral armor; silver claws; azure eyes.",
+  "runtime_bytes": 8231464
+}

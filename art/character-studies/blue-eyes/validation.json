@@ -1,0 +1,27 @@
+{
+  "file": "blue-eyes-v006.glb",
+  "passed": true,
+  "bytes": 5118488,
+  "sha256": "2215d8f3b83f35749ed8a18952e2c18c08d5e3070bac8d88c57919f2e494551d",
+  "runtime_meshes": 1,
+  "material_groups": 9,
+  "triangles": 145132,
+  "exported_vertices": 77457,
+  "skin_joints": 31,
+  "clips_seconds": {
+    "idle": 4.0,
+    "summon": 3.6,
+    "attack": 3.2,
+    "guard": 3.2,
+    "hit": 1.2,
+    "defeat": 3.6
+  },
+  "checks": [
+    "self-contained GLB 2.0",
+    "finite geometry and animation accessors",
+    "triangle indices in bounds",
+    "normalized vertex skin weights",
+    "six named non-empty animation clips",
+    "one shared skinned mesh"
+  ]
+}

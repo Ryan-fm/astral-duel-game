@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-26",
+  "status": "design-studies-not-approved-for-battle",
+  "preview": "preview/index.html?model=blue-eyes",
+  "displayedBlueEyes": "blue-eyes-v006",
+  "latestUnfinishedPass": "blue-eyes/iterations/v007",
+  "flameWingman": "flame-wingman-v001",
+  "productionIntegration": false,
+  "notes": "User requested remote checkpoint before continuing arena and effect development; visual quality remains unsatisfactory."
+}
