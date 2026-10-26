@@ -1,9 +1,9 @@
-const strategic=new Set(['fusionId','ritualUid','materialUids','tributes','targetUid']);
+const strategic=new Set(['fusionId','ritualUid','materialUids','tributes','targetUid','searchId','discardUid']);
 export type ActionSelection={key:string,options:string[],value:string,required:boolean,enabled:boolean,complete:boolean};
 /** Placement may default. Targets and sacrifices must come from a deliberate choice. */
 export function actionChoices(actions:any[],choices:Record<string,string>,automatic=false){
  let candidates=actions,ready=true;const selections:ActionSelection[]=[];
- for(const key of ['position','fusionId','ritualUid','materialUids','tributes','targetUid','zone']){
+ for(const key of ['position','fusionId','ritualUid','materialUids','tributes','discardUid','targetUid','searchId','zone']){
   if(key==='zone'&&automatic||!candidates.length||!(key in candidates[0]))continue;
   const options=[...new Set<string>(candidates.map(a=>JSON.stringify(a[key])))];
   const required=strategic.has(key)&&!(key==='tributes'&&options.every(v=>v==='[]'));

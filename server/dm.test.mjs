@@ -9,8 +9,8 @@ function resolve(g){for(let i=0;i<20&&g.window;i++)applyAction(g,g.window.respon
 function play(g,extra={}){const a=legalActions(g,0).find(a=>a.kind==='activate'&&Object.entries(extra).every(([k,v])=>JSON.stringify(a[k])===JSON.stringify(v)));assert.ok(a,JSON.stringify(extra));applyAction(g,0,a);return a;}
 function fusion(){const g=blank();const spell=put(g,0,'hand','polymerization');put(g,0,'hand','gaia');put(g,0,'field','curse_of_dragon',2,{faceUp:false,position:'defense'});const boss=put(g,0,'extraDeck','gaia_dragon_champion');return {g,spell,boss};}
 function ritual(){const g=blank(),spell=put(g,0,'hand','black_luster_ritual'),boss=put(g,0,'hand','black_luster_soldier');put(g,0,'hand','celtic_guardian');put(g,0,'field','mystical_elf',2);return {g,spell,boss};}
-test('DM update has real card assets, supported recipes, six legal presets and a DM-only draw pool',()=>{
- assert.equal(Object.keys(CARDS).length,46);assert.equal(POOL.length,15);assert.ok(POOL.every(c=>c.era==='DM'));assert.equal(DECKS.length,6);
+test('DM content retains real assets, valid recipes, six free presets and fifteen draw cards after GX expansion',()=>{
+ assert.equal(Object.values(CARDS).filter(c=>c.releaseVersion!=='gx-1').length,46);assert.equal(POOL.filter(c=>c.era==='DM').length,15);assert.equal(DECKS.filter(d=>d.era==='DM').length,6);
  for(const c of Object.values(CARDS)){for(const file of [c.art,c.face]){const bytes=readFileSync(new URL('../public'+file,import.meta.url));assert.equal(bytes[0],255,c.id);assert.equal(bytes[1],216,c.id);}if(c.summonType==='fusion')assert.ok(c.materials.every(id=>CARDS[id]));}
  for(const d of DECKS){const p={};assert.equal(validateCustom(p,d.cards.flatMap(c=>Array(c.count).fill(c.card_id))).length,40);assert.deepEqual(validateExtra(p,d.extra||[]),d.extra||[]);}
  const old={collection:{alexandrite_dragon:2}};assert.equal(owned(old,'alexandrite_dragon'),2);assert.equal(collectionView(old).legacyOwned,1);assert.equal(collectionView(old).poolOwned,0);

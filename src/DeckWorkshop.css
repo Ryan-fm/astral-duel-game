@@ -58,3 +58,24 @@
 .workshop-deck-row.over-limit{border-left-color:#e79c95;background:#71333233}.workshop-deck-row.over-limit>b{color:#ffc4ac}
 
 .workshop-save-button.is-saved{opacity:.85;box-shadow:none;background:#1d464b}
+
+/* GX recipe checks stay compact until the player expands them. */
+.workshop-fusion-routes{margin:0 14px 8px;border:1px solid #a27bdd40;border-radius:8px;background:#23183870;flex-shrink:0;font-size:12px}
+.workshop-fusion-routes summary{min-height:44px;padding:10px 12px;cursor:pointer;color:#e4d3ff;line-height:24px}
+.workshop-fusion-routes summary small{float:right;color:#c2b1d7;font-size:11px}
+.workshop-fusion-routes>div{max-height:190px;overflow:auto;padding:0 10px 10px}
+.workshop-fusion-routes article+article{border-top:1px solid #ffffff18;margin-top:8px;padding-top:8px}
+.workshop-fusion-routes article>button{display:flex;align-items:center;gap:8px;width:100%;min-height:44px;text-align:left;border:0;background:transparent;color:#ede8f8;padding:0;cursor:pointer}
+.workshop-fusion-routes img{width:27px;height:39px;object-fit:cover;border-radius:2px}
+.workshop-fusion-routes b{flex:1;font-size:12px}.workshop-fusion-routes button span{font-size:10px;color:#e5b788}.workshop-fusion-routes button span.ready{color:#8de5cf}
+.workshop-fusion-routes p{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0 0;color:#bfc7d4;font-size:11px;line-height:1.7}.workshop-fusion-routes p span{background:#ffffff08;border-radius:4px;padding:2px 5px}.workshop-fusion-routes .missing{color:#ffc394}
+
+@media(max-height:560px) and (orientation:landscape){
+ .workshop-fusion-routes{margin:4px 8px;font-size:11px}
+ .workshop-fusion-routes summary{padding:10px 8px}
+ .workshop-fusion-routes summary small{font-size:9px}
+ .workshop-fusion-routes[open]{flex:1;min-height:44px;overflow:auto}
+ .workshop-deck:has(>.workshop-fusion-routes[open]) .workshop-deck-list{display:none}
+ .workshop-fusion-routes>div{max-height:none;padding:0 8px 8px}
+}
+@media(max-height:450px) and (orientation:landscape){.workshop-deck:has(>.workshop-fusion-routes[open]) .workshop-composition{display:none}}

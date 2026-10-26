@@ -9,7 +9,7 @@ export function deckCapacity(profile:any,id:string,catalog:Record<string,any>){
 }
 export function workshopCards(profile:any,catalog:Record<string,any>,filter:{area:DeckArea,era:string,kind:string,query:string}){
  const query=filter.query.normalize('NFKC').toLowerCase().trim();
- return Object.values(catalog).filter(c=>deckCapacity(profile,c.id,catalog)>0&&(filter.area==='extra'?c.summonType==='fusion':c.summonType!=='fusion')&&(filter.era==='all'||c.era==='DM')&&(filter.kind==='all'||c.kind===filter.kind)&&(!query||`${c.name} ${c.canonical||''}`.normalize('NFKC').toLowerCase().includes(query)));
+ return Object.values(catalog).filter(c=>deckCapacity(profile,c.id,catalog)>0&&(filter.area==='extra'?c.summonType==='fusion':c.summonType!=='fusion')&&(filter.era==='all'||c.era===filter.era)&&(filter.kind==='all'||c.kind===filter.kind)&&(!query||`${c.name} ${c.canonical||''}`.normalize('NFKC').toLowerCase().includes(query)));
 }
 export function editDeckCard(draft:DeckDraft,area:DeckArea,id:string,delta:1|-1,profile:any,catalog:Record<string,any>):DeckDraft{
  const list=draft[area],card=catalog[id],count=list.filter(v=>v===id).length;
@@ -31,4 +31,15 @@ export function deckDraftIssues(draft:DeckDraft,profile:any,catalog:Record<strin
   }
  }
  return issues;
+}
+
+/** Named recipes are a deck-building hint, not an additional legality restriction. */
+export function fusionReadiness(draft:DeckDraft,catalog:Record<string,any>){
+ const counts:Record<string,number>={};draft.main.forEach(id=>counts[id]=(counts[id]||0)+1);
+ return [...new Set(draft.extra)].filter(id=>catalog[id]?.summonType==='fusion').map(id=>{
+  const required:Record<string,number>={};(catalog[id].materials||[]).forEach((material:string)=>required[material]=(required[material]||0)+1);
+  const materials=Object.entries(required).map(([id,need])=>({id,need,have:counts[id]||0,missing:Math.max(0,need-(counts[id]||0))}));
+  const spells=draft.main.includes('polymerization')||catalog[id].archetype==='Elemental HERO'&&draft.main.includes('miracle_fusion');
+  return {id,materials,spellReady:spells,ready:spells&&materials.every(m=>!m.missing)};
+ });
 }

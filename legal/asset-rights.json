@@ -1,5 +1,5 @@
 {
-  "reviewedAt": "2026-10-10",
+  "reviewedAt": "2026-10-15",
   "scope": "all files under public; includes unused assets copied by the bundler",
   "assets": [
     {
@@ -1274,8 +1274,8 @@
     },
     {
       "path": "public/legal/ASSET-NOTICES.txt",
-      "sha256": "a3574ec78c4ecf0786db350c9364ad957e88a045cab470c95faea1e1ab633507",
-      "bytes": 2199,
+      "sha256": "2abea0a460660bd38ee0e5ab502f26cfc6e4482129cce162e6c4e0e4b9796ea1",
+      "bytes": 2200,
       "status": "provenance-document",
       "source": "project credit / license collection",
       "reason": "说明文档，非相关游戏 IP 授权"
@@ -1287,6 +1287,262 @@
       "status": "dependency-notice",
       "source": "project credit / license collection",
       "reason": "说明文档，非相关游戏 IP 授权"
+    },
+    {
+      "path": "public/game-assets/cards/hero_avian.jpg",
+      "sha256": "f64327ddfd6e58be7809486da9a19d0fa358141b41b2d104993461def83c971b",
+      "bytes": 132339,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/elemental-hero-avian-1881",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/hero_avian.jpg",
+      "sha256": "c7372cebd5be5e29b40edcc7fff099c48f3957cfe82031a565601459685e1781",
+      "bytes": 160989,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/elemental-hero-avian-1881",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/hero_burstinatrix.jpg",
+      "sha256": "66c60bd92ae4413477272fcea3945cf107856a72c1237bdbefbb3cd0596403ca",
+      "bytes": 116042,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/elemental-hero-burstinatrix-5013",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/hero_burstinatrix.jpg",
+      "sha256": "fe342ff9c03290898c3a3a3bf0c9b641fdd1c358e4f9786c37ae50ab165ab2c0",
+      "bytes": 143492,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/elemental-hero-burstinatrix-5013",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/hero_clayman.jpg",
+      "sha256": "2cc2df5b2459430928181640ccbbb27b5299c198468949200202bc6655c19c58",
+      "bytes": 82369,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/elemental-hero-clayman-7073",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/hero_clayman.jpg",
+      "sha256": "4c54dea9b28d10fe9a3b0cfc39c62b92a1cded5cc9302c15badf42130341a521",
+      "bytes": 131677,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/elemental-hero-clayman-7073",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/hero_sparkman.jpg",
+      "sha256": "3c44daf550b8a0573b6f06570544c4b3c04f6083b3a630571b12960900576fae",
+      "bytes": 132364,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/elemental-hero-sparkman-1779",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/hero_sparkman.jpg",
+      "sha256": "ba06e28f7f6f15d665ebe2325687bfe808c867fa5988431b5d88ef2a08f0b1d9",
+      "bytes": 155053,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/elemental-hero-sparkman-1779",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/cyber_dragon.jpg",
+      "sha256": "439dae7945b62411c55ccf59f82d8f56049387f49db4c9f2e4420b1482de784c",
+      "bytes": 95722,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/cyber-dragon-5898",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/cyber_dragon.jpg",
+      "sha256": "101689270cac9c6421e5ede6b08bf17b6ae37934c0c32537a549d3e2b4eb26c8",
+      "bytes": 135886,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/cyber-dragon-5898",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/cyber_tech_alligator.jpg",
+      "sha256": "4f953dd5822fd9e011dd71f41012267e2a25a2ef163ea70c3bfe8959bcb0fded",
+      "bytes": 108052,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/cyber-tech-alligator-4166",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/cyber_tech_alligator.jpg",
+      "sha256": "2448c4871daff649635df4fedc9a859f0418535f847c98bcb8578c9a42a215d7",
+      "bytes": 144299,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/cyber-tech-alligator-4166",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/hero_flame_wingman.jpg",
+      "sha256": "a793b7bb95041067b2096348511cae561d025ecc5efb8e0909c9c5f5d120cbd8",
+      "bytes": 131781,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/elemental-hero-flame-wingman-3033",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/hero_flame_wingman.jpg",
+      "sha256": "f09d5dc87ce9737f7608990990f0c587c2f2e5a91dbe0c476e0e9edb8c3b38d5",
+      "bytes": 172924,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/elemental-hero-flame-wingman-3033",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/cyber_twin_dragon.jpg",
+      "sha256": "e8cc6344be7bae39e884f8be8f6b64d153292fb2335f69449136efd6cee55600",
+      "bytes": 137966,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/cyber-twin-dragon-6238",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/cyber_twin_dragon.jpg",
+      "sha256": "090816bbcdf4e881fceadf05c3a0d131363b1c07238f861b067a424af61b81ef",
+      "bytes": 167444,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/cyber-twin-dragon-6238",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/emergency_call.jpg",
+      "sha256": "f3ef9ba46547c991da75ebcb3d724510b32da90bb3490bd1e9c956c610befc47",
+      "bytes": 80982,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/e-emergency-call-21",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/emergency_call.jpg",
+      "sha256": "330db2354edf8699d0e87af333a2608475c65493dcbf5f1d593b4305084a2c60",
+      "bytes": 110150,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/e-emergency-call-21",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/miracle_fusion.jpg",
+      "sha256": "e82f0986f82f072f762f52d07b4519dbdfda1f103c5e86821152b1ec2e3e6695",
+      "bytes": 113229,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/miracle-fusion-3909",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/miracle_fusion.jpg",
+      "sha256": "31230a3822252068db7710b3f27a7f7f299187170ee703999b374f257a3169dd",
+      "bytes": 136960,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/miracle-fusion-3909",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/oversoul.jpg",
+      "sha256": "b6002ef13480be427eb78fc467b04622c33201b5a5f5e7fdbe17b5ded78df775",
+      "bytes": 85524,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/o-oversoul-5380",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/oversoul.jpg",
+      "sha256": "9de292739cd5f144cc233186f7e63ea4f5d39ba7412a0e913e1746950febe89c",
+      "bytes": 115445,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/o-oversoul-5380",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/fusion_sage.jpg",
+      "sha256": "7c0e4d86c5ed523580462a732979a629a2673856b41c3259a36baf2cc357a7e3",
+      "bytes": 132146,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/fusion-sage-2302",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/fusion_sage.jpg",
+      "sha256": "b3de5bceac69c47bde4aea60aabf4bda8b344e809780955a10ecee4e13004989",
+      "bytes": 133297,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/fusion-sage-2302",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/hero_neos.jpg",
+      "sha256": "da3174234a14dd5716d57f7966048146d64e1eb85be7f0960a02f0f687f341b1",
+      "bytes": 116679,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/elemental-hero-neos-7516",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/hero_neos.jpg",
+      "sha256": "b0b96fbdded09f889c4a97bd24925aee3738ba11c36ea57ff335f21e8606c8db",
+      "bytes": 153043,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/elemental-hero-neos-7516",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/hero_bladedge.jpg",
+      "sha256": "e8a92458b658b0967e398920dba84cf9b20d67f95df2a2c70d0f94a8cac8be0a",
+      "bytes": 116539,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/elemental-hero-bladedge-5081",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/hero_bladedge.jpg",
+      "sha256": "62000ea824afea7253a78f898b3c53743bc2d8595d6f9e7595f61a6f6e6bdd9a",
+      "bytes": 148416,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/elemental-hero-bladedge-5081",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/hero_thunder_giant.jpg",
+      "sha256": "c6100a9753343caed8bc643e35938203333f072ea0efcd4e9b237adfc612bcfc",
+      "bytes": 150043,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/elemental-hero-thunder-giant-5192",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/hero_thunder_giant.jpg",
+      "sha256": "8c60a7632c7e0c00d93ae456d1ee788815a4aedfbd971d0511f3dec522807985",
+      "bytes": 177622,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/elemental-hero-thunder-giant-5192",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/cyber_end_dragon.jpg",
+      "sha256": "83b291d315df071aa127ce440ac4c6916d05f4df790e126fad54fe243eb1a951",
+      "bytes": 121553,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/cyber-end-dragon-133",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
+    },
+    {
+      "path": "public/game-assets/cards/full/cyber_end_dragon.jpg",
+      "sha256": "a815e2e0cff96efb5c3c7d006dac6d3916196775500fce53e224417e39ec83c0",
+      "bytes": 164030,
+      "status": "unverified-ip",
+      "source": "https://ygoprodeck.com/card/cyber-end-dragon-133",
+      "reason": "GX 本地原型卡图；来源可核对，未取得 IP 发布授权"
     }
   ]
 }

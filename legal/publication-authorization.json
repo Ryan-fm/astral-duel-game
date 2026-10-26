@@ -8,7 +8,20 @@
     "Toy package preview and requested update"
   ],
   "claimsIpClearance": false,
-  "assetManifestSha256": "eb66bd5d10460379709b24bd00b80c4eeec4b2e15be32f1628aa2b84a3b35927",
+  "assetManifestSha256": "7cd4faba337c90283a8de047c7aba82444e4dff1893a58737c7a3e00db1c7e11",
   "releasePolicySha256": "842553cca61efb48836e703fc2a78a6f7514fb3988754f676373d4342684ea52",
-  "note": "User publication authorization supersedes local review hold; unresolved third-party rights remain recorded. Toy final review submission follows its preview-confirmation workflow."
+  "note": "User publication authorization supersedes local review hold; unresolved third-party rights remain recorded. Toy final review submission follows its preview-confirmation workflow.",
+  "previousReviewedAssetManifestSha256": "eb66bd5d10460379709b24bd00b80c4eeec4b2e15be32f1628aa2b84a3b35927",
+  "latestAuthorization": {
+    "date": "2026-10-15",
+    "request": "更新toy",
+    "scope": [
+      "Existing Toy GX package preview and update"
+    ],
+    "toyId": 42086522945536,
+    "version": "GX first wave",
+    "onlineEnabled": false,
+    "vercelDeploymentAuthorized": false,
+    "claimsIpClearance": false
+  }
 }

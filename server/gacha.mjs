@@ -1,7 +1,7 @@
 import {randomInt,randomUUID} from 'node:crypto';
 import {CARDS} from './engine.mjs';
 import {assertDeckLimits} from './deckLimits.mjs';
-export const POOL=Object.values(CARDS).filter(c=>c.hiddenPool&&c.era==='DM');
+export const POOL=Object.values(CARDS).filter(c=>c.hiddenPool&&['DM','GX'].includes(c.era));
 export const RATES={N:60,R:28,SR:10,UR:2};
 const DUST={N:2,R:5,SR:20,UR:80};
 export function initCollection(p){p.collection||={};p.tickets??=30;p.rewardPacks??=0;p.dust??=0;p.pity??=0;p.drawHistory||=[];p.claimedDate??=null;p.customDeck??=null;p.customExtra??=null;}
@@ -34,4 +34,4 @@ function drawCards(p,count,requestId,roll,now,source){
  const batch={id:randomUUID(),requestId,at:now,count,source,results,ticketsAfter:p.tickets,packsAfter:p.rewardPacks,pityAfter:p.pity};p.drawHistory.unshift(batch);p.drawHistory=p.drawHistory.slice(0,100);return batch;
 }
 export function claimDaily(p,now=Date.now()){initCollection(p);const today=new Date(now+8*3600000).toISOString().slice(0,10);if(p.claimedDate===today)throw new Error('今日补给已领取，明天再来');p.claimedDate=today;p.tickets+=10;return 10;}
-export function collectionView(p){initCollection(p);return {cardCatalog:Object.fromEntries(Object.keys(p.collection).filter(id=>CARDS[id]?.hiddenPool).map(id=>[id,CARDS[id]])),collection:p.collection,tickets:p.tickets,rewardPacks:p.rewardPacks,dust:p.dust,pity:p.pity,claimedDate:p.claimedDate,customDeck:p.customDeck,customExtra:p.customExtra,poolEra:'DM',poolOwned:POOL.filter(c=>p.collection[c.id]>0).length,legacyOwned:Object.keys(p.collection).filter(id=>CARDS[id]?.hiddenPool&&CARDS[id].era!=='DM').length,baseSize:Object.values(CARDS).filter(c=>!c.hiddenPool).length,lastDraw:p.drawHistory[0]||null,drawHistory:p.drawHistory.slice(0,5),rates:RATES,poolSize:POOL.length};}
+export function collectionView(p){initCollection(p);return {cardCatalog:Object.fromEntries(Object.keys(p.collection).filter(id=>CARDS[id]?.hiddenPool).map(id=>[id,CARDS[id]])),collection:p.collection,tickets:p.tickets,rewardPacks:p.rewardPacks,dust:p.dust,pity:p.pity,claimedDate:p.claimedDate,customDeck:p.customDeck,customExtra:p.customExtra,poolEra:'DM / GX',cardPoolVersion:'gx-1',poolOwned:POOL.filter(c=>p.collection[c.id]>0).length,legacyOwned:Object.keys(p.collection).filter(id=>CARDS[id]?.hiddenPool&&!['DM','GX'].includes(CARDS[id].era)).length,baseSize:Object.values(CARDS).filter(c=>!c.hiddenPool).length,lastDraw:p.drawHistory[0]||null,drawHistory:p.drawHistory.slice(0,5),rates:RATES,poolSize:POOL.length};}

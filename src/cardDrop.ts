@@ -7,7 +7,7 @@ export type CardDrag = DropPoint & {uid:string,cardId?:string,intent?:'play'|'se
 export function siteKey(site:DropSite|null){return !site?'':site.type==='activate'?'activate':site.type==='play'?'play:'+ (site.intent||'play'):`${site.player}:${site.area}:${site.zone}`;}
 export function handPlayActions(game:any,uid:string,position='attack'):any[]{
  if(!game||game.paused||game.result||!game.players[game.you].hand.some((c:any)=>c.uid===uid))return [];
- return (game.legal||[]).filter((a:any)=>a.cardUid===uid&&['summon','set','activate'].includes(a.kind)&&(!a.position||a.position===position));
+ return (game.legal||[]).filter((a:any)=>a.cardUid===uid&&['summon','specialSummon','set','activate'].includes(a.kind)&&(!a.position||a.position===position));
 }
 export function cardDropSites(game:any,uid:string,position='attack'):DropSite[]{
  const sites=new Map<string,DropSite>();
@@ -29,7 +29,7 @@ export function cardDropSites(game:any,uid:string,position='attack'):DropSite[]{
 /** Collapse placement, never strategic choices: every returned command is server-issued. */
 export function automaticPlayActions(game:any,uid:string,position='attack',intent='play'):any[]{
  const legal=handPlayActions(game,uid,position);
- const kind=intent==='set'?'set':legal.some(a=>a.kind==='summon')?'summon':legal.some(a=>a.kind==='activate')?'activate':'set';
+ const kind=intent==='set'?'set':legal.some(a=>a.kind==='specialSummon')?'specialSummon':legal.some(a=>a.kind==='summon')?'summon':legal.some(a=>a.kind==='activate')?'activate':'set';
  const grouped=new Map<string,any>();
  for(const action of legal.filter(a=>a.kind===kind)){
   const {zone,...choice}=action,key=JSON.stringify(choice),previous=grouped.get(key);
@@ -57,7 +57,7 @@ export function actionsAtDrop(game:any,uid:string,site:DropSite|null,position='a
  });
 }
 export function dropNeedsChoice(actions:any[],site:DropSite){
- return actions.some(a=>a.tributes?.length>0||a.materialUids?.length>0||a.fusionId!==undefined||a.ritualUid!==undefined||a.targetUid!==undefined&&(site.type!=='zone'||site.uid!==a.targetUid));
+ return actions.some(a=>a.searchId!==undefined||a.discardUid!==undefined||a.tributes?.length>0||a.materialUids?.length>0||a.fusionId!==undefined||a.ritualUid!==undefined||a.targetUid!==undefined&&(site.type!=='zone'||site.uid!==a.targetUid));
 }
 export function dragStillCurrent(game:any,snapshot:{id:string,version:number}){
  return !!game&&!game.paused&&!game.result&&game.id===snapshot.id&&game.version===snapshot.version;

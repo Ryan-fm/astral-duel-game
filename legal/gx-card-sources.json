@@ -1,0 +1,22 @@
+{
+  "version": "gx-1",
+  "checkedAt": "2026-10-15",
+  "scope": "Curated GX first wave, 14 GX cards plus two DM support cards; not a complete era or OCG implementation.",
+  "rulesVersion": "classic-gx-v1",
+  "officialRules": {
+    "hero_flame_wingman": "https://www.db.yugioh-card.com/yugiohdb/card_search.action?cid=6344&ope=2&request_locale=en",
+    "hero_thunder_giant": "https://www.db.yugioh-card.com/yugiohdb/card_search.action?cid=6345&ope=2&request_locale=en",
+    "cyber_twin_dragon": "https://www.db.yugioh-card.com/yugiohdb/card_search.action?cid=6396&ope=2&request_locale=en",
+    "cyber_end_dragon": "https://www.db.yugioh-card.com/yugiohdb/card_search.action?cid=6397&ope=2&request_locale=en",
+    "miracle_fusion": "https://www.db.yugioh-card.com/yugiohdb/card_search.action?cid=6432&ope=2&request_locale=en",
+    "fusion_sage": "https://www.db.yugioh-card.com/yugiohdb/card_search.action?cid=4872&ope=2&request_locale=en",
+    "cyber_tech_alligator": "https://www.db.yugioh-card.com/yugiohdb/card_search.action?cid=4790&ope=2&request_locale=en"
+  },
+  "catalogAndArt": "YGOPRODeck public cardinfo API; per-file URLs, hashes and unresolved IP status in asset-rights.json.",
+  "limits": [
+    "Only named-material fusion recipes and existing small-pool effects supported.",
+    "Fusion and ritual choices occur at activation and are atomically revalidated at resolution, unlike full OCG resolution-time selection.",
+    "Existing simplified damage-step / attack-replay handling retained. No contact fusion or full Neos support.",
+    "Two presets are beginner templates, not competitively calibrated decks."
+  ]
+}

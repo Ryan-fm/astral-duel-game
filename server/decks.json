@@ -70,7 +70,9 @@
         "card_id": "masaki",
         "count": 3
       }
-    ]
+    ],
+    "era": "DM",
+    "version": "dm-1"
   },
   {
     "id": "dark_magician_starter",
@@ -143,7 +145,9 @@
         "card_id": "battle_ox",
         "count": 3
       }
-    ]
+    ],
+    "era": "DM",
+    "version": "dm-1"
   },
   {
     "id": "defense_starter",
@@ -216,7 +220,9 @@
         "card_id": "curse_of_dragon",
         "count": 3
       }
-    ]
+    ],
+    "era": "DM",
+    "version": "dm-1"
   },
   {
     "id": "blue_eyes_starter",
@@ -293,7 +299,9 @@
         "card_id": "magic_cylinder",
         "count": 1
       }
-    ]
+    ],
+    "era": "DM",
+    "version": "dm-1"
   },
   {
     "id": "dm_fusion_starter",
@@ -381,7 +389,9 @@
       "b_skull_dragon",
       "b_skull_dragon",
       "b_skull_dragon"
-    ]
+    ],
+    "era": "DM",
+    "version": "dm-1"
   },
   {
     "id": "dm_ritual_starter",
@@ -459,6 +469,188 @@
         "count": 1
       }
     ],
-    "extra": []
+    "extra": [],
+    "era": "DM",
+    "version": "dm-1"
+  },
+  {
+    "id": "gx_hero_starter",
+    "name": "GX · 元素英雄",
+    "ace_card": "hero_flame_wingman",
+    "subtitle": "英雄检索 · 墓地融合",
+    "description": "紧急呼唤补齐英雄素材，融合召唤火焰翼侠；奇迹融合利用墓地资源再次展开。",
+    "era": "GX",
+    "version": "gx-1",
+    "cards": [
+      {
+        "card_id": "hero_avian",
+        "count": 3
+      },
+      {
+        "card_id": "hero_burstinatrix",
+        "count": 3
+      },
+      {
+        "card_id": "hero_clayman",
+        "count": 3
+      },
+      {
+        "card_id": "hero_sparkman",
+        "count": 3
+      },
+      {
+        "card_id": "celtic_guardian",
+        "count": 3
+      },
+      {
+        "card_id": "kuriboh",
+        "count": 2
+      },
+      {
+        "card_id": "mystical_elf",
+        "count": 2
+      },
+      {
+        "card_id": "polymerization",
+        "count": 3
+      },
+      {
+        "card_id": "miracle_fusion",
+        "count": 2
+      },
+      {
+        "card_id": "emergency_call",
+        "count": 3
+      },
+      {
+        "card_id": "oversoul",
+        "count": 2
+      },
+      {
+        "card_id": "fusion_sage",
+        "count": 2
+      },
+      {
+        "card_id": "monster_reborn",
+        "count": 1
+      },
+      {
+        "card_id": "mst",
+        "count": 2
+      },
+      {
+        "card_id": "rush_recklessly",
+        "count": 1
+      },
+      {
+        "card_id": "mirror_force",
+        "count": 1
+      },
+      {
+        "card_id": "trap_hole",
+        "count": 2
+      },
+      {
+        "card_id": "negate_attack",
+        "count": 1
+      },
+      {
+        "card_id": "magic_cylinder",
+        "count": 1
+      }
+    ],
+    "extra": [
+      "hero_flame_wingman",
+      "hero_flame_wingman",
+      "hero_flame_wingman"
+    ]
+  },
+  {
+    "id": "gx_cyber_starter",
+    "name": "GX · 电子流",
+    "ace_card": "cyber_twin_dragon",
+    "subtitle": "特殊召唤 · 连续攻击",
+    "description": "电子龙在对方有怪兽、我方空场时特殊召唤；汇集两张电子龙，融合双生龙连续攻击。",
+    "era": "GX",
+    "version": "gx-1",
+    "cards": [
+      {
+        "card_id": "cyber_dragon",
+        "count": 3
+      },
+      {
+        "card_id": "cyber_tech_alligator",
+        "count": 2
+      },
+      {
+        "card_id": "battle_ox",
+        "count": 3
+      },
+      {
+        "card_id": "luster_dragon",
+        "count": 3
+      },
+      {
+        "card_id": "giant_soldier",
+        "count": 3
+      },
+      {
+        "card_id": "celtic_guardian",
+        "count": 3
+      },
+      {
+        "card_id": "mystical_elf",
+        "count": 2
+      },
+      {
+        "card_id": "kuriboh",
+        "count": 2
+      },
+      {
+        "card_id": "polymerization",
+        "count": 3
+      },
+      {
+        "card_id": "fusion_sage",
+        "count": 3
+      },
+      {
+        "card_id": "monster_reborn",
+        "count": 1
+      },
+      {
+        "card_id": "mst",
+        "count": 3
+      },
+      {
+        "card_id": "rush_recklessly",
+        "count": 3
+      },
+      {
+        "card_id": "fissure",
+        "count": 1
+      },
+      {
+        "card_id": "mirror_force",
+        "count": 1
+      },
+      {
+        "card_id": "trap_hole",
+        "count": 2
+      },
+      {
+        "card_id": "negate_attack",
+        "count": 1
+      },
+      {
+        "card_id": "magic_cylinder",
+        "count": 1
+      }
+    ],
+    "extra": [
+      "cyber_twin_dragon",
+      "cyber_twin_dragon",
+      "cyber_twin_dragon"
+    ]
   }
 ]

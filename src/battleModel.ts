@@ -6,7 +6,7 @@ export function monsterPresentation(card:any){
 }
 export function findVisibleCard(game:any,uid:string|null){
  if(!game||!uid)return null;
- for(let player=0;player<2;player++)for(const area of ['hand','field','spells','grave','extraDeck']){
+ for(let player=0;player<2;player++)for(const area of ['hand','field','spells','grave','banished','extraDeck']){
   const card=(game.players[player][area]||[]).find((c:any)=>c?.uid===uid);
   if(card)return {card,player,area};
  }
@@ -20,7 +20,7 @@ export function attackPreview(game:any,action:any,catalog:Record<string,any>){
  const b=findVisibleCard(game,action.targetUid);
  if(!b?.card.faceUp||!b.card.id||!catalog[b.card.id])return {tone:'unknown',text:'目标为盖放怪兽 · 数值未知',note:'翻开后结算，无法预估伤害。'};
  const defense=b.card.position==='defense',value=defense?catalog[b.card.id].def:catalog[b.card.id].atk+(b.card.bonus||0),delta=atk-value;
- const text=delta>0?`破坏目标 · ${defense?'无贯穿伤害':`预计对方 LP −${delta}`}`:delta<0?`${defense?'对方守备成功':'我方怪兽被破坏'} · 预计我方 LP −${-delta}`:defense?'攻击与守备相等 · 无伤害':'双方怪兽同归于尽 · 无伤害';
+ const text=delta>0?`破坏目标 · ${defense&&!catalog[a.card.id].piercing?'无贯穿伤害':`${defense?'贯穿 · ':''}预计对方 LP −${delta}`}`:delta<0?`${defense?'对方守备成功':'我方怪兽被破坏'} · 预计我方 LP −${-delta}`:defense?'攻击与守备相等 · 无伤害':'双方怪兽同归于尽 · 无伤害';
  return {tone:delta>=0?'good':'danger',text,note:'按当前公开数值预估；连锁效果可能改变结果。'};
 }
 export function unavailableReason(game:any,card:any,catalog:Record<string,any>){
@@ -32,6 +32,7 @@ export function unavailableReason(game:any,card:any,catalog:Record<string,any>){
  if(game.active!==game.you)return '对手正在行动，等待你的回合或响应机会';
  if(!loc||loc.player!==game.you)return '对方卡牌只能查看；先选我方怪兽再选择攻击目标';
  if(loc.area==='extraDeck')return '融合怪兽需要通过融合魔法和指定素材召唤';
+ if(loc.area==='banished')return '这张卡已除外，不能作为墓地卡使用';
  if(loc.area==='grave')return '墓地卡牌需要通过复活等效果使用';
  if(loc.area==='hand'&&d?.kind==='monster'){
   if(d.summonType==='ritual')return '仪式怪兽不能通常召唤；拖出配套仪式魔法，确认等级足够的祭品';

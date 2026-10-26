@@ -1,4 +1,4 @@
-const aliases:Record<string,string[]>={blue_eyes:['青眼白龍','青眼百龙'],dark_magician:['黑魔导士','黑魔導','黑魔术师'],red_eyes:['真红眼黑龍','真红眼'],summoned_skull:['恶魔召唤','惡魔的召喚'],battle_ox:['牛头人'],celtic_guardian:['精靈劍士'],mystical_elf:['神秘精灵'],giant_soldier:['岩石巨兵'],kuriboh:['栗子球']};
+const aliases:Record<string,string[]>={blue_eyes:['青眼白龍','青眼百龙'],dark_magician:['黑魔导士','黑魔導','黑魔术师'],red_eyes:['真红眼黑龍','真红眼'],summoned_skull:['恶魔召唤','惡魔的召喚'],battle_ox:['牛头人'],celtic_guardian:['精靈劍士'],mystical_elf:['神秘精灵'],giant_soldier:['岩石巨兵'],kuriboh:['栗子球'],hero_flame_wingman:['火焰翼侠'],hero_thunder_giant:['雷霆巨人'],cyber_dragon:['電子龍','电子龙'],cyber_twin_dragon:['电子双头龙','双生龙'],cyber_end_dragon:['电子终极龙','终结龙']};
 const clean=(s:string)=>s.normalize('NFKC').toLowerCase().replace(/[\s\p{P}\p{S}]/gu,'');
 export function voiceHand(game:any,catalog:Record<string,any>){return [...(game?.players?.[game.you]?.hand||[]),...(game?.players?.[game.you]?.extraDeck||[])].filter((c:any)=>catalog[c.id]?.kind==='monster');}
 export function planVoiceSummon(game:any,catalog:Record<string,any>,request:{text?:string,uid?:string,position?:string}){
@@ -13,7 +13,8 @@ export function planVoiceSummon(game:any,catalog:Record<string,any>,request:{tex
  if(!hand.length)return {error:request.uid?'这张卡已不在手牌中':'没有匹配到手牌怪兽，请说完整卡名'};
  const card=hand[0],position=request.position||(/守备|守備|盖放|蓋放/.test(text)?'defense':'attack');
  const type=catalog[card.id].summonType;
- let actions=(game.legal||[]).filter((a:any)=>a.position===position&&(type==='fusion'?a.fusionId===card.id:type==='ritual'?a.ritualUid===card.uid:a.kind==='summon'&&a.cardUid===card.uid));
+ let actions=(game.legal||[]).filter((a:any)=>a.position===position&&(type==='fusion'?a.fusionId===card.id:type==='ritual'?a.ritualUid===card.uid:['summon','specialSummon'].includes(a.kind)&&a.cardUid===card.uid));
+ if(actions.some((a:any)=>a.kind==='specialSummon'))actions=actions.filter((a:any)=>a.kind==='specialSummon');
  if(actions.length)actions=actions.filter((a:any)=>a.cardUid===actions[0].cardUid);
  if(!actions.length)return {error:'这张怪兽当前无法召唤，请检查次数、落点、配套魔法与素材'};
  const zones=[...new Set<number>(actions.map((a:any)=>a.zone))].sort((a,b)=>Math.abs(a-2)-Math.abs(b-2)||a-b);

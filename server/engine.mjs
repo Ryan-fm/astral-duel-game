@@ -5,14 +5,14 @@ import {specialSpellActions,resolveSpecialSpell,canRevive} from './classicSummon
 export const CARDS = {...JSON.parse(readFileSync(new URL('../src/cards.json', import.meta.url))),...JSON.parse(readFileSync(new URL('./hidden-cards.json', import.meta.url)))};
 export const DECKS = JSON.parse(readFileSync(new URL('./decks.json', import.meta.url)));
 export const SCENARIOS = JSON.parse(readFileSync(new URL('./scenarios.json', import.meta.url)));
-export const RULES_VERSION = 'classic-dm-v4';
+export const RULES_VERSION = 'classic-gx-v1';
 const cnPhase = { main1:'主要阶段 1', battle:'战斗阶段', main2:'主要阶段 2' };
 export const attackValue = c => CARDS[c.id].atk + (c.bonus || 0);
 const monster = c => c && CARDS[c.id]?.kind === 'monster';
-export function instance(id) { return { uid:randomUUID(), id, faceUp:true, position:'attack', bonus:0, summonedTurn:-1, switchedTurn:-1, attacked:false, placedTurn:-1 }; }
+export function instance(id) { return { uid:randomUUID(), id, faceUp:true, position:'attack', bonus:0, summonedTurn:-1, switchedTurn:-1, attacked:false, attackCount:0, effectUsedTurn:-1, placedTurn:-1 }; }
 const shuffle = array => { for(let i=array.length-1;i>0;i--){const j=randomInt(i+1);[array[i],array[j]]=[array[j],array[i]];} return array; };
 const deckFor = id => { const deck=DECKS.find(d=>d.id===id); if(!deck)throw new Error('无效卡组'); return shuffle(deck.cards.flatMap(e=>Array.from({length:e.count},()=>instance(e.card_id)))); };
-const blankPlayer = (name,deckId,list,extra) => ({name,deckId,lp:8000,hand:[],deck:list?shuffle(list.map(instance)):deckFor(deckId),grave:[],extraDeck:(extra||DECKS.find(d=>d.id===deckId)?.extra||[]).map(instance),field:Array(5).fill(null),spells:Array(5).fill(null),normalUsed:false});
+const blankPlayer = (name,deckId,list,extra) => ({name,deckId,lp:8000,hand:[],deck:list?shuffle(list.map(instance)):deckFor(deckId),grave:[],banished:[],extraDeck:(extra||DECKS.find(d=>d.id===deckId)?.extra||[]).map(instance),field:Array(5).fill(null),spells:Array(5).fill(null),normalUsed:false});
 export function createGame({id=randomUUID(),mode='practice',names=['决斗者','AI'],decks=['tempo_starter','dark_magician_starter'],deckLists=[],extraLists=[],scenario=null,now=Date.now(),timed=false}={}){
   const g={id,mode,scenario,rulesVersion:RULES_VERSION,version:0,turn:1,active:0,phase:'main1',players:names.map((n,i)=>blankPlayer(n,decks[i],deckLists[i],extraLists[i])),window:null,pending:null,log:[],events:[],result:null,deadline:timed?now+120000:null,timed,ownTurns:1};
   for(let i=0;i<g.players.length;i++){const p=g.players[i];for(const c of [...p.deck,...p.extraDeck])c.owner=i;p.hand=p.deck.splice(0,5);}
@@ -24,9 +24,10 @@ function log(g,text){g.log.push({at:Date.now(),text});g.log=g.log.slice(-40);}
 function event(g,type,detail={}){const eventId=randomUUID();g.events.push({id:eventId,type,...detail,eventId});g.events=g.events.slice(-12);}
 export function finish(g,winner,reason){if(g.result)return;g.result={winner,reason,at:Date.now()};g.window=null;g.pending=null;log(g,reason);event(g,'result',{winner});}
 function loseCheck(g){if(g.result)return;for(let i=0;i<2;i++)if(g.players[i].lp<=0){finish(g,1-i,'生命值归零');return;}}
-function locate(g,uid){for(let p=0;p<2;p++)for(const area of ['field','spells','hand','grave']){const zone=g.players[p][area].findIndex(c=>c?.uid===uid);if(zone>=0)return {p,area,zone,card:g.players[p][area][zone]};}return null;}
+function locate(g,uid){for(let p=0;p<2;p++)for(const area of ['field','spells','hand','grave','banished']){const zone=(g.players[p][area]||[]).findIndex(c=>c?.uid===uid);if(zone>=0)return {p,area,zone,card:g.players[p][area][zone]};}return null;}
 function remove(g,loc){if(['field','spells'].includes(loc.area))g.players[loc.p][loc.area][loc.zone]=null;else g.players[loc.p][loc.area].splice(loc.zone,1);}
 function bury(g,uid){const loc=locate(g,uid);if(!loc)return;remove(g,loc);loc.card.faceUp=true;loc.card.bonus=0;g.players[loc.card.owner??loc.p].grave.push(loc.card);event(g,'destroy',{uid,player:loc.p});}
+function banish(g,uid){const loc=locate(g,uid);if(!loc)return;remove(g,loc);loc.card.faceUp=true;loc.card.bonus=0;(g.players[loc.card.owner??loc.p].banished||=[]).push(loc.card);event(g,'banish',{uid,player:loc.p});}
 function freeSlots(area){return area.flatMap((c,i)=>c?[]:[i]);}
 function combos(list,n){if(!n)return [[]];if(n===1)return list.map(x=>[x]);return list.flatMap((x,i)=>list.slice(i+1).map(y=>[x,y]));}
 function targetList(g,area,onlyFace=false){return g.players.flatMap((p,owner)=>p[area].flatMap(c=>c&&(!onlyFace||c.faceUp)?[{owner,uid:c.uid}]:[]));}
@@ -49,6 +50,11 @@ function effectActions(g,p,c,source,reactive){
    return [];
  }
  const special=specialSpellActions(me,c,base,CARDS);if(special)return special;
+ if(['emergency_call','fusion_sage'].includes(c.id)){
+  const ids=[...new Set(me.deck.filter(x=>c.id==='fusion_sage'?x.id==='polymerization':CARDS[x.id]?.archetype==='Elemental HERO'&&CARDS[x.id].kind==='monster').map(x=>x.id))].sort();
+  return ids.map(searchId=>({...base,searchId}));
+ }
+ if(c.id==='oversoul')return me.grave.filter(x=>CARDS[x.id]?.archetype==='Elemental HERO'&&CARDS[x.id].normalMonster).flatMap(x=>freeSlots(me.field).flatMap(zone=>['attack','defense'].map(position=>({...base,targetUid:x.uid,zone,position}))));
  if(c.id==='monster_reborn')return targetList(g,'grave').filter(t=>canRevive(locate(g,t.uid)?.card,CARDS)).flatMap(t=>freeSlots(me.field).flatMap(zone=>['attack','defense'].map(position=>({...base,targetUid:t.uid,zone,position}))));
  if(c.id==='fissure')return other.field.some(x=>x?.faceUp)?[base]:[];
  if(c.id==='mst')return targetList(g,'spells').filter(t=>t.uid!==c.uid).map(t=>({...base,targetUid:t.uid}));
@@ -77,17 +83,19 @@ export function legalActions(g,p){
        for(const zone of zones)for(const position of ['attack','defense'])actions.push({kind:'summon',cardUid:c.uid,zone,position,tributes});
      }
    }}
+   if(!me.field.some(Boolean)&&op.field.some(Boolean))for(const c of me.hand)if(CARDS[c.id].selfSpecial==='opponent-only')for(const zone of freeSlots(me.field))for(const position of ['attack','defense'])actions.push({kind:'specialSummon',cardUid:c.uid,zone,position});
+   for(const c of me.field)if(c?.faceUp&&c.id==='hero_thunder_giant'&&c.effectUsedTurn!==g.turn)for(const cost of me.hand)for(const t of targetList(g,'field',true)){if(CARDS[locate(g,t.uid).card.id].atk<attackValue(c))actions.push({kind:'activate',cardUid:c.uid,source:'field',discardUid:cost.uid,targetUid:t.uid});}
    for(const c of me.hand)if(!monster(c)){
      for(const zone of freeSlots(me.spells))actions.push({kind:'set',cardUid:c.uid,zone});
      if(CARDS[c.id].kind==='spell')actions.push(...effectActions(g,p,c,'hand',false));
    }
    for(const c of me.spells)if(c&&!c.faceUp&&CARDS[c.id].kind==='spell'&&(!CARDS[c.id].quick||c.placedTurn<g.turn))actions.push(...effectActions(g,p,c,'spells',false));
-   for(const c of me.field)if(c&&c.summonedTurn<g.turn&&c.switchedTurn<g.turn&&!c.attacked)actions.push({kind:'position',cardUid:c.uid});
+   for(const c of me.field)if(c&&c.summonedTurn<g.turn&&c.switchedTurn<g.turn&&!c.attacked&&!(c.attackCount>0))actions.push({kind:'position',cardUid:c.uid});
  }
  if(g.phase==='battle'){
    for(const c of me.hand)if(CARDS[c.id].quick)actions.push(...effectActions(g,p,c,'hand',false));
    for(const c of me.spells)if(c&&!c.faceUp&&CARDS[c.id].quick&&c.placedTurn<g.turn)actions.push(...effectActions(g,p,c,'spells',false));
-   for(const c of me.field)if(c?.faceUp&&c.position==='attack'&&!c.attacked){
+   for(const c of me.field)if(c?.faceUp&&c.position==='attack'&&(c.attackCount??(c.attacked?1:0))<(CARDS[c.id].attacksPerBattle||1)){
      const targets=op.field.filter(Boolean);if(!targets.length)actions.push({kind:'attack',cardUid:c.uid,targetUid:null});
      else for(const target of targets)actions.push({kind:'attack',cardUid:c.uid,targetUid:target.uid});
    }
@@ -105,6 +113,7 @@ function objective(g){
  if(g.scenario==='C01'&&g.players[0].field.some(c=>c?.uid===g.goalUid&&c.faceUp))finish(g,0,'挑战完成：上级召唤');
  if(g.scenario==='C04'&&g.players[0].field.some(c=>c?.uid===g.goalUid&&c.faceUp))finish(g,0,'挑战完成：资源再生');
  if(['T04','T05'].includes(g.scenario)&&g.players[0].field.some(c=>c?.properSummoned&&CARDS[c.id].summonType===(g.scenario==='T04'?'fusion':'ritual')))finish(g,0,'教学完成：'+(g.scenario==='T04'?'融合召唤':'仪式召唤'));
+ if(['T06','T07'].includes(g.scenario)&&g.players[0].field.some(c=>c?.id==='hero_flame_wingman'&&c.properSummoned))finish(g,0,'GX 教学完成：'+(g.scenario==='T06'?'英雄融合':'奇迹融合'));
  if(g.scenario==='C02'&&g.ownTurns>2)finish(g,1,'挑战失败：超过两个我方回合');
 }
 export function applyAction(g,p,input,now=Date.now()){
@@ -120,10 +129,10 @@ export function applyAction(g,p,input,now=Date.now()){
    bury(g,action.cardUid);g.pending.prevented=true;log(g,me.name+'发动栗子球：本次战斗伤害归零');resolvePending(g,now);
  }else if(action.kind==='discard'){
    bury(g,action.cardUid);log(g,me.name+'在回合结束时弃牌');if(me.hand.length<=6)endTurn(g,now);
- }else if(action.kind==='summon'){
-   const c=locate(g,action.cardUid).card;for(const uid of action.tributes)bury(g,uid);remove(g,locate(g,c.uid));c.faceUp=action.position==='attack';c.position=action.position;c.summonedTurn=g.turn;c.placedTurn=g.turn;me.field[action.zone]=c;me.normalUsed=true;
-   log(g,me.name+(c.faceUp?'召唤 '+CARDS[c.id].name:'盖放一只怪兽'));event(g,'summon',{uid:c.uid,player:p,id:c.faceUp?c.id:undefined});
-   if(c.faceUp){g.pending={kind:'summon',player:p,uid:c.uid,chain:[]};openWindow(g,1-p,now);}
+ }else if(['summon','specialSummon'].includes(action.kind)){
+   const special=action.kind==='specialSummon',c=locate(g,action.cardUid).card;for(const uid of action.tributes||[])bury(g,uid);remove(g,locate(g,c.uid));c.faceUp=special||action.position==='attack';c.position=action.position;c.summonedTurn=g.turn;c.placedTurn=g.turn;c.attackCount=0;c.attacked=false;c.effectUsedTurn=-1;me.field[action.zone]=c;if(!special)me.normalUsed=true;
+   log(g,me.name+(c.faceUp?'召唤 '+CARDS[c.id].name:'盖放一只怪兽'));event(g,'summon',{uid:c.uid,player:p,id:c.faceUp?c.id:undefined,summonType:special?'special':undefined});
+   if(c.faceUp){g.pending={kind:special?'specialSummon':'summon',player:p,uid:c.uid,chain:[]};openWindow(g,1-p,now);}
  }else if(action.kind==='set'){
    const c=locate(g,action.cardUid).card;remove(g,locate(g,c.uid));c.faceUp=false;c.placedTurn=g.turn;me.spells[action.zone]=c;log(g,me.name+'盖放一张魔法／陷阱');
  }else if(action.kind==='position'){
@@ -132,11 +141,12 @@ export function applyAction(g,p,input,now=Date.now()){
  }else if(action.kind==='activate'){
    const loc=locate(g,action.cardUid),c=loc.card;
    if(action.source==='hand'){remove(g,loc);me.spells[freeSlots(me.spells)[0]]=c;}
+   if(action.discardUid){bury(g,action.discardUid);c.effectUsedTurn=g.turn;}
    c.faceUp=true;const entry={...action,player:p,id:c.id};
    if(!g.pending)g.pending={kind:'effect',player:p,chain:[]};g.pending.chain.push(entry);
    log(g,me.name+'发动 '+CARDS[c.id].name);event(g,'activate',{id:c.id,uid:c.uid,player:p});newPriority(g,1-p,now,CARDS[c.id].counter?3:2);
  }else if(action.kind==='attack'){
-   const c=locate(g,action.cardUid).card;c.attacked=true;
+   const c=locate(g,action.cardUid).card;c.attackCount=(c.attackCount??(c.attacked?1:0))+1;c.attacked=c.attackCount>=(CARDS[c.id].attacksPerBattle||1);
    g.pending={kind:'attack',player:p,uid:c.uid,targetUid:action.targetUid,chain:[],cancelled:false};openWindow(g,1-p,now);log(g,CARDS[c.id].name+'宣告攻击');
  }else if(action.kind==='phase'){
    if(action.phase==='end')endTurn(g,now);else{g.phase=action.phase;log(g,cnPhase[g.phase]);}
@@ -145,9 +155,14 @@ export function applyAction(g,p,input,now=Date.now()){
 }
 function resolveEffect(g,e){
  const me=g.players[e.player],op=g.players[1-e.player];const target=locate(g,e.targetUid);
- if(resolveSpecialSpell(g,e,CARDS,{locate,remove,bury,event,log})){}
- else if(e.id==='monster_reborn'&&target?.area==='grave'&&canRevive(target.card,CARDS)&&!me.field[e.zone]){
-   const c=target.card;remove(g,target);c.faceUp=true;c.position=e.position;c.summonedTurn=g.turn;c.attacked=false;c.bonus=0;me.field[e.zone]=c;event(g,'summon',{id:c.id,uid:c.uid,player:e.player});
+ if(resolveSpecialSpell(g,e,CARDS,{locate,remove,bury,banish,event,log})){}
+ else if(['emergency_call','fusion_sage'].includes(e.id)){
+   const index=me.deck.findIndex(c=>c.id===e.searchId&&(e.id==='fusion_sage'?c.id==='polymerization':CARDS[c.id]?.archetype==='Elemental HERO'));
+   if(index>=0){const [found]=me.deck.splice(index,1);me.hand.push(found);log(g,me.name+'将 '+CARDS[found.id].name+' 加入手牌');event(g,'reveal',{id:found.id,player:e.player});shuffle(me.deck);}
+ }else if(e.id==='hero_thunder_giant'&&target?.area==='field'&&target.card.faceUp)bury(g,e.targetUid);
+ else if(CARDS[e.id]?.battleBurn&&e.source==='trigger'){op.lp=Math.max(0,op.lp-e.damageAmount);log(g,CARDS[e.id].name+'造成效果伤害 '+e.damageAmount);}
+ else if(['monster_reborn','oversoul'].includes(e.id)&&target?.area==='grave'&&canRevive(target.card,CARDS)&&!me.field[e.zone]&&(e.id!=='oversoul'||target.p===e.player&&CARDS[target.card.id].normalMonster&&CARDS[target.card.id].archetype==='Elemental HERO')){
+   const c=target.card;remove(g,target);c.faceUp=true;c.position=e.position;c.summonedTurn=g.turn;c.attacked=false;c.attackCount=0;c.effectUsedTurn=-1;c.bonus=0;me.field[e.zone]=c;event(g,'summon',{id:c.id,uid:c.uid,player:e.player});
  }else if(e.id==='fissure'){
    const list=op.field.filter(c=>c?.faceUp).sort((a,b)=>attackValue(a)-attackValue(b));if(list.length)bury(g,list[0].uid);
  }else if(e.id==='mst'&&target?.area==='spells')bury(g,e.targetUid);
@@ -164,8 +179,11 @@ function resolvePending(g,now){
  const pending=g.pending;g.window=null;if(!pending)return;
  if(pending.kind==='damage'){
    if(!pending.prevented)g.players[pending.damaged].lp=Math.max(0,g.players[pending.damaged].lp-pending.amount);
+   const source=locate(g,pending.uid),victim=locate(g,pending.targetUid);
+   const burns=[[source,victim],[victim,source]].flatMap(([a,b])=>a&&b&&a.p!==b.p&&CARDS[a.card.id]?.battleBurn&&pending.destroy.includes(b.card.uid)?[{id:a.card.id,cardUid:a.card.uid,player:a.p,source:'trigger',damageAmount:CARDS[b.card.id].atk}]:[]);
    for(const uid of pending.destroy)bury(g,uid);event(g,'attack',{player:pending.player,uid:pending.uid,targetUid:pending.targetUid,damage:pending.prevented?0:pending.amount});
    log(g,'战斗结算：伤害 '+(pending.prevented?0:pending.amount));g.pending=null;loseCheck(g);
+   if(!g.result&&burns.length){g.pending={kind:'effect',player:burns[0].player,chain:burns};for(const burn of burns)event(g,'activate',{id:burn.id,uid:burn.cardUid,player:burn.player});openWindow(g,1-burns.at(-1).player,now);}
    if(!g.result&&g.scenario==='T02')finish(g,0,'教学完成：攻击与伤害');return;
  }
  for(const e of [...pending.chain].reverse()){if(g.result)break;resolveEffect(g,e);loseCheck(g);}
@@ -173,12 +191,12 @@ function resolvePending(g,now){
  if(pending.kind!=='attack'||pending.cancelled){g.pending=null;objective(g);return;}
  const attacker=locate(g,pending.uid),target=locate(g,pending.targetUid);
  if(attacker?.area!=='field'){g.pending=null;return;}
- if(pending.targetUid&&target?.area!=='field'){attacker.card.attacked=false;g.pending=null;log(g,'目标已变化，请重新选择攻击目标');return;}
+ if(pending.targetUid&&target?.area!=='field'){attacker.card.attackCount=Math.max(0,(attacker.card.attackCount||1)-1);attacker.card.attacked=attacker.card.attackCount>=(CARDS[attacker.card.id].attacksPerBattle||1);g.pending=null;log(g,'目标已变化，请重新选择攻击目标');return;}
  const a=attackValue(attacker.card),destroy=[];let amount=0,damaged=1-pending.player;
  if(!pending.targetUid){amount=a;}
  else{
    target.card.faceUp=true;const attack=target.card.position==='attack',b=attack?attackValue(target.card):CARDS[target.card.id].def;
-   if(a>b){destroy.push(target.card.uid);amount=attack?a-b:0;}else if(a<b){if(attack)destroy.push(attacker.card.uid);amount=b-a;damaged=pending.player;}else if(attack){destroy.push(attacker.card.uid,target.card.uid);}
+   if(a>b){destroy.push(target.card.uid);amount=attack||CARDS[attacker.card.id].piercing?a-b:0;}else if(a<b){if(attack)destroy.push(attacker.card.uid);amount=b-a;damaged=pending.player;}else if(attack){destroy.push(attacker.card.uid,target.card.uid);}
  }
  g.pending={kind:'damage',player:pending.player,uid:pending.uid,targetUid:pending.targetUid,amount,damaged,destroy,prevented:false,chain:[]};
  if(amount>0&&damaged!==g.active&&g.players[damaged].hand.some(c=>c.id==='kuriboh'))openWindow(g,damaged,now);else resolvePending(g,now);
@@ -187,7 +205,7 @@ function endTurn(g,now){
  if(g.players[g.active].hand.length>6){g.phase='discard';log(g,'回合结束：请将手牌弃至 6 张');return;}
  for(const p of g.players)for(const c of p.field)if(c)c.bonus=0;
  g.active=1-g.active;g.turn++;g.phase='main1';g.players[g.active].normalUsed=false;
- for(const c of g.players[g.active].field)if(c)c.attacked=false;
+ for(const c of g.players[g.active].field)if(c){c.attacked=false;c.attackCount=0;}
  if(g.active===0)g.ownTurns++;
  const p=g.players[g.active];if(!p.deck.length){finish(g,1-g.active,'牌组耗尽，无法抽牌');return;}
  p.hand.push(p.deck.shift());g.deadline=g.timed?now+120000:null;log(g,p.name+'的回合 · 抽牌／准备 → 主要阶段 1');objective(g);
@@ -203,8 +221,8 @@ export function tickGame(g,now=Date.now()){
 }
 export function projectGame(g,p){
  const visible=(c,owner)=>!c?null:owner===p||c.faceUp?{...c}:({uid:c.uid,hidden:true,faceUp:false,position:c.position});
- const players=g.players.map((v,owner)=>({name:v.name,deckId:v.deckId,appearance:v.appearance||{back:'default',summon:'default'},lp:v.lp,handCount:v.hand.length,deckCount:v.deck.length,hand:owner===p?v.hand.map(c=>({...c})):[],extraCount:v.extraDeck.length,extraDeck:owner===p?v.extraDeck.map(c=>({...c})):[],grave:v.grave.map(c=>({...c})),field:v.field.map(c=>visible(c,owner)),spells:v.spells.map(c=>visible(c,owner)),normalUsed:v.normalUsed}));
- const exposedIds=new Set(players.flatMap(v=>[...v.hand,...v.extraDeck,...v.field,...v.spells,...v.grave]).filter(Boolean).map(c=>c.id).filter(Boolean));const cardCatalog=Object.fromEntries([...exposedIds].filter(id=>CARDS[id]?.hiddenPool).map(id=>[id,CARDS[id]]));
+ const players=g.players.map((v,owner)=>({name:v.name,deckId:v.deckId,appearance:v.appearance||{back:'default',summon:'default'},lp:v.lp,handCount:v.hand.length,deckCount:v.deck.length,hand:owner===p?v.hand.map(c=>({...c})):[],extraCount:v.extraDeck.length,extraDeck:owner===p?v.extraDeck.map(c=>({...c})):[],grave:v.grave.map(c=>({...c})),banished:(v.banished||[]).map(c=>({...c})),field:v.field.map(c=>visible(c,owner)),spells:v.spells.map(c=>visible(c,owner)),normalUsed:v.normalUsed}));
+ const exposedIds=new Set(players.flatMap(v=>[...v.hand,...v.extraDeck,...v.field,...v.spells,...v.grave,...v.banished]).filter(Boolean).map(c=>c.id).filter(Boolean));for(const e of g.events)if(e.type==='reveal'&&e.id)exposedIds.add(e.id);const cardCatalog=Object.fromEntries([...exposedIds].filter(id=>CARDS[id]?.hiddenPool).map(id=>[id,CARDS[id]]));
  return {cardCatalog,id:g.id,mode:g.mode,scenario:g.scenario,rulesVersion:g.rulesVersion,version:g.version,you:p,active:g.active,turn:g.turn,phase:g.phase,deadline:g.deadline,players,window:g.window?{...g.window}:null,pending:g.pending?{kind:g.pending.kind,player:g.pending.player,uid:g.pending.uid,targetUid:g.pending.targetUid,chain:g.pending.chain.map(c=>({id:c.id,player:c.player})),amount:g.pending.amount}:null,log:g.log,events:g.events,result:g.result?((({rewards,...result})=>({...result,reward:rewards?.[p]||null}))(g.result)):null,legal:legalActions(g,p),serverNow:Date.now()};
 }
 function setupScenario(g,id,now){
@@ -216,6 +234,8 @@ function setupScenario(g,id,now){
    const boss=CARDS[ace]?.level>=5&&!CARDS[ace].summonType?ace:g.players[0].deck.filter(c=>CARDS[c.id]?.level>=5&&!CARDS[c.id].summonType).sort((a,b)=>attackValue(b)-attackValue(a))[0]?.id||'summoned_skull';
    put(0,'field',0,'celtic_guardian');put(0,'field',1,'mystical_elf');g.goalUid=put(0,'hand',0,boss).uid;}
  if(id==='T04'){g.players[0].extraDeck=[Object.assign(instance('gaia_dragon_champion'),{owner:0})];put(0,'hand',0,'polymerization');put(0,'hand',0,'gaia');put(0,'field',0,'curse_of_dragon',{faceUp:false,position:'defense'});}
+ if(['T06','T07'].includes(id)){g.players[0].extraDeck=[Object.assign(instance('hero_flame_wingman'),{owner:0})];put(0,'hand',0,id==='T06'?'polymerization':'miracle_fusion');put(0,id==='T06'?'hand':'grave',0,'hero_avian');put(0,id==='T06'?'hand':'grave',0,'hero_burstinatrix');}
+ if(id==='C05'){g.phase='battle';put(0,'field',2,'cyber_twin_dragon',{properSummoned:true});g.players[1].lp=5000;}
  if(id==='T05'){put(0,'hand',0,'black_luster_ritual');put(0,'hand',0,'black_luster_soldier');put(0,'hand',0,'celtic_guardian');put(0,'field',0,'mystical_elf');}
  if(id==='T02'){g.phase='battle';put(0,'field',0,'battle_ox');put(1,'field',0,'celtic_guardian');}
  if(id==='C02'){g.phase='battle';put(0,'field',0,'celtic_guardian');put(0,'hand',0,'rush_recklessly');put(1,'field',0,'giant_soldier',{position:'defense'});g.players[1].lp=1400;}
@@ -223,7 +243,7 @@ function setupScenario(g,id,now){
  if(['T03','C03'].includes(id)){
    g.active=1;g.phase='battle';const enemy=put(1,'field',0,'summoned_skull'),ally=put(0,'field',0,'luster_dragon');put(0,'spells',0,'mirror_force',{faceUp:false});
    if(id==='C03')g.players[0].lp=500;
-   enemy.attacked=true;g.pending={kind:'attack',player:1,uid:enemy.uid,targetUid:ally.uid,chain:[],cancelled:false};openWindow(g,0,now);
+   enemy.attacked=true;enemy.attackCount=1;g.pending={kind:'attack',player:1,uid:enemy.uid,targetUid:ally.uid,chain:[],cancelled:false};openWindow(g,0,now);
  }
 }
 export function chooseAi(g,p,difficulty='normal'){
@@ -237,14 +257,16 @@ export function chooseAi(g,p,difficulty='normal'){
    if(a.kind==='discard')return -(def?.atk||500)/50;
    if(a.kind==='kuriboh')return 120;
    if(a.kind==='activate'){
+     if(c.id==='hero_thunder_giant')return op.field.some(x=>x?.uid===a.targetUid)?70-(CARDS[find(a.discardUid)?.id]?.atk||500)/100:-100;
+     if(a.searchId){const need=me.extraDeck.flatMap(x=>CARDS[x.id]?.materials||[]).filter(id=>![...me.hand,...me.field].some(x=>x?.id===id));return need.includes(a.searchId)?95:40;}
      if(['mirror_force','magic_cylinder','negate_attack','trap_hole'].includes(c.id))return 100;
      if(a.fusionId||a.ritualUid){const target=a.fusionId?CARDS[a.fusionId]:CARDS[find(a.ritualUid)?.id];const cost=(a.materialUids||a.tributes||[]).reduce((sum,uid)=>sum+(CARDS[find(uid)?.id]?.atk||0),0);return (target?.atk||0)/25-cost/(difficulty==='hard'?100:200)+(a.position==='attack'?8:0);}
-     if(c.id==='monster_reborn')return (td?.atk||0)/25+(a.position==='attack'?5:0);
+     if(['monster_reborn','oversoul'].includes(c.id))return (td?.atk||0)/25+(a.position==='attack'?5:0);
      if(c.id==='fissure')return op.field.some(x=>x?.faceUp)?80:-30;
      if(c.id==='mst')return op.spells.some(x=>x?.uid===a.targetUid)?(t?.faceUp?40:20):-60;
      if(c.id==='rush_recklessly')return me.field.some(x=>x?.uid===a.targetUid)?(g.pending?.kind==='attack'||g.phase==='battle'?55:0):-80;
    }
-   if(a.kind==='summon'){
+   if(['summon','specialSummon'].includes(a.kind)){
      if(difficulty==='easy')return def.atk/45-(a.tributes?.length||0)*12+(a.position==='attack'?7:0);
      const resource=(a.tributes||[]).reduce((sum,uid)=>{const d=CARDS[find(uid)?.id];return sum+Math.max(d?.atk||0,(d?.def||0)*.7);},0);
      const strongest=Math.max(0,...op.field.filter(c=>c?.faceUp).map(c=>CARDS[c.id].atk+(c.bonus||0)));

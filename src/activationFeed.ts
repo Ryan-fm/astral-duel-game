@@ -9,7 +9,7 @@ export function collectActivations(state:ActivationFeed,game:{id:string,events?:
  const known=new Set(base.seen),added:Activation[]=[];
  for(const event of game.events||[]){
   const card=catalog[event.id];
-  if(event.type!=='activate'||!['spell','trap'].includes(card?.kind)||typeof event.eventId!=='string'||![0,1].includes(event.player)||known.has(event.eventId))continue;
+  if(event.type!=='activate'||!['spell','trap','monster'].includes(card?.kind)||typeof event.eventId!=='string'||![0,1].includes(event.player)||known.has(event.eventId))continue;
   known.add(event.eventId);added.push({key:event.eventId,id:event.id,player:event.player});
  }
  if(!added.length)return base;
@@ -28,5 +28,5 @@ export function advanceActivation(state:ActivationFeed):ActivationFeed{
 /** The live response source is the latest publicly revealed link, including quick counters. */
 export function currentChainCard(game:any,catalog:Record<string,any>){
  const link=game.pending?.chain?.at(-1),card=catalog[link?.id];
- return card&&['spell','trap'].includes(card.kind)?{card,player:link.player}:null;
+ return card&&['spell','trap','monster'].includes(card.kind)?{card,player:link.player}:null;
 }

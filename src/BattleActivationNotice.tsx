@@ -17,10 +17,10 @@ export default function BattleActivationNotice({game,catalog,effectText,onRead,s
  return <section className={'activation-feed'+(reduced?' reduced':'')+(interacting?' compact':'')} aria-label="公开卡牌发动记录">
   {card&&<div className={'activation-announcement '+card.kind} key={event!.key} onPointerEnter={()=>setHeld(true)} onPointerLeave={()=>setHeld(false)} onFocusCapture={()=>setHeld(true)} onBlurCapture={e=>{if(!e.currentTarget.contains(e.relatedTarget as Node))setHeld(false);}}>
    <button className="activation-face" aria-label={`查看${card.name}的卡面和中文说明`} onClick={()=>read(card.id)}><img src={card.face} alt={card.name} draggable={false}/></button>
-   <div className="activation-copy"><span className="activation-owner">{side(event!.player)}发动 · {card.kind==='spell'?'魔法卡':'陷阱卡'}</span><strong role="status">{card.name}</strong><p>{effectText(card.id)}</p><button className="activation-read" onClick={()=>read(card.id)}>查看完整说明 <ArrowRight size={15}/></button></div>
+   <div className="activation-copy"><span className="activation-owner">{side(event!.player)}发动 · {card.kind==='spell'?'魔法卡':card.kind==='monster'?'怪兽效果':'陷阱卡'}</span><strong role="status">{card.name}</strong><p>{effectText(card.id)}</p><button className="activation-read" onClick={()=>read(card.id)}>查看完整说明 <ArrowRight size={15}/></button></div>
    <button className="activation-dismiss" aria-label="收起发动提示" onClick={()=>{setHeld(false);setFeed(advanceActivation);}}><X size={18}/></button>
   </div>}
   <button className="activation-history-toggle" aria-expanded={historyOpen} onClick={()=>setHistoryOpen(value=>!value)}><BookOpen size={17}/><span>发动记录 · {side(last.player)} {catalog[last.id]?.name}</span>{feed.queue.length>0&&<small>+{feed.queue.length}</small>}</button>
-  {historyOpen&&<div className="activation-history" aria-label="最近发动的公开卡牌">{feed.history.map(entry=>{const d=catalog[entry.id];return <button key={entry.key} onClick={()=>{setHistoryOpen(false);read(entry.id);}}><img src={d.face} alt=""/><span><small>{side(entry.player)} · {d.kind==='spell'?'魔法':'陷阱'}</small><b>{d.name}</b></span><ArrowRight size={17}/></button>;})}</div>}
+  {historyOpen&&<div className="activation-history" aria-label="最近发动的公开卡牌">{feed.history.map(entry=>{const d=catalog[entry.id];return <button key={entry.key} onClick={()=>{setHistoryOpen(false);read(entry.id);}}><img src={d.face} alt=""/><span><small>{side(entry.player)} · {d.kind==='spell'?'魔法':d.kind==='monster'?'怪兽效果':'陷阱'}</small><b>{d.name}</b></span><ArrowRight size={17}/></button>;})}</div>}
  </section>;
 }
