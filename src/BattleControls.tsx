@@ -1,3 +1,4 @@
+import {publicPileMoves} from './graveyardModel';
 import {useEffect,useRef,useState} from 'react';
 import {ArrowRight,ArrowLeft,X,Sword,Lightning,Eye,Clock,Check,Shield,Warning} from '@phosphor-icons/react';
 import {attackPreview,battleGuidance,unavailableReason,findVisibleCard} from './battleModel';
@@ -61,8 +62,9 @@ export function BattleFeedback({game,reduced=false}:{game:any,reduced?:boolean})
  return <div className={'battle-feedback '+(reduced?'reduced':'')} aria-live="polite">{changes.map((v,i)=>v!==0&&<span key={i} className={i===game.you?'own-damage':'opponent-damage'}>{v>0?'+':''}{v} LP</span>)}</div>;
 }
 export function BattleSummonCue({game,catalog,enabled,skip=0}:{game:any,catalog:Record<string,any>,enabled:boolean,skip?:number}){
- const seen=useRef(new Set<string>()),[card,setCard]=useState<any>(null),event=game.events?.filter((e:any)=>e.type==='summon').at(-1),eventKey=event?(event.eventId||event.id+':'+event.uid):null;
- useEffect(()=>{setCard(null);if(!event||!enabled||seen.current.has(eventKey))return;seen.current.add(eventKey);setCard({...catalog[event.id],summonType:event.summonType});const timer=setTimeout(()=>setCard(null),2100);return()=>clearTimeout(timer);},[game.id,eventKey,enabled,skip]);
+ const previous=useRef(game),seen=useRef(new Set<string>()),[card,setCard]=useState<any>(null),event=game.events?.filter((e:any)=>e.type==='summon').at(-1),eventKey=event?(event.eventId||event.id+':'+event.uid):null;
+ useEffect(()=>{setCard(null);if(!event||!enabled||seen.current.has(eventKey))return;seen.current.add(eventKey);const delay=publicPileMoves(previous.current,game).length?1900:0;let timer:ReturnType<typeof setTimeout>|undefined;const reveal=setTimeout(()=>{setCard({...catalog[event.id],summonType:event.summonType});timer=setTimeout(()=>setCard(null),2100);},delay);return()=>{clearTimeout(reveal);clearTimeout(timer);};},[game.id,eventKey,enabled,skip]);
+ useEffect(()=>{previous.current=game;},[game]);
  // Event identity is separate from the public card definition id.
  return card?<div className={"summon-cue "+(card.summonType||'normal')} role="status"><small>{card.summonType==='fusion'?'FUSION SUMMON · 融合召唤':card.summonType==='ritual'?'RITUAL SUMMON · 仪式召唤':card.summonType==='special'?'SPECIAL SUMMON · 特殊召唤':'MONSTER SUMMON'}</small><b>{card.name}</b><span>ATK {card.atk} · DEF {card.def}</span></div>:null;
 }

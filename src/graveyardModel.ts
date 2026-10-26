@@ -23,3 +23,10 @@ export function publicPilePosition(own:boolean,area:PublicPile){
  const side=own?1:-1;return {x:-8.65*side,y:.10,z:(area==='grave'?2.65:5.35)*side};
 }
 export function visiblePileCards(game:any,player:number,area:PublicPile){return [...(game.players[player][area]||[])].filter((c:any)=>c?.id).reverse();}
+
+export const PILE_TRANSFER_MS=2300;
+/** Separate lift/readability, travel, then landing; independent from authoritative rules. */
+export function pileTransferPhase(t:number){
+ const clamp=(n:number)=>Math.max(0,Math.min(1,n)),smooth=(n:number)=>{const u=clamp(n);return u*u*(3-2*u);};
+ return {lift:smooth(t/.22),travel:smooth((t-.22)/.52),sink:smooth((t-.74)/.16),fade:t>=1?0:1-clamp((t-.90)/.10)};
+}

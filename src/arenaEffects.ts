@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import {PILE_TRANSFER_MS,pileTransferPhase} from './graveyardModel.ts';
 export type ArenaEffect={group:THREE.Group,duration:number,update:(t:number)=>void};
 const glow=(color:number,opacity:number)=>new THREE.MeshBasicMaterial({color,transparent:true,opacity,depthWrite:false,side:THREE.DoubleSide,blending:THREE.AdditiveBlending});
 export function summonEffect(position:THREE.Vector3,color:number,circle:THREE.Texture,ace:boolean):ArenaEffect{
@@ -30,22 +31,28 @@ export function attackEffect(start:THREE.Vector3,end:THREE.Vector3):ArenaEffect{
 }
 export function disposeEffect(group:THREE.Group){group.traverse((object:any)=>{object.geometry?.dispose();for(const material of object.material?(Array.isArray(object.material)?object.material:[object.material]):[])material.dispose();});}
 
-/** A public card travels into its owner's pile; presentation never delays game resolution. */
-export function publicPileEffect(start:THREE.Vector3,end:THREE.Vector3,face:THREE.Texture,banished=false):ArenaEffect{
- const group=new THREE.Group(),color=banished?0xefc779:0xa9b6ff;
+/** Lift a public face toward the camera, trace its path, then seal it into the pile. */
+export function publicPileEffect(start:THREE.Vector3,end:THREE.Vector3,face:THREE.Texture,banished=false,facing=new THREE.Quaternion()):ArenaEffect{
+ const group=new THREE.Group(),color=banished?0xefc779:0xae9aff;
  const card=new THREE.Group();group.add(card);
- const stock=new THREE.Mesh(new THREE.BoxGeometry(1.5,.035,2.18),new THREE.MeshStandardMaterial({color:0xbec3cc,roughness:.6}));card.add(stock);
- const front=new THREE.Mesh(new THREE.PlaneGeometry(1.48,2.16),new THREE.MeshBasicMaterial({map:face,transparent:true,opacity:1,side:THREE.DoubleSide,toneMapped:false}));front.rotation.x=-Math.PI/2;front.position.y=.025;card.add(front);
- const portal=new THREE.Mesh(new THREE.RingGeometry(.33,.48,48),glow(color,0));portal.rotation.x=-Math.PI/2;portal.position.copy(end).setY(.13);group.add(portal);
- const sparkGeometry=new THREE.BufferGeometry(),positions=new Float32Array(24*3);sparkGeometry.setAttribute('position',new THREE.BufferAttribute(positions,3));
- const sparks=new THREE.Points(sparkGeometry,new THREE.PointsMaterial({color,size:.045,transparent:true,opacity:0,depthWrite:false,blending:THREE.AdditiveBlending}));group.add(sparks);
- const from=start.clone().setY(.16),to=end.clone().setY(.2),control=from.clone().lerp(to,.48).add(new THREE.Vector3(0,2.2,0));
- return {group,duration:1250,update(t){
-  const fly=Math.min(1,t/.79),u=fly*fly*(3-2*fly);card.position.copy(from).multiplyScalar((1-u)**2).addScaledVector(control,2*(1-u)*u).addScaledVector(to,u*u);
-  card.rotation.set(Math.sin(u*Math.PI)*.25,u*Math.PI*.45,Math.sin(u*Math.PI)*.11);card.scale.setScalar(1-.65*Math.max(0,(fly-.65)/.35));
-  const fade=Math.max(0,1-(t-.73)/.23);front.material.opacity=fade;stock.visible=t<.91;
-  portal.material.opacity=Math.sin(Math.min(1,t/.9)*Math.PI)*.8;portal.scale.setScalar(.7+Math.sin(t*Math.PI)*.8);
-  for(let i=0;i<24;i++){const a=i*2.39996+t*1.7,r=.4+(i%5)*.07;positions[i*3]=to.x+Math.cos(a)*r;positions[i*3+1]=.2+((i/24+t*.65)%1)*.8;positions[i*3+2]=to.z+Math.sin(a)*r;}
-  sparkGeometry.attributes.position.needsUpdate=true;sparks.material.opacity=Math.sin(t*Math.PI)*.65;
+ const stock=new THREE.Mesh(new THREE.BoxGeometry(1.50,2.18,.035),new THREE.MeshStandardMaterial({color:0xbdc6d5,roughness:.65,transparent:true,opacity:1}));card.add(stock);
+ const front=new THREE.Mesh(new THREE.PlaneGeometry(1.48,2.16),new THREE.MeshBasicMaterial({map:face,transparent:true,opacity:1,side:THREE.DoubleSide,toneMapped:false,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}));front.position.z=.025;card.add(front);
+ const portal=new THREE.Mesh(new THREE.RingGeometry(.75,.95,64),glow(color,0));portal.rotation.x=-Math.PI/2;portal.position.copy(end).setY(.34);group.add(portal);
+ const orbit=new THREE.Mesh(new THREE.TorusGeometry(1.03,.027,8,64),glow(color,0));orbit.rotation.x=-Math.PI/2;orbit.position.copy(end).setY(.35);group.add(orbit);
+ const column=new THREE.Mesh(new THREE.CylinderGeometry(.72,.98,2.2,32,1,true),glow(color,0));column.position.copy(end).setY(1.2);group.add(column);
+ const from=start.clone().setY(.18),lift=from.clone().add(new THREE.Vector3(0,1.35,0)),to=end.clone().setY(.2),arrival=to.clone().setY(.75),control=lift.clone().lerp(arrival,.5).add(new THREE.Vector3(0,1.25,0));
+ const curve=new THREE.QuadraticBezierCurve3(lift,control,arrival),trail=new THREE.Mesh(new THREE.TubeGeometry(curve,48,.035,6,false),glow(color,0));group.add(trail);
+ const sparkGeometry=new THREE.BufferGeometry(),positions=new Float32Array(32*3);sparkGeometry.setAttribute('position',new THREE.BufferAttribute(positions,3));
+ const sparks=new THREE.Points(sparkGeometry,new THREE.PointsMaterial({color,size:.06,transparent:true,opacity:0,depthWrite:false,blending:THREE.AdditiveBlending}));group.add(sparks);
+ const flat=new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1,0,0),-Math.PI/2);
+ return {group,duration:PILE_TRANSFER_MS,update(t){
+  const p=pileTransferPhase(t),u=p.travel;
+  if(t<.22)card.position.lerpVectors(from,lift,p.lift);else if(t<.74)card.position.copy(curve.getPoint(u));else card.position.lerpVectors(arrival,to,p.sink);
+  card.quaternion.copy(flat).slerp(facing,p.lift).slerp(flat,p.sink);card.scale.setScalar((1+.20*Math.sin(p.lift*Math.PI/2))*(1-.70*p.sink));
+  front.material.opacity=p.fade;stock.material.opacity=p.fade;
+  const seal=Math.sin(Math.max(0,Math.min(1,(t-.30)/.70))*Math.PI);portal.material.opacity=seal*.72;orbit.material.opacity=seal*.85;orbit.scale.setScalar(.85+seal*.35);column.material.opacity=p.sink*(1-p.sink)*.5;
+  trail.geometry.setDrawRange(0,Math.round(48*6*6*u));trail.material.opacity=t>.22&&t<.84?.52*(1-Math.max(0,(t-.72)/.12)):0;
+  for(let i=0;i<32;i++){const a=i*2.39996+t*1.7,r=.58+(i%5)*.08;positions[i*3]=to.x+Math.cos(a)*r;positions[i*3+1]=.25+((i/32+t*.7)%1)*1.45;positions[i*3+2]=to.z+Math.sin(a)*r;}
+  sparkGeometry.attributes.position.needsUpdate=true;sparks.material.opacity=seal*.75;
  }};
 }

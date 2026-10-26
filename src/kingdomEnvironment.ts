@@ -43,8 +43,12 @@ export function createKingdomEnvironment(maps:KingdomMaps){
     float stain=margin*(1.0-smoothstep(.15,2.1,vStoneWorld.y))*smoothstep(.32,.77,wear)*.58;
     diffuseColor.rgb*=.91+.09*smoothstep(.12,.85,wear);
     diffuseColor.rgb*=1.0-stain*.32;
-    diffuseColor.rgb=mix(diffuseColor.rgb,diffuseColor.rgb*vec3(.63,.8,.55),stain);`);
-  };material.customProgramCacheKey=()=> 'kingdom-pbr-patina-v2';
+    diffuseColor.rgb=mix(diffuseColor.rgb,diffuseColor.rgb*vec3(.63,.8,.55),stain);
+    if(vStoneWorld.y<.08&&abs(vStoneWorld.x)<10.1&&abs(vStoneWorld.z)<8.1){
+     float grey=dot(diffuseColor.rgb,vec3(.2126,.7152,.0722));
+     diffuseColor.rgb=mix(diffuseColor.rgb,grey*vec3(.90,1.01,1.11),.48);
+    }`);
+  };material.customProgramCacheKey=()=> 'kingdom-pbr-patina-v3';
  }
  function solid(geometry:T.BufferGeometry,material:T.Material,x:number,y:number,z:number,rotation=0,project=true){
   const shape=geometry.index?geometry.toNonIndexed():geometry;shape.deleteAttribute('uv1');
@@ -71,7 +75,19 @@ export function createKingdomEnvironment(maps:KingdomMaps){
  const underlay=new T.Mesh(new T.PlaneGeometry(70,70),dark);underlay.name='world-ground';underlay.rotation.x=-Math.PI/2;underlay.position.set(0,-.12,17);underlay.receiveShadow=true;group.add(underlay);
  const floorGeometry=new T.PlaneGeometry(52,44,104,88),fp=floorGeometry.getAttribute('position');
  for(let i=0;i<fp.count;i++)fp.setZ(i,.008*Math.sin(fp.getX(i)*1.7)*Math.cos(fp.getY(i)*1.3));floorGeometry.computeVertexNormals();
- const floor=new T.Mesh(floorGeometry,paving);floor.name='stone-courtyard';floor.rotation.x=-Math.PI/2;floor.position.set(0,-.032,4);floor.receiveShadow=true;group.add(floor);
+ // Remove the central paving from the original floor, rather than covering it with a stage.
+ const oldIndex=floorGeometry.getIndex()!,kept:number[]=[];
+ for(let i=0;i<oldIndex.count;i+=3){const ids=[oldIndex.getX(i),oldIndex.getX(i+1),oldIndex.getX(i+2)],x=ids.reduce((a,j)=>a+fp.getX(j),0)/3,z=4-ids.reduce((a,j)=>a+fp.getY(j),0)/3;if(Math.abs(x)>=10||Math.abs(z)>=8)kept.push(...ids);}
+ floorGeometry.setIndex(kept);
+ const tileParts:T.BufferGeometry[]=[];
+ for(let row=0;row<8;row++)for(let col=0;col<10;col++){
+  const tile=new T.BoxGeometry(1.976,.065,1.976).toNonIndexed();tile.translate(-9+col*2,-.045,-7+row*2);const pos=tile.getAttribute('position'),uv=tile.getAttribute('uv');
+  for(let i=0;i<pos.count;i++)uv.setXY(i,pos.getX(i)*.45,pos.getZ(i)*.45);tileParts.push(tile);
+ }
+ const grout=new T.PlaneGeometry(20,16).toNonIndexed();grout.rotateX(-Math.PI/2);grout.translate(0,-.045,0);tileParts.push(grout);
+ const slabGeometry=mergeGeometries(tileParts)!;tileParts.forEach(g=>g.dispose());const slabs=new T.Mesh(slabGeometry,dark);slabs.name='courtyard-flagstones';slabs.receiveShadow=true;
+
+ const floor=new T.Mesh(floorGeometry,paving);floor.name='outer-courtyard';floor.rotation.x=-Math.PI/2;floor.position.set(0,-.032,4);floor.receiveShadow=true;const courtyard=new T.Group();courtyard.name='stone-courtyard';courtyard.add(floor,slabs);group.add(courtyard);
  function column(x:number,z:number,h:number,broken=false){
   block(1.7,.25,1.7,x,.1,z,dark);block(1.4,.2,1.4,x,.31,z,pale);cylinder(.64,.18,x,.5,z,pale);
   const shaft=new T.CylinderGeometry(.47,.56,h,64,14),p=shaft.getAttribute('position');
@@ -137,6 +153,7 @@ export function createKingdomEnvironment(maps:KingdomMaps){
  for(const side of [-1,1])for(let row=0;row<4;row++)block(.27,.42,.13,12.5+side*.91,-1.34+row*.44,-45.14,pale);
  for(let i=0;i<7;i++){const a=i*Math.PI/6;block(.3,.31,.13,12.5+Math.cos(a)*.87,.06+Math.sin(a)*.87,-45.13,pale);}
  const roof=new T.ConeGeometry(3.7,3,4);roof.rotateY(Math.PI/4);solid(roof,dark,12.7,7.55,-49);
+ for(const side of [-1,1]){solid(new T.BoxGeometry(.75,.85,.75),dark,side*11.3,.36,.5);solid(new T.CylinderGeometry(.47,.30,.22,16),metal,side*11.3,.9,.5);}
  // Static batches keep the richer architecture affordable on a phone GPU.
  for(const [material,parts] of batches){const merged=mergeGeometries(parts);if(!merged)throw new Error('Invalid kingdom geometry');const mesh=new T.Mesh(merged,material);mesh.name=material===leafMaterial?'ruin-ivy':'ruin-architecture';mesh.userData.architecture=true;mesh.receiveShadow=true;mesh.castShadow=material!==cloth&&material!==leafMaterial;group.add(mesh);parts.forEach(g=>g.dispose());}
  const seaMaterial=new T.MeshStandardMaterial({color:0x174450,roughness:.22,metalness:.1,envMapIntensity:1.3});materials.push(seaMaterial);
@@ -158,8 +175,13 @@ export function createKingdomEnvironment(maps:KingdomMaps){
    diffuseColor.rgb+=shimmer*.008;`);
  };seaMaterial.customProgramCacheKey=()=> 'kingdom-sea-multiscale-v2';
  const sea=new T.Mesh(new T.PlaneGeometry(800,800),seaMaterial);sea.name='island-sea';sea.rotation.x=-Math.PI/2;sea.position.set(0,-6.5,-120);group.add(sea);
- const flames:T.Mesh[]=[],flameMat=new T.MeshBasicMaterial({color:0xffc281,transparent:true,opacity:.6,depthWrite:false});materials.push(flameMat);
- for(const side of [-1,1]){const basin=new T.Mesh(new T.CylinderGeometry(.4,.2,.25,16),metal);basin.position.set(side*10.7,2,-10.5);group.add(basin);const flame=new T.Mesh(new T.ConeGeometry(.15,.45,8),flameMat);flame.position.set(side*10.7,2.36,-10.5);group.add(flame);flames.push(flame);const light=new T.PointLight(0xffbc79,7,7,2);light.position.set(side*10.7,2.7,-10.5);group.add(light);}
+ const flamePositions:T.Vector3[]=[],flameMat=new T.MeshBasicMaterial({color:0xffc281,transparent:true,opacity:.6,depthWrite:false});materials.push(flameMat);
+ for(const side of [-1,1]){const basin=new T.Mesh(new T.CylinderGeometry(.4,.2,.25,16),metal);basin.position.set(side*10.7,2,-10.5);group.add(basin);flamePositions.push(new T.Vector3(side*10.7,2.36,-10.5));const light=new T.PointLight(0xffbc79,7,7,2);light.position.set(side*10.7,2.7,-10.5);group.add(light);}
+ for(const side of [-1,1]){
+  flamePositions.push(new T.Vector3(side*11.3,1.30,.5));
+  const light=new T.PointLight(0xffb46b,9,8,2);light.position.set(side*11.3,1.6,.5);group.add(light);
+ }
+ const fire=new T.InstancedMesh(new T.ConeGeometry(.17,.55,12),flameMat,flamePositions.length),flameDummy=new T.Object3D();fire.name='courtyard-braziers';group.add(fire);
  const geometries=new Set<T.BufferGeometry>();group.traverse(o=>{if(o instanceof T.Mesh)geometries.add(o.geometry);});
- return {group,update(time:number,motion:boolean){seaTime.value=motion?time*.0007:0;leafTime.value=motion?time*.0008:0;flames.forEach((f,i)=>f.scale.y=motion?1+Math.sin(time*.008+i)*.12:1);},dispose(){geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());textures.forEach(t=>t.dispose());}};
+ return {group,update(time:number,motion:boolean){seaTime.value=motion?time*.0007:0;leafTime.value=motion?time*.0008:0;flamePositions.forEach((p,i)=>{flameDummy.position.copy(p);flameDummy.scale.set(1,motion?1+Math.sin(time*.008+i)*.12:1,1);flameDummy.updateMatrix();fire.setMatrixAt(i,flameDummy.matrix);});fire.instanceMatrix.needsUpdate=true;},dispose(){geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());textures.forEach(t=>t.dispose());}};
 }

@@ -1,4 +1,5 @@
 import {useEffect,useRef,useState} from 'react';
+import {publicPileMoves} from './graveyardModel';
 import {Stack,Lightning} from '@phosphor-icons/react';
 import '@fontsource/roboto/latin-900-italic.css';
 
@@ -18,12 +19,13 @@ export function DuelIdentity({player,opponent=false,reduced=false}:{player:any,o
  </div>;
 }
 export function BattleCardSpotlight({game,catalog,enabled,skip=0,interacting=false}:{game:any,catalog:Record<string,any>,enabled:boolean,skip?:number,interacting?:boolean}){
- const [spotlight,setSpotlight]=useState<any>(null),seen=useRef(new Set<string>());
+ const [spotlight,setSpotlight]=useState<any>(null),seen=useRef(new Set<string>()),previous=useRef(game);
  const event=game.events?.filter((e:any)=>e.id&&e.type==='summon').at(-1),eventKey=event?.eventId||event?.id;
  useEffect(()=>{
   setSpotlight(null);if(!event||!enabled||seen.current.has(eventKey)||!catalog[event.id])return;
-  seen.current.add(eventKey);setSpotlight({card:catalog[event.id],type:event.type,summonType:event.summonType});const timer=setTimeout(()=>setSpotlight(null),1250);return()=>clearTimeout(timer);
+  seen.current.add(eventKey);const delay=publicPileMoves(previous.current,game).length?1900:0;let timer:ReturnType<typeof setTimeout>|undefined;const reveal=setTimeout(()=>{setSpotlight({card:catalog[event.id],type:event.type,summonType:event.summonType});timer=setTimeout(()=>setSpotlight(null),1250);},delay);return()=>{clearTimeout(reveal);clearTimeout(timer);};
  },[game.id,eventKey,enabled,skip]);
+ useEffect(()=>{previous.current=game;},[game]);
  if(!spotlight||interacting)return null;
  return <div className={'battle-card-spotlight '+spotlight.type} aria-hidden="true"><div className="spotlight-copy"><Lightning size={16}/><span>{spotlight.summonType==='fusion'?'融合召唤':spotlight.summonType==='ritual'?'仪式召唤':spotlight.type==='summon'?'召唤登场':'效果发动'}</span><b>{spotlight.card.name}</b></div><img src={spotlight.card.face} alt="" draggable={false}/></div>;
 }

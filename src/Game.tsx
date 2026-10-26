@@ -22,6 +22,7 @@ import BattleActivationNotice from './BattleActivationNotice';
 import CardReader from './CardReader';
 import BattleHand from './BattleHand';
 import BattleGraveyard from './BattleGraveyard';
+import GraveyardNotice from './GraveyardNotice';
 import {actionChoices,materialChoice} from './actionChoices';
 import presets from '../server/decks.json';
 import scenarios from '../server/scenarios.json';
@@ -93,7 +94,7 @@ export default function Game(){
   if(g&&panel==='card'&&uid!==selected){const i=selections.findIndex(s=>s.enabled&&s.key==='targetUid'&&s.options.includes(JSON.stringify(uid)));if(i>=0){choose(i,JSON.stringify(uid));return;}const m=selections.findIndex(s=>s.enabled&&['tributes','materialUids'].includes(s.key)&&s.options.some(v=>JSON.parse(v).includes(uid)));if(m>=0){choose(m,materialChoice(selections[m],uid));return;}}
   setPendingDrop(null);setSelected(uid);setChosenKind('');setChoices({});setPanel('card');
  }
- useEffect(()=>{setResultReady(false);if(!g?.result)return;const timer=setTimeout(()=>setResultReady(true),settings.reduced||settings.effects===false?0:g.events?.slice(-2).some((e:any)=>e.type==='summon'&&monsterPresentation(C[e.id]).featured)?2200:900);return()=>clearTimeout(timer);},[g?.id,g?.result?.at,settings.reduced,settings.effects]);
+ useEffect(()=>{setResultReady(false);if(!g?.result)return;const timer=setTimeout(()=>setResultReady(true),settings.reduced||settings.effects===false?0:g.events?.slice(-5).some((e:any)=>['destroy','banish','discard'].includes(e.type))?3800:g.events?.slice(-2).some((e:any)=>e.type==='summon'&&monsterPresentation(C[e.id]).featured)?2200:900);return()=>clearTimeout(timer);},[g?.id,g?.result?.at,settings.reduced,settings.effects]);
  useEffect(()=>{if(g&&selected&&!selected.startsWith('catalog:')&&!findVisibleCard(g,selected)){setSelected(null);if(panel==='card')setPanel('');}},[g?.id,g?.version,selected,panel]);
  useEffect(()=>{const handler=(event:KeyboardEvent)=>{if(event.key==='Escape'&&panel!=='deckEditor'){setPanel('');setSelected(null);setPendingDrop(null);}};addEventListener('keydown',handler);return()=>removeEventListener('keydown',handler);},[panel]);
  async function startPractice(scenario?:string){const args={deck,opponentDeck:opDeck,difficulty,scenario};if(await cmd('practice',args)){setLastPractice(args);setPanel('');setSelected(null);}}
@@ -140,6 +141,7 @@ export default function Game(){
    {busy&&<div className="battle-command-status" role="status"><ArrowClockwise size={15}/>正在确认操作</div>}
    <BattlePhaseDock game={g} phase={phase} busy={busy} onExecute={execute}/>
    <BattleResponse onRead={readActivation} game={g} catalog={C} response={response} busy={busy} onSelect={select} onExecute={execute}/>
+   <GraveyardNotice key={'piles:'+g.id} game={g} catalog={C} onRead={readActivation} compact={!!dragControl.drag||!!panel||confirm||!!g.window}/>
    <BattleActivationNotice key={g.id} game={g} catalog={C} effectText={effectText} onRead={readActivation} skip={fxSkip} reduced={settings.reduced===true||settings.effects===false} interacting={!!dragControl.drag||!!panel||confirm||!!g.window}/><BattleCardSpotlight game={g} catalog={C} enabled={settings.effects!==false&&settings.reduced!==true} skip={fxSkip} interacting={!!dragControl.drag||panel==='card'||!!g.window}/><BattleFeedback game={g} reduced={settings.reduced===true}/><BattleSummonCue game={g} catalog={C} enabled={settings.effects!==false&&settings.reduced!==true} skip={fxSkip}/>
    {panel==='card'&&picked&&<BattleInspector game={g} card={picked} catalog={C} effectText={picked.id?effectText(picked.id):undefined} kinds={kinds} kind={actionKind} names={kindNames} selections={selections} action={action} busy={busy} dragToPlay={handPlacement} dropConfirmed={pendingDrop?.uid===selected} onKind={k=>{setChosenKind(k);setChoices({});}} onChoice={(i,value)=>{if(selections[i].key==='position')setDropPosition(JSON.parse(value));choose(i,value);}} onExecute={execute} onClose={()=>{setPendingDrop(null);setPanel('');setSelected(null);}} onZoom={openReader}/>}
    {g.paused&&<div className="paused"><Pause size={32}/><b>练习已暂停</b><button className="primary-btn" onClick={()=>cmd('pause')}>继续决斗</button><button className="soft-btn" onClick={()=>{cmd('practice',lastPractice||{deck:me?.deckId||deck,opponentDeck:op?.deckId||opDeck,scenario:g?.scenario,difficulty:g?.difficulty||difficulty});}}>重新开始</button></div>}
