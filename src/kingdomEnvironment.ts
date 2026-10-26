@@ -2,6 +2,7 @@ import * as T from 'three';
 import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
 import {CASTLE_LIFT} from './kingdomLandscape.ts';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
+import {carveCourtyard} from './kingdomCourtyard.ts';
 
 export type StoneMaps={color:T.Texture,normal:T.Texture,arm:T.Texture};
 export type KingdomMaps={floor:StoneMaps,stone:StoneMaps};
@@ -9,16 +10,16 @@ export type KingdomMaps={floor:StoneMaps,stone:StoneMaps};
 /** A single world, with scanned PBR surfaces and camera-consistent near/far scenery. */
 export function createKingdomEnvironment(maps:KingdomMaps){
  const group=new T.Group();group.name='kingdom-spatial-environment';
- const textures:T.Texture[]=[],materials:T.Material[]=[],batches=new Map<T.Material,T.BufferGeometry[]>();
+ const textures:T.Texture[]=[],materials:T.Material[]=[],batches=new Map<T.Material,T.BufferGeometry[]>(),galleryBatches=new Map<T.Material,T.BufferGeometry[]>();let targetBatches=batches;
  function copy(source:T.Texture,repeatX=1,repeatY=1){const t=source.clone();t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(repeatX,repeatY);t.anisotropy=4;if(!source.image)t.version=0;textures.push(t);return t;}
  function pbr(source:StoneMaps,color:number,repeatX=1,repeatY=1){
   const arm=copy(source.arm,repeatX,repeatY),m=new T.MeshStandardMaterial({map:copy(source.color,repeatX,repeatY),normalMap:copy(source.normal,repeatX,repeatY),normalScale:new T.Vector2(.55,.55),roughnessMap:arm,aoMap:arm,aoMapIntensity:.75,roughness:1,color});materials.push(m);return m;
  }
- const stone=pbr(maps.stone,0xc8d1d6),pale=stone.clone(),dark=stone.clone();pale.color.set(0xe0e2dd);dark.color.set(0x949eaa);materials.push(pale,dark);
+ const stone=pbr(maps.stone,0xbec7cb),pale=stone.clone(),dark=stone.clone();pale.color.set(0xd6d6cb);dark.color.set(0x7d8993);materials.push(pale,dark);
  const paving=pbr(maps.floor,0xb5c1cc,52/4.4,44/4.4);paving.normalScale.set(.68,.68);paving.roughness=.82;
  const leafMaterial=new T.MeshStandardMaterial({color:0x596749,roughness:.87,side:T.DoubleSide,vertexColors:true});materials.push(leafMaterial);
  const stemMaterial=new T.MeshStandardMaterial({color:0x555240,roughness:1});materials.push(stemMaterial);
- const cloth=new T.MeshStandardMaterial({color:0x584952,roughness:1,side:T.DoubleSide});materials.push(cloth);
+ const cloth=new T.MeshStandardMaterial({color:0x49273b,roughness:1,side:T.DoubleSide});materials.push(cloth);
  const voidMaterial=new T.MeshBasicMaterial({color:0x111c20});materials.push(voidMaterial);
  const metal=new T.MeshStandardMaterial({color:0x5d5546,metalness:.55,roughness:.72});materials.push(metal);
  const seaTime={value:0},leafTime={value:0};
@@ -34,6 +35,11 @@ export function createKingdomEnvironment(maps:KingdomMaps){
     `+shader.fragmentShader;
    shader.fragmentShader=shader.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
     float wear=patina(vStoneWorld);
+    if(vStoneWorld.y>1.34&&vStoneWorld.y<1.48&&vStoneWorld.z<-14.0){
+     vec2 joint=fract(vStoneWorld.xz*.43+vec2(mod(floor(vStoneWorld.z*.43),2.)*.5,0.));
+     float seam=1.-smoothstep(.008,.024,min(min(joint.x,1.-joint.x),min(joint.y,1.-joint.y)));
+     diffuseColor.rgb*=1.-seam*.36;
+    }
     if(vStoneWorld.z<-35.0){
      float course=vStoneWorld.y*1.8;vec2 joint=fract(vec2(vStoneWorld.x*1.6+mod(floor(course),2.0)*.5,course));
      float seam=1.0-smoothstep(.015,.05,min(min(joint.x,1.0-joint.x),min(joint.y,1.0-joint.y)));
@@ -44,22 +50,20 @@ export function createKingdomEnvironment(maps:KingdomMaps){
     diffuseColor.rgb*=.91+.09*smoothstep(.12,.85,wear);
     diffuseColor.rgb*=1.0-stain*.32;
     diffuseColor.rgb=mix(diffuseColor.rgb,diffuseColor.rgb*vec3(.63,.8,.55),stain);
-    if(vStoneWorld.y<.08&&abs(vStoneWorld.x)<10.1&&abs(vStoneWorld.z)<8.1){
-     float grey=dot(diffuseColor.rgb,vec3(.2126,.7152,.0722));
-     diffuseColor.rgb=mix(diffuseColor.rgb,grey*vec3(.90,1.01,1.11),.48);
-    }`);
-  };material.customProgramCacheKey=()=> 'kingdom-pbr-patina-v3';
+    `);
+  };material.customProgramCacheKey=()=> 'kingdom-pbr-patina-v4';
  }
+ carveCourtyard(paving);
  function solid(geometry:T.BufferGeometry,material:T.Material,x:number,y:number,z:number,rotation=0,project=true){
   const shape=geometry.index?geometry.toNonIndexed():geometry;shape.deleteAttribute('uv1');
   shape.applyMatrix4(new T.Matrix4().compose(new T.Vector3(x,y+(z<-35?CASTLE_LIFT:0),z+(z<-35?-20:0)),new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),rotation),new T.Vector3(1,1,1)));
   if(project){const p=shape.getAttribute('position'),n=shape.getAttribute('normal'),uv=shape.getAttribute('uv');
    for(let i=0;i<p.count;i++){const ax=Math.abs(n.getX(i)),ay=Math.abs(n.getY(i)),az=Math.abs(n.getZ(i));uv.setXY(i,(ay>ax&&ay>az?p.getX(i):ax>az?p.getZ(i):p.getX(i))*.45,(ay>ax&&ay>az?p.getZ(i):p.getY(i))*.45);}
   }
-  if(shape!==geometry)geometry.dispose();const list=batches.get(material)||[];list.push(shape);batches.set(material,list);
+  if(shape!==geometry)geometry.dispose();const list=targetBatches.get(material)||[];list.push(shape);targetBatches.set(material,list);
  }
  function block(w:number,h:number,d:number,x:number,y:number,z:number,m:T.Material=stone,rotation=0){
-  const geometry=new RoundedBoxGeometry(w,h,d,z<-35?1:2,Math.min(.09,h*.16,w*.07,d*.07)),p=geometry.getAttribute('position'),n=geometry.getAttribute('normal');
+  const geometry=new RoundedBoxGeometry(w,h,d,z<-35||targetBatches===galleryBatches?1:2,Math.min(.09,h*.16,w*.07,d*.07)),p=geometry.getAttribute('position'),n=geometry.getAttribute('normal');
   // Edge erosion varies per block, rather than repeating one perfect beveled box.
   const seed=x*7.73+z*4.23+y*11.1;
   for(let i=0;i<p.count;i++){const vx=p.getX(i),vy=p.getY(i),vz=p.getZ(i),noise=Math.sin(vx*7+vy*13+vz*9+seed)*Math.sin(vz*11-vy*8+seed);const chip=.027*noise;
@@ -71,26 +75,14 @@ export function createKingdomEnvironment(maps:KingdomMaps){
   const g=new T.IcosahedronGeometry(1,1),p=g.getAttribute('position');
   for(let i=0;i<p.count;i++){const vx=p.getX(i),vy=p.getY(i),vz=p.getZ(i),v=1+.14*Math.sin(vx*5+vy*8+vz*13+seed);p.setXYZ(i,vx*sx*v,vy*sy*v,vz*sz*v);}g.computeVertexNormals();solid(g,m,x,y,z,seed*.73);
  }
- // The courtyard is continuous; irregular slab joints and stone relief come from measured maps.
+ // One continuous floor. A soft circular mineral pattern replaces the rectangular inserted slab.
  const underlay=new T.Mesh(new T.PlaneGeometry(70,70),dark);underlay.name='world-ground';underlay.rotation.x=-Math.PI/2;underlay.position.set(0,-.12,17);underlay.receiveShadow=true;group.add(underlay);
- const floorGeometry=new T.PlaneGeometry(52,44,104,88),fp=floorGeometry.getAttribute('position');
+ const floorGeometry=new T.PlaneGeometry(52,44,52,44),fp=floorGeometry.getAttribute('position');
  for(let i=0;i<fp.count;i++)fp.setZ(i,.008*Math.sin(fp.getX(i)*1.7)*Math.cos(fp.getY(i)*1.3));floorGeometry.computeVertexNormals();
- // Remove the central paving from the original floor, rather than covering it with a stage.
- const oldIndex=floorGeometry.getIndex()!,kept:number[]=[];
- for(let i=0;i<oldIndex.count;i+=3){const ids=[oldIndex.getX(i),oldIndex.getX(i+1),oldIndex.getX(i+2)],x=ids.reduce((a,j)=>a+fp.getX(j),0)/3,z=4-ids.reduce((a,j)=>a+fp.getY(j),0)/3;if(Math.abs(x)>=10||Math.abs(z)>=8)kept.push(...ids);}
- floorGeometry.setIndex(kept);
- const tileParts:T.BufferGeometry[]=[];
- for(let row=0;row<8;row++)for(let col=0;col<10;col++){
-  const tile=new T.BoxGeometry(1.976,.065,1.976).toNonIndexed();tile.translate(-9+col*2,-.045,-7+row*2);const pos=tile.getAttribute('position'),uv=tile.getAttribute('uv');
-  for(let i=0;i<pos.count;i++)uv.setXY(i,pos.getX(i)*.45,pos.getZ(i)*.45);tileParts.push(tile);
- }
- const grout=new T.PlaneGeometry(20,16).toNonIndexed();grout.rotateX(-Math.PI/2);grout.translate(0,-.045,0);tileParts.push(grout);
- const slabGeometry=mergeGeometries(tileParts)!;tileParts.forEach(g=>g.dispose());const slabs=new T.Mesh(slabGeometry,dark);slabs.name='courtyard-flagstones';slabs.receiveShadow=true;
-
- const floor=new T.Mesh(floorGeometry,paving);floor.name='outer-courtyard';floor.rotation.x=-Math.PI/2;floor.position.set(0,-.032,4);floor.receiveShadow=true;const courtyard=new T.Group();courtyard.name='stone-courtyard';courtyard.add(floor,slabs);group.add(courtyard);
+ const floor=new T.Mesh(floorGeometry,paving);floor.name='stone-courtyard';floor.rotation.x=-Math.PI/2;floor.position.set(0,-.032,4);floor.receiveShadow=true;group.add(floor);
  function column(x:number,z:number,h:number,broken=false){
   block(1.7,.25,1.7,x,.1,z,dark);block(1.4,.2,1.4,x,.31,z,pale);cylinder(.64,.18,x,.5,z,pale);
-  const shaft=new T.CylinderGeometry(.47,.56,h,64,14),p=shaft.getAttribute('position');
+  const shaft=new T.CylinderGeometry(.47,.56,h,48,9),p=shaft.getAttribute('position');
   for(let i=0;i<p.count;i++){
    const vx=p.getX(i),vz=p.getZ(i),vy=p.getY(i),r=Math.hypot(vx,vz),a=Math.atan2(vz,vx),groove=.023*(1+Math.cos(a*20)),erode=.009*Math.sin(a*9+vy*8+x);
    if(r>.1){const radius=Math.max(.1,r-groove+erode);p.setX(i,vx*radius/r);p.setZ(i,vz*radius/r);}
@@ -116,6 +108,50 @@ export function createKingdomEnvironment(maps:KingdomMaps){
   shape.absarc(0,0,2.98,a,b,false);shape.lineTo(Math.cos(b)*2.16,Math.sin(b)*2.16);shape.absarc(0,0,2.16,b,a,true);shape.closePath();
   solid(new T.ExtrudeGeometry(shape,{depth:1.05,bevelEnabled:true,bevelThickness:.045,bevelSize:.045,bevelSegments:2,curveSegments:4}),i%3?pale:stone,0,5.24,-16.55);
  }
+ // A broken, curved gallery encloses the old court instead of ending at a low wall and lawn.
+ // The central approach stays open, and every raised part is behind the playable footprint.
+ targetBatches=galleryBatches;
+ function terrace(inner:number,outer:number,a:number,b:number,y:number,height:number,material:T.Material=dark){
+  const shape=new T.Shape(),steps=36;
+  for(let i=0;i<=steps;i++){const t=a+(b-a)*i/steps,x=Math.sin(t)*outer*1.26,z=Math.cos(t)*outer*.75;if(i)shape.lineTo(x,z);else shape.moveTo(x,z);}
+  for(let i=steps;i>=0;i--){const t=a+(b-a)*i/steps;shape.lineTo(Math.sin(t)*inner*1.26,Math.cos(t)*inner*.75);}shape.closePath();
+  const g=new T.ExtrudeGeometry(shape,{depth:height,bevelEnabled:false,steps:1});g.rotateX(-Math.PI/2);solid(g,material,0,y,-8.5);
+ }
+ terrace(9.2,19.65,-1.28,1.28,1.36,.075,stone);
+ for(const side of [-1,1])for(let tier=0;tier<3;tier++){
+  const a=side<0?-1.28:.18,b=side<0?-.18:1.28;
+  terrace(19.6+tier*1.35,21.02+tier*1.35,a,b,1.12+tier*.47,.43);
+ }
+ for(const [index,a] of [-1.12,-.87,-.62,-.37,.37,.62,.87,1.12].entries()){
+  const x=Math.sin(a)*27.2,z=-8.5-Math.cos(a)*17.4,yaw=-Math.atan2(17.4*Math.sin(a),27.2*Math.cos(a)),broken=index===1||index===6;
+  const place=(lx:number,lz=0)=>({x:x+Math.cos(yaw)*lx+Math.sin(yaw)*lz,z:z-Math.sin(yaw)*lx+Math.cos(yaw)*lz});
+  const spring=5.65+(index%3)*.13;
+  for(const side of [-1,1]){
+   const p=place(side*2.1);block(1.25,.28,1.6,p.x,2.55,p.z,dark,yaw);
+   const height=broken&&side===1?1.4:spring-2.7;
+   // Rectangular gallery piers deliberately contrast with the older fluted foreground columns.
+   for(let course=0;course<4;course++)block(.88,height/4-.025,1.14,p.x,2.75+(course+.5)*height/4,p.z,course%2?stone:pale,yaw);
+   if(!broken||side===-1)block(1.17,.22,1.45,p.x,spring+.05,p.z,pale,yaw);
+  }
+  for(let i=0;i<13;i++){
+   if(broken&&i<7)continue;
+   const start=i*Math.PI/13+.012,end=(i+1)*Math.PI/13-.012,shape=new T.Shape();
+   shape.moveTo(Math.cos(start)*1.66,Math.sin(start)*1.66);shape.lineTo(Math.cos(start)*2.18,Math.sin(start)*2.18);shape.absarc(0,0,2.18,start,end,false);shape.lineTo(Math.cos(end)*1.66,Math.sin(end)*1.66);shape.absarc(0,0,1.66,end,start,true);shape.closePath();
+   const p=place(0,-.58);solid(new T.ExtrudeGeometry(shape,{depth:1.15,bevelEnabled:false,curveSegments:3}),i%4?stone:pale,p.x,spring,p.z,yaw);
+  }
+  if(!broken){
+   // Solid spandrels join the arches into masonry instead of a row of independent portals.
+   const shape=new T.Shape();shape.moveTo(-2.65,0);shape.lineTo(-2.65,2.63);shape.lineTo(2.65,2.63-(index%3===0?.36:0));shape.lineTo(2.65,0);shape.lineTo(2.18,0);shape.absarc(0,0,2.18,0,Math.PI,false);shape.lineTo(-2.65,0);
+   const p=place(0,-.57);solid(new T.ExtrudeGeometry(shape,{depth:1.1,bevelEnabled:false,curveSegments:8}),dark,p.x,spring,p.z,yaw);
+   const cap=place(0);block(5.5,.24,1.45,cap.x,spring+2.78,cap.z,pale,yaw);
+   for(const side of [-1,1]){const p=place(side*2.14);block(.65,.48,1.1,p.x,spring+3.10,p.z,stone,yaw);}
+  }
+  for(let vine=0;vine<2;vine++)for(let i=0;i<7;i++){
+   const p=place(-2.3+vine*.19+.1*Math.sin(i),.68),y=spring+1.3-i*.3;
+   leaf(p.x,y,p.z,.19+.03*Math.sin(i),yaw+i*.7,i+index);
+  }
+ }
+ targetBatches=batches;
  // Rubble is worn rock, not evenly spaced cubes. Everything remains outside card zones.
  for(const side of [-1,1])for(let i=0;i<30;i++){
   const x=side*(11.6+(i%5)*.76+.3*Math.sin(i*4.3)),z=-11+Math.floor(i/5)*3.1+.65*Math.sin(i*7.1),r=.22+(i%4)*.1;
@@ -137,6 +173,7 @@ export function createKingdomEnvironment(maps:KingdomMaps){
  leafMaterial.onBeforeCompile=shader=>{shader.uniforms.leafTime=leafTime;shader.vertexShader='uniform float leafTime;\n'+shader.vertexShader;shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>',`#include <begin_vertex>\n transformed.x+=sin(position.x*.6+position.y*1.3+leafTime)*.028*min(position.y,2.0);`);};leafMaterial.customProgramCacheKey=()=> 'kingdom-leaf-wind';
  for(const side of [-1,1]){
   const banner=new T.PlaneGeometry(1.7,3.7,10,18),p=banner.getAttribute('position');for(let i=0;i<p.count;i++){p.setZ(i,Math.sin(p.getX(i)*4+p.getY(i)*.8)*.11);if(p.getY(i)<-1.7)p.setY(i,p.getY(i)+.1*(1+Math.sin(p.getX(i)*14)));}banner.computeVertexNormals();solid(banner,cloth,side*11.65,3.8,-13.7,0,false);block(2.1,.08,.12,side*11.65,5.7,-13.72,metal);
+  const crest=new T.Shape();for(let i=0;i<16;i++){const a=i*Math.PI/8,r=i%2?.17:.49,x=Math.sin(a)*r,y=Math.cos(a)*r;if(i)crest.lineTo(x,y);else crest.moveTo(x,y);}crest.closePath();solid(new T.ShapeGeometry(crest),metal,side*11.65,4.2,-13.54,0,false);
  }
  // Actual cliff and castle silhouettes replace the enormous flat illustrated ruins.
  for(const x of [8,17]){
@@ -154,8 +191,11 @@ export function createKingdomEnvironment(maps:KingdomMaps){
  for(let i=0;i<7;i++){const a=i*Math.PI/6;block(.3,.31,.13,12.5+Math.cos(a)*.87,.06+Math.sin(a)*.87,-45.13,pale);}
  const roof=new T.ConeGeometry(3.7,3,4);roof.rotateY(Math.PI/4);solid(roof,dark,12.7,7.55,-49);
  for(const side of [-1,1]){solid(new T.BoxGeometry(.75,.85,.75),dark,side*11.3,.36,.5);solid(new T.CylinderGeometry(.47,.30,.22,16),metal,side*11.3,.9,.5);}
+ for(const side of [-1,1])solid(new T.CylinderGeometry(.4,.2,.25,16),metal,side*10.7,2,-10.5);
  // Static batches keep the richer architecture affordable on a phone GPU.
  for(const [material,parts] of batches){const merged=mergeGeometries(parts);if(!merged)throw new Error('Invalid kingdom geometry');const mesh=new T.Mesh(merged,material);mesh.name=material===leafMaterial?'ruin-ivy':'ruin-architecture';mesh.userData.architecture=true;mesh.receiveShadow=true;mesh.castShadow=material!==cloth&&material!==leafMaterial;group.add(mesh);parts.forEach(g=>g.dispose());}
+ const gallery=new T.Group();gallery.name='ruined-gallery';gallery.userData.architecture=true;group.add(gallery);
+ for(const [material,parts] of galleryBatches){const merged=mergeGeometries(parts);if(!merged)throw new Error('Invalid gallery geometry');const mesh=new T.Mesh(merged,material);mesh.userData.architecture=true;mesh.receiveShadow=true;mesh.castShadow=true;gallery.add(mesh);parts.forEach(g=>g.dispose());}
  const seaMaterial=new T.MeshStandardMaterial({color:0x174450,roughness:.22,metalness:.1,envMapIntensity:1.3});materials.push(seaMaterial);
  seaMaterial.onBeforeCompile=shader=>{
   shader.uniforms.seaTime=seaTime;shader.vertexShader='varying vec3 vSeaWorld;\n'+shader.vertexShader;shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>',`#include <begin_vertex>\n vSeaWorld=(modelMatrix*vec4(transformed,1.0)).xyz;`);
@@ -176,7 +216,7 @@ export function createKingdomEnvironment(maps:KingdomMaps){
  };seaMaterial.customProgramCacheKey=()=> 'kingdom-sea-multiscale-v2';
  const sea=new T.Mesh(new T.PlaneGeometry(800,800),seaMaterial);sea.name='island-sea';sea.rotation.x=-Math.PI/2;sea.position.set(0,-6.5,-120);group.add(sea);
  const flamePositions:T.Vector3[]=[],flameMat=new T.MeshBasicMaterial({color:0xffc281,transparent:true,opacity:.6,depthWrite:false});materials.push(flameMat);
- for(const side of [-1,1]){const basin=new T.Mesh(new T.CylinderGeometry(.4,.2,.25,16),metal);basin.position.set(side*10.7,2,-10.5);group.add(basin);flamePositions.push(new T.Vector3(side*10.7,2.36,-10.5));const light=new T.PointLight(0xffbc79,7,7,2);light.position.set(side*10.7,2.7,-10.5);group.add(light);}
+ for(const side of [-1,1]){flamePositions.push(new T.Vector3(side*10.7,2.36,-10.5));const light=new T.PointLight(0xffbc79,7,7,2);light.position.set(side*10.7,2.7,-10.5);group.add(light);}
  for(const side of [-1,1]){
   flamePositions.push(new T.Vector3(side*11.3,1.30,.5));
   const light=new T.PointLight(0xffb46b,9,8,2);light.position.set(side*11.3,1.6,.5);group.add(light);

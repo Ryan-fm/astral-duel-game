@@ -11,7 +11,11 @@ export function islandHeight(x:number,z:number){
  // A flattened castle foundation and an approach at the actual gate/stair elevation.
  h=T.MathUtils.lerp(h,3.6,1-smooth(8,16,Math.hypot(x-12.5,z+69)));
  const gateBlend=(1-smooth(27,37,Math.abs(x)))*(1-smooth(-16,-34,z));
- return T.MathUtils.lerp(h,1.4,gateBlend);
+ const approach=T.MathUtils.lerp(h,1.4,gateBlend);
+ // The old gallery sits on the same excavated terrace as the gate. Blend back into the island,
+ // so the new stone forecourt is neither buried under grass nor suspended over the slope.
+ const forecourt=(1-smooth(24,32,Math.abs(x)))*(1-smooth(-26,-35,z));
+ return T.MathUtils.lerp(approach,1.4,forecourt);
 }
 export const CASTLE_LIFT=5.3;
 export const CLIFF_LAYOUT=[

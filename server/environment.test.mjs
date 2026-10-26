@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as T from 'three';
 import {createKingdomEnvironment} from '../src/kingdomEnvironment.ts';
+import {islandHeight} from '../src/kingdomLandscape.ts';
 
 function maps(){const color=new T.Texture();color.colorSpace=T.SRGBColorSpace;return {color,normal:new T.Texture(),arm:new T.Texture()};}
 function setup(){return createKingdomEnvironment({floor:maps(),stone:maps()});}
@@ -61,6 +62,19 @@ test('floor geometry cannot protrude through cards or ground-bound zone inlays',
  const ray=new T.Raycaster();
  for(const x of [-7,-6,-3,0,3,6,7])for(const z of [-6,-5.3,-2.4,0,2.4,5.3,6]){
   ray.set(new T.Vector3(x,1,z),new T.Vector3(0,-1,0));const hit=ray.intersectObject(floor)[0];assert.ok(hit);assert.ok(hit.point.y<0&&hit.point.y>-.05);
+ }
+ world.dispose();
+});
+
+test('gallery forecourt rests on the island and keeps the stair approach open',()=>{
+ const world=setup();world.group.updateMatrixWorld(true);const gallery=world.group.getObjectByName('ruined-gallery'),ray=new T.Raycaster();assert.ok(gallery);
+ for(const [x,z] of [[0,-18],[0,-21],[3,-20],[-8,-19],[8,-19]]){
+  ray.set(new T.Vector3(x,12,z),new T.Vector3(0,-1,0));const surface=ray.intersectObject(gallery,true).find(h=>h.point.y<1.5);
+  assert.ok(surface,`stone path at ${x},${z}`);const separation=surface.point.y-islandHeight(x,z);
+  assert.ok(separation>.015&&separation<.065,`paving must rest just above terrain, not float or be buried (${separation})`);
+ }
+ for(const z of [-18,-20,-22,-24,-26]){
+  ray.set(new T.Vector3(0,2,z),new T.Vector3(0,1,0));assert.equal(ray.intersectObject(gallery,true).length,0,'central castle approach stays open');
  }
  world.dispose();
 });
